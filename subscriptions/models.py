@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+from datetime import timedelta
 
 
 class SubscriptionPlan(models.Model):
@@ -39,6 +40,8 @@ class UserSubscription(models.Model):
     is_active = models.BooleanField(default=True)
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField(null=True, blank=True)
+    is_trial = models.BooleanField(default=False)  # Neue Feld für Trial-Status
+    trial_end_date = models.DateTimeField(null=True, blank=True)  # Neue Feld für Trial-Ende
     requests_used_today = models.IntegerField(default=0)
     last_request_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -50,6 +53,30 @@ class UserSubscription(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.plan.display_name}"
+
+    def start_premium_trial(self):
+        """Startet eine 14-tägige Premium-Testversion"""
+        premium_plan = SubscriptionPlan.objects.get(name='premium')
+        self.plan = premium_plan
+        self.is_trial = True
+        self.trial_end_date = timezone.now() + timedelta(days=14)
+        self.start_date = timezone.now()
+        self.requests_used_today = 0
+        self.save()
+        return self
+
+    def is_trial_active(self):
+        """Prüft, ob die Trial-Version noch aktiv ist"""
+        if not self.is_trial or not self.trial_end_date:
+            return False
+        return timezone.now() < self.trial_end_date
+
+    def days_remaining_in_trial(self):
+        """Gibt die verbleibenden Trial-Tage zurück"""
+        if not self.is_trial_active():
+            return 0
+        remaining = self.trial_end_date - timezone.now()
+        return max(0, remaining.days)
 
     def can_make_request(self):
         """Prüft, ob der Benutzer noch Anfragen machen kann"""
@@ -77,9 +104,11 @@ class UserSubscription(models.Model):
 
     def check_and_update_trial(self):
         """Prüft, ob das Premium-Testabo abgelaufen ist und stuft ggf. auf Free zurück."""
-        if self.plan.name == "premium" and self.end_date and timezone.now() > self.end_date:
+        if self.is_trial and self.trial_end_date and timezone.now() > self.trial_end_date:
             free_plan = SubscriptionPlan.objects.get(name="free")
             self.plan = free_plan
+            self.is_trial = False
+            self.trial_end_date = None
             self.end_date = None
             self.save()
 

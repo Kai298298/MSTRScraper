@@ -243,6 +243,15 @@
                     <p class="lead text-muted">Entdecken Sie die perfekte Lösung für Ihre Lead-Generierung</p>
                 </div>
 
+                <!-- Trial-Information -->
+                {% if current_subscription.is_trial_active %}
+                <div class="usage-warning" style="background: #d1ecf1; border-color: #bee5eb;">
+                    <h5><i class="fas fa-gift text-info"></i> Premium-Testversion aktiv</h5>
+                    <p>Sie nutzen derzeit eine kostenlose Premium-Testversion. Noch {{ trial_days_remaining }} Tage verbleibend.</p>
+                    <p class="mb-0"><strong>Alle Premium-Features sind verfügbar!</strong></p>
+                </div>
+                {% endif %}
+
                 <!-- Nutzungswarnung -->
                 {% if usage_percentage > 70 %}
                 <div class="usage-warning">
@@ -271,6 +280,11 @@
                                 {% if current_subscription.plan == plan %}
                                 <div class="current-plan-badge mt-3">
                                     <i class="fas fa-check"></i> Ihr aktueller Plan
+                                    {% if current_subscription.is_trial_active %}
+                                        <br><small class="text-warning">
+                                            <i class="fas fa-clock"></i> {{ trial_days_remaining }} Tage Trial verbleibend
+                                        </small>
+                                    {% endif %}
                                 </div>
                                 {% endif %}
                             </div>
@@ -323,14 +337,21 @@
                                         <i class="fas fa-check"></i> Aktueller Plan
                                     </button>
                                 {% else %}
-                                    <a href="{% url 'subscriptions:upgrade_plan' plan.name %}" 
-                                       class="btn btn-upgrade {% if plan.name == 'premium' %}featured{% else %}btn-outline-primary{% endif %}">
-                                        {% if plan.name == 'premium' %}
-                                            <i class="fas fa-rocket"></i> Jetzt Premium testen
-                                        {% else %}
-                                            <i class="fas fa-arrow-up"></i> Upgrade
-                                        {% endif %}
-                                    </a>
+                                    {% if plan.name == 'premium' and not current_subscription.is_trial and not current_subscription.is_trial_active %}
+                                        <a href="{% url 'subscriptions:start_trial' %}" 
+                                           class="btn btn-upgrade featured">
+                                            <i class="fas fa-rocket"></i> 14 Tage kostenlos testen
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'subscriptions:upgrade_plan' plan.name %}" 
+                                           class="btn btn-upgrade {% if plan.name == 'premium' %}featured{% else %}btn-outline-primary{% endif %}">
+                                            {% if plan.name == 'premium' %}
+                                                <i class="fas fa-crown"></i> Jetzt Premium
+                                            {% else %}
+                                                <i class="fas fa-arrow-up"></i> Upgrade
+                                            {% endif %}
+                                        </a>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>

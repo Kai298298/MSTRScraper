@@ -8,6 +8,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
+from .models import SubscriptionPlan, RequestLog
+
 # Stripe konfigurieren
 stripe.api_key = getattr(settings, "STRIPE_SECRET_KEY", "sk_test_your_test_key")
 
@@ -23,13 +25,37 @@ def plans_view(request):
     if current_subscription.plan.requests_per_day > 0:
         usage_percentage = (current_subscription.requests_used_today / current_subscription.plan.requests_per_day) * 100
 
+    # Prüfe Trial-Status
+    trial_days_remaining = current_subscription.days_remaining_in_trial() if current_subscription.is_trial_active() else 0
+
     context = {
         "plans": plans,
         "current_subscription": current_subscription,
         "usage_percentage": usage_percentage,
+        "trial_days_remaining": trial_days_remaining,
         "stripe_public_key": getattr(settings, "STRIPE_PUBLIC_KEY", "pk_test_your_test_key"),
     }
     return render(request, "subscriptions/plans.html", context)
+
+
+@login_required
+def start_trial(request):
+    """Startet eine 14-tägige Premium-Testversion"""
+    current_subscription = request.user.subscription
+    
+    # Prüfe, ob bereits ein Trial läuft oder abgelaufen ist
+    if current_subscription.is_trial_active():
+        messages.info(request, "Sie haben bereits eine aktive Premium-Testversion!")
+        return redirect("subscriptions:plans")
+    
+    if current_subscription.is_trial and not current_subscription.is_trial_active():
+        messages.warning(request, "Sie haben bereits eine Premium-Testversion genutzt. Upgrade auf Premium für alle Features!")
+        return redirect("subscriptions:plans")
+    
+    # Starte Trial
+    current_subscription.start_premium_trial()
+    messages.success(request, "🎉 Ihre 14-tägige Premium-Testversion wurde gestartet! Alle Premium-Features sind jetzt verfügbar.")
+    return redirect("dashboard:analytics")
 
 
 @login_required
@@ -38,7 +64,7 @@ def upgrade_plan(request, plan_name):
     plan = get_object_or_404(SubscriptionPlan, name=plan_name)
     current_subscription = request.user.subscription
 
-    if current_subscription.plan == plan:
+    if current_subscription.plan == plan and not current_subscription.is_trial_active():
         messages.info(request, "Sie haben bereits diesen Plan.")
         return redirect("subscriptions:plans")
 
@@ -46,6 +72,8 @@ def upgrade_plan(request, plan_name):
     if plan.name == "free":
         current_subscription.plan = plan
         current_subscription.start_date = timezone.now()
+        current_subscription.is_trial = False
+        current_subscription.trial_end_date = None
         current_subscription.requests_used_today = 0
         current_subscription.save()
         messages.success(request, f"Erfolgreich auf {plan.display_name} Plan gewechselt!")
@@ -94,6 +122,8 @@ def success_view(request):
     current_subscription = request.user.subscription
     current_subscription.plan = premium_plan
     current_subscription.start_date = timezone.now()
+    current_subscription.is_trial = False
+    current_subscription.trial_end_date = None
     current_subscription.requests_used_today = 0
     current_subscription.save()
 
@@ -125,6 +155,9 @@ def usage_view(request):
     avg_requests_per_day = total_requests_30_days / 30 if total_requests_30_days > 0 else 0
     usage_percentage = (subscription.requests_used_today / subscription.plan.requests_per_day) * 100
 
+    # Trial-Informationen
+    trial_days_remaining = subscription.days_remaining_in_trial() if subscription.is_trial_active() else 0
+
     context = {
         "subscription": subscription,
         "recent_requests": recent_requests[:50],  # Letzte 50 Anfragen
@@ -133,6 +166,7 @@ def usage_view(request):
         "total_requests_30_days": total_requests_30_days,
         "avg_requests_per_day": round(avg_requests_per_day, 1),
         "days_remaining": subscription.plan.requests_per_day - subscription.requests_used_today,
+        "trial_days_remaining": trial_days_remaining,
     }
     return render(request, "subscriptions/usage.html", context)
 

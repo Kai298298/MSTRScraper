@@ -20,6 +20,12 @@ from django.db.models import Count
 from subscriptions.models import RequestLog, SubscriptionPlan, UserSubscription
 from dashboard.models import AnlagenListe, GespeicherteAnlage, AnlagenFeedback
 
+# API ViewSets
+from rest_framework import viewsets, permissions
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+from .serializers import GespeicherteAnlageSerializer, AnlagenListeSerializer, UserSerializer
+
 
 def get_db_connection():
     """Erstellt eine Verbindung zur SQLite-Datenbank mit MaStR-Daten"""
@@ -933,8 +939,18 @@ def export_csv(request, **filter_params):
 
 
 def home(request):
-    """Startseite: Immer Redirect zu Login"""
-    return redirect("accounts:login")
+    """Optimierte Homepage für bessere Conversion"""
+    if request.user.is_authenticated:
+        return redirect("dashboard:data")
+    
+    # Hole Subscription-Pläne für die Anzeige
+    from subscriptions.models import SubscriptionPlan
+    plans = SubscriptionPlan.objects.all().order_by("price")
+    
+    context = {
+        "plans": plans,
+    }
+    return render(request, "dashboard/landing.html", context)
 
 
 @login_required
@@ -1579,3 +1595,43 @@ def translate_column_names(columns):
         translated_columns.append(column_translations.get(column, column))
 
     return translated_columns
+
+
+# API ViewSets
+from rest_framework import viewsets, permissions
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+from .serializers import GespeicherteAnlageSerializer, AnlagenListeSerializer, UserSerializer
+
+
+class GespeicherteAnlageViewSet(viewsets.ModelViewSet):
+    """API ViewSet für gespeicherte Anlagen"""
+    queryset = GespeicherteAnlage.objects.all()
+    serializer_class = GespeicherteAnlageSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self):
+        """Filtert Anlagen nach dem aktuellen Benutzer"""
+        return self.queryset.filter(liste__user=self.request.user)
+
+
+class AnlagenListeViewSet(viewsets.ModelViewSet):
+    """API ViewSet für Anlagenlisten"""
+    queryset = AnlagenListe.objects.all()
+    serializer_class = AnlagenListeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self):
+        """Filtert Listen nach dem aktuellen Benutzer"""
+        return self.queryset.filter(user=self.request.user)
+
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    """API ViewSet für Benutzer (nur Lesen)"""
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self):
+        """Zeigt nur den aktuellen Benutzer"""
+        return User.objects.filter(id=self.request.user.id)
