@@ -36,18 +36,11 @@ SECURE_CONTENT_TYPE_NOSNIFF = config('SECURE_CONTENT_TYPE_NOSNIFF', default=True
 SECURE_FRAME_DENY = config('SECURE_FRAME_DENY', default=True, cast=bool)
 X_FRAME_OPTIONS = config('X_FRAME_OPTIONS', default='DENY')
 
-# Für lokale Entwicklung: SSL deaktivieren
-if DEBUG:
-    SECURE_SSL_REDIRECT = False
-    SECURE_HSTS_SECONDS = 0
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
-    SECURE_HSTS_PRELOAD = False
-else:
-    # Produktion: SSL aktivieren
-    SECURE_SSL_REDIRECT = True
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
+# SSL deaktiviert für Coolify-Kompatibilität
+SECURE_SSL_REDIRECT = False
+SECURE_HSTS_SECONDS = 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
 
 # Moderne Browser-Sicherheit (2024/2025)
 SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = config('SECURE_CROSS_ORIGIN_EMBEDDER_POLICY', default='require-corp')
@@ -86,16 +79,16 @@ PERMISSIONS_POLICY = {
     'xr-spatial-tracking': [],
 }
 
-# Session Security
-SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=not DEBUG, cast=bool)  # True in Produktion
+# Session Security (SSL deaktiviert für Coolify)
+SESSION_COOKIE_SECURE = False  # Coolify übernimmt HTTPS
 SESSION_COOKIE_HTTPONLY = True  # Immer True für Sicherheit
 SESSION_COOKIE_SAMESITE = config('SESSION_COOKIE_SAMESITE', default='Lax')
 SESSION_EXPIRE_AT_BROWSER_CLOSE = config('SESSION_EXPIRE_AT_BROWSER_CLOSE', default=True, cast=bool)
 SESSION_COOKIE_AGE = config('SESSION_COOKIE_AGE', default=3600, cast=int)  # 1 Stunde
 SESSION_SAVE_EVERY_REQUEST = config('SESSION_SAVE_EVERY_REQUEST', default=True, cast=bool)  # Session-Rotation
 
-# CSRF Protection
-CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=not DEBUG, cast=bool)  # True in Produktion
+# CSRF Protection (SSL deaktiviert für Coolify)
+CSRF_COOKIE_SECURE = False  # Coolify übernimmt HTTPS
 CSRF_COOKIE_HTTPONLY = True  # Immer True für Sicherheit
 CSRF_COOKIE_SAMESITE = config('CSRF_COOKIE_SAMESITE', default='Lax')
 CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://hsgkccss4w88s4k0cocwgwoo.5.181.48.221.sslip.io', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
