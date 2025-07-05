@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = False
 
 # Production Hosts
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='hsgkccss4w88s4k0cocwgwoo.5.181.48.221.sslip.io,localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # Database Configuration für Produktion
 DATABASES = {
