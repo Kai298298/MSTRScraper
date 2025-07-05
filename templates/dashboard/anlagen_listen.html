@@ -135,19 +135,37 @@
                 <div class="card-header">
                     <h5 class="mb-0">
                         <i class="fas fa-info-circle"></i>
-                        Informationen
+                        Informationen & Tipps
                     </h5>
                 </div>
                 <div class="card-body">
-                    <p class="small text-muted">
-                        <strong>Anlagen-Listen</strong> ermöglichen es Ihnen, interessante Anlagen zu speichern und später wiederzufinden.
-                    </p>
-                    <ul class="small text-muted">
-                        <li>Speichern Sie Anlagen während der Suche</li>
-                        <li>Organisieren Sie Ihre Leads in Listen</li>
-                        <li>Exportieren Sie Listen als CSV</li>
-                        <li>Teilen Sie Listen mit Kollegen</li>
-                    </ul>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-primary"><i class="fas fa-lightbulb"></i> Wie funktioniert es?</h6>
+                            <ol class="small text-muted">
+                                <li><strong>Suchen:</strong> Gehen Sie zur MaStR-Suche und filtern Sie nach Ihren Kriterien</li>
+                                <li><strong>Auswählen:</strong> Markieren Sie interessante Anlagen mit den Checkboxen</li>
+                                <li><strong>Speichern:</strong> Wählen Sie eine Liste aus oder erstellen Sie eine neue</li>
+                                <li><strong>Verwalten:</strong> Organisieren Sie Ihre Listen und exportieren Sie sie</li>
+                            </ol>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-success"><i class="fas fa-star"></i> Premium-Features</h6>
+                            <ul class="small text-muted">
+                                <li><strong>CSV-Export:</strong> Laden Sie Ihre Listen als Excel-Datei herunter</li>
+                                <li><strong>Listen teilen:</strong> Teilen Sie Listen mit Kollegen</li>
+                                <li><strong>Erweiterte Filter:</strong> Nutzen Sie mehr Filter gleichzeitig</li>
+                                <li><strong>Unbegrenzte Anfragen:</strong> Keine täglichen Limits</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="alert alert-info">
+                        <i class="fas fa-question-circle"></i>
+                        <strong>Hilfe benötigt?</strong> 
+                        <a href="{% url 'hilfe' %}" class="alert-link">Besuchen Sie unsere Hilfeseite</a> oder 
+                        kontaktieren Sie unseren Support.
+                    </div>
                 </div>
             </div>
         </div>

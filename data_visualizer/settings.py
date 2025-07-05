@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-your-secret-key-here')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)  # Für lokale Tests auf True
+DEBUG = config('DEBUG', default=False, cast=bool)  # Für Produktion auf False
 
 # Production Security Settings
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='hsgkccss4w88s4k0cocwgwoo.5.181.48.221.sslip.io,localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
@@ -42,6 +42,12 @@ if DEBUG:
     SECURE_HSTS_SECONDS = 0
     SECURE_HSTS_INCLUDE_SUBDOMAINS = False
     SECURE_HSTS_PRELOAD = False
+else:
+    # Produktion: SSL aktivieren
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 
 # Moderne Browser-Sicherheit (2024/2025)
 SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = config('SECURE_CROSS_ORIGIN_EMBEDDER_POLICY', default='require-corp')
@@ -81,16 +87,16 @@ PERMISSIONS_POLICY = {
 }
 
 # Session Security
-SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)  # Für HTTP auf False
-SESSION_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=not DEBUG, cast=bool)  # True in Produktion
+SESSION_COOKIE_HTTPONLY = True  # Immer True für Sicherheit
 SESSION_COOKIE_SAMESITE = config('SESSION_COOKIE_SAMESITE', default='Lax')
 SESSION_EXPIRE_AT_BROWSER_CLOSE = config('SESSION_EXPIRE_AT_BROWSER_CLOSE', default=True, cast=bool)
 SESSION_COOKIE_AGE = config('SESSION_COOKIE_AGE', default=3600, cast=int)  # 1 Stunde
 SESSION_SAVE_EVERY_REQUEST = config('SESSION_SAVE_EVERY_REQUEST', default=True, cast=bool)  # Session-Rotation
 
 # CSRF Protection
-CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)  # Für HTTP auf False
-CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=not DEBUG, cast=bool)  # True in Produktion
+CSRF_COOKIE_HTTPONLY = True  # Immer True für Sicherheit
 CSRF_COOKIE_SAMESITE = config('CSRF_COOKIE_SAMESITE', default='Lax')
 CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://hsgkccss4w88s4k0cocwgwoo.5.181.48.221.sslip.io', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
 
@@ -303,3 +309,6 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
 # Custom Settings
 MAX_REQUESTS_PER_DAY = config('MAX_REQUESTS_PER_DAY', default=1000, cast=int)
 MAX_REQUESTS_PER_MINUTE = config('MAX_REQUESTS_PER_MINUTE', default=60, cast=int)
+
+# Site URL for email verification
+SITE_URL = config('SITE_URL', default='http://localhost:8000')

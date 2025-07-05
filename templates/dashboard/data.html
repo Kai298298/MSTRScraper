@@ -561,27 +561,48 @@
                             {{ error }}
                         </div>
                     {% elif rows %}
-                        <!-- Legende für Suchergebnisse -->
+                        <!-- Verbesserte Legende für Suchergebnisse -->
                         <div class="alert alert-info mb-3">
-                            <h6><i class="fas fa-info-circle"></i> Legende der Suchergebnisse:</h6>
+                            <h6><i class="fas fa-info-circle"></i> Spaltenübersicht - Was bedeuten die Daten?</h6>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <ul class="mb-0">
-                                        <li><strong>Anlagenname:</strong> Name der Anlage aus dem MaStR</li>
+                                <div class="col-md-4">
+                                    <h6 class="text-primary"><i class="fas fa-industry"></i> Anlagen-Informationen</h6>
+                                    <ul class="mb-0 small">
+                                        <li><strong>Anlagenname:</strong> Offizieller Name der Anlage im MaStR</li>
                                         <li><strong>Energieträger:</strong> Art der Energieerzeugung (Solar, Wind, etc.)</li>
-                                        <li><strong>Leistung:</strong> Elektrische Leistung in Kilowatt (kW)</li>
-                                        <li><strong>Bundesland:</strong> Bundesland der Anlage</li>
-                                        <li><strong>Ort:</strong> Stadt/Gemeinde der Anlage</li>
+                                        <li><strong>Leistung (kW):</strong> Elektrische Bruttoleistung in Kilowatt</li>
+                                        <li><strong>Technologie:</strong> Spezifische Technologie der Anlage</li>
+                                        <li><strong>Status:</strong> Aktueller Betriebsstatus (In Betrieb, Stillgelegt, etc.)</li>
                                     </ul>
                                 </div>
-                                <div class="col-md-6">
-                                    <ul class="mb-0">
+                                <div class="col-md-4">
+                                    <h6 class="text-success"><i class="fas fa-map-marker-alt"></i> Standort-Informationen</h6>
+                                    <ul class="mb-0 small">
+                                        <li><strong>Bundesland:</strong> Bundesland des Anlagenstandorts</li>
+                                        <li><strong>Ort:</strong> Stadt oder Gemeinde der Anlage</li>
                                         <li><strong>PLZ:</strong> Postleitzahl des Standorts</li>
-                                        <li><strong>Status:</strong> Betriebsstatus der Anlage</li>
-                                        <li><strong>Technologie:</strong> Spezifische Technologie</li>
-                                        <li><strong>Betreiber:</strong> Name des Anlagenbetreibers</li>
-                                        <li><strong>Inbetriebnahme:</strong> Datum der Inbetriebnahme</li>
+                                        <li><strong>Inbetriebnahme:</strong> Datum der ersten Inbetriebnahme</li>
                                     </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-warning"><i class="fas fa-building"></i> Betreiber-Informationen</h6>
+                                    <ul class="mb-0 small">
+                                        <li><strong>Betreiber:</strong> Name des Anlagenbetreibers</li>
+                                        <li><strong>Betreibernummer:</strong> Eindeutige MaStR-Nummer des Betreibers</li>
+                                        <li><strong>Anlagenart:</strong> Spezifische Art der Solaranlage (falls zutreffend)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-lightbulb text-warning me-2"></i>
+                                        <small class="text-muted">
+                                            <strong>Tipp:</strong> Klicken Sie auf die Spaltenüberschriften zum Sortieren. 
+                                            Nutzen Sie die Checkboxen um Anlagen für Listen auszuwählen.
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -639,13 +660,26 @@
                                                     <i class="fas fa-building text-primary me-1"></i>Betreiber 
                                                     <i class="fas fa-info-circle text-secondary ms-1" title="Name des Anlagenbetreibers"></i>
                                                 </th>
+                                            {% elif column == 'Betreibernummer' %}
+                                                <th class="text-nowrap sortable" title="Eindeutige MaStR-Nummer des Betreibers" onclick="sortTable({{ forloop.counter0 }})">
+                                                    <i class="fas fa-id-card text-info me-1"></i>Betreibernummer 
+                                                    <i class="fas fa-info-circle text-secondary ms-1" title="Eindeutige MaStR-Nummer des Betreibers"></i>
+                                                </th>
                                             {% elif column == 'Inbetriebnahme' %}
                                                 <th class="text-nowrap sortable" title="Datum der Inbetriebnahme" onclick="sortTable({{ forloop.counter0 }})">
                                                     <i class="fas fa-calendar-alt text-success me-1"></i>Inbetriebnahme 
                                                     <i class="fas fa-info-circle text-secondary ms-1" title="Datum der Inbetriebnahme"></i>
                                                 </th>
+                                            {% elif column == 'Art der Solaranlage' %}
+                                                <th class="text-nowrap sortable" title="Spezifische Art der Solaranlage" onclick="sortTable({{ forloop.counter0 }})">
+                                                    <i class="fas fa-solar-panel text-warning me-1"></i>Solar-Art 
+                                                    <i class="fas fa-info-circle text-secondary ms-1" title="Spezifische Art der Solaranlage"></i>
+                                                </th>
                                             {% else %}
-                                                <th class="text-nowrap sortable" onclick="sortTable({{ forloop.counter0 }})">{{ column }}</th>
+                                                <th class="text-nowrap sortable" onclick="sortTable({{ forloop.counter0 }})" title="{{ column }}">
+                                                    {{ column }}
+                                                    <i class="fas fa-info-circle text-secondary ms-1" title="{{ column }}"></i>
+                                                </th>
                                             {% endif %}
                                         {% endfor %}
                                     </tr>
@@ -760,13 +794,26 @@
                                                         <i class="fas fa-building text-primary me-1"></i>Betreiber 
                                                         <i class="fas fa-info-circle text-secondary ms-1" title="Name des Anlagenbetreibers"></i>
                                                     </th>
+                                                {% elif column == 'Betreibernummer' %}
+                                                    <th class="text-nowrap" title="Eindeutige MaStR-Nummer des Betreibers">
+                                                        <i class="fas fa-id-card text-info me-1"></i>Betreibernummer 
+                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Eindeutige MaStR-Nummer des Betreibers"></i>
+                                                    </th>
                                                 {% elif column == 'Inbetriebnahme' %}
                                                     <th class="text-nowrap" title="Datum der Inbetriebnahme">
                                                         <i class="fas fa-calendar-alt text-success me-1"></i>Inbetriebnahme 
                                                         <i class="fas fa-info-circle text-secondary ms-1" title="Datum der Inbetriebnahme"></i>
                                                     </th>
+                                                {% elif column == 'Art der Solaranlage' %}
+                                                    <th class="text-nowrap" title="Spezifische Art der Solaranlage">
+                                                        <i class="fas fa-solar-panel text-warning me-1"></i>Solar-Art 
+                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Spezifische Art der Solaranlage"></i>
+                                                    </th>
                                                 {% else %}
-                                                    <th class="text-nowrap">{{ column }}</th>
+                                                    <th class="text-nowrap" title="{{ column }}">
+                                                        {{ column }}
+                                                        <i class="fas fa-info-circle text-secondary ms-1" title="{{ column }}"></i>
+                                                    </th>
                                                 {% endif %}
                                             {% endfor %}
                                         </tr>
@@ -845,6 +892,72 @@
 {% endblock %}
 {% block extra_js %}
 <script>
+// Verbesserte Tooltip-Funktionalität
+document.addEventListener('DOMContentLoaded', function() {
+    // Bootstrap Tooltips initialisieren
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl, {
+            placement: 'top',
+            trigger: 'hover focus'
+        });
+    });
+    
+    // Custom Tooltips für Tabellen-Header
+    const tableHeaders = document.querySelectorAll('.table th[title]');
+    tableHeaders.forEach(header => {
+        header.addEventListener('mouseenter', function(e) {
+            const title = this.getAttribute('title');
+            if (title) {
+                showCustomTooltip(e, title);
+            }
+        });
+        
+        header.addEventListener('mouseleave', function() {
+            hideCustomTooltip();
+        });
+    });
+});
+
+// Custom Tooltip Funktionen
+function showCustomTooltip(event, text) {
+    const tooltip = document.createElement('div');
+    tooltip.className = 'custom-tooltip';
+    tooltip.innerHTML = `
+        <div class="tooltip-content">
+            <i class="fas fa-info-circle"></i>
+            ${text}
+        </div>
+    `;
+    tooltip.style.cssText = `
+        position: absolute;
+        background: rgba(0,0,0,0.9);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        z-index: 10000;
+        pointer-events: none;
+        max-width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    `;
+    
+    document.body.appendChild(tooltip);
+    
+    const rect = event.target.getBoundingClientRect();
+    tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+    tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
+}
+
+function hideCustomTooltip() {
+    const tooltip = document.querySelector('.custom-tooltip');
+    if (tooltip) {
+        tooltip.remove();
+    }
+}
+
 // Checkbox-Funktionalität
 let selectedAnlagen = new Set();
 
@@ -919,7 +1032,7 @@ function saveSelectedAnlagen() {
     const newListeName = document.getElementById('newListeName');
     const newListeBeschreibung = document.getElementById('newListeBeschreibung');
     const anlageNotizen = document.getElementById('anlageNotizen');
-    const successMessage = document.getElementById('successMessage');
+    const successMessage = document.getElementById('saveSuccessMessage');
     const successMessageText = document.getElementById('successMessageText');
     const saveButton = document.getElementById('saveButton');
 

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}E-Mail-Bestätigung erneut senden - MaStR Lead Generator{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-envelope fa-3x text-primary"></i>
+                        <h2 class="card-title mt-3">E-Mail-Bestätigung erneut senden</h2>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <p class="mb-0">
+                            <i class="fas fa-info-circle"></i>
+                            Geben Sie Ihre E-Mail-Adresse ein, um eine neue Bestätigungs-E-Mail zu erhalten.
+                        </p>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-Mail-Adresse</label>
+                            <input type="email" class="form-control" id="email" name="email" 
+                                   placeholder="ihre.email@beispiel.de" required>
+                            <div class="form-text">
+                                Die E-Mail-Adresse, die Sie bei der Registrierung verwendet haben.
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Neue Bestätigungs-E-Mail senden
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="alert alert-warning">
+                        <h6><i class="fas fa-exclamation-triangle"></i> Häufige Probleme:</h6>
+                        <ul class="mb-0">
+                            <li>Überprüfen Sie die Schreibweise Ihrer E-Mail-Adresse</li>
+                            <li>Schauen Sie in Ihren Spam-Ordner</li>
+                            <li>Warten Sie einige Minuten, bis die E-Mail ankommt</li>
+                            <li>Der Link ist 24 Stunden gültig</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="{% url 'accounts:login' %}" class="btn btn-link">
+                    <i class="fas fa-arrow-left"></i> Zurück zur Anmeldung
+                </a>
+                <a href="{% url 'accounts:register' %}" class="btn btn-link">
+                    <i class="fas fa-user-plus"></i> Neues Konto erstellen
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

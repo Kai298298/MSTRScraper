@@ -17,6 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.db.models import Count
 
+
 from subscriptions.models import RequestLog, SubscriptionPlan, UserSubscription
 from dashboard.models import AnlagenListe, GespeicherteAnlage, AnlagenFeedback
 
@@ -1635,3 +1636,6 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         """Zeigt nur den aktuellen Benutzer"""
         return User.objects.filter(id=self.request.user.id)
+
+
+

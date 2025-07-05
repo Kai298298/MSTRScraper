@@ -21,8 +21,6 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import routers
-from dashboard import views as dashboard_views
 
 @csrf_exempt
 def health_check(request):
@@ -33,11 +31,7 @@ def health_check(request):
         'version': '2.0.0'
     })
 
-# API Router
-router = routers.DefaultRouter()
-router.register(r'anlagen', dashboard_views.GespeicherteAnlageViewSet)
-router.register(r'listen', dashboard_views.AnlagenListeViewSet)
-router.register(r'users', dashboard_views.UserViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,7 +39,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('subscriptions/', include('subscriptions.urls')),
     path('health/', health_check, name='health_check'),
-    path('api/', include(router.urls)),
+    path('api/', include('dashboard.api_urls')),
 
     # Passwort-Reset URLs
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),

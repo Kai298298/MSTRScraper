@@ -1,46 +1,33 @@
 # 🚀 MaStR Lead Generator
 
-Ein modernes Django-basiertes Tool zur Analyse und Visualisierung von MaStR-Daten (Marktstammdatenregister).
+Ein moderner Django-basierter Lead Generator für die MaStR-Datenbank mit erweiterten Filtern, Benutzerverwaltung und Premium-Features.
 
-## 🎯 Features
+## ✨ Features
 
-- **Datenanalyse**: Umfassende Analyse von MaStR-Daten
-- **Visualisierung**: Interaktive Karten und Charts
-- **User Management**: Registrierung und Login-System
-- **Subscription System**: Premium-Features mit Stripe
-- **API**: RESTful API für Datenzugriff
-- **Security**: Moderne Sicherheitsstandards
+- 🔍 **Erweiterte MaStR-Suche** mit Filtern und Umkreissuche
+- 👥 **Benutzerregistrierung** mit E-Mail-Verifikation
+- 💰 **Premium-Subscription** mit 14-tägiger Testversion
+- 📊 **Analytics-Dashboard** mit Statistiken
+- 🗂️ **Anlagen-Management** mit Listen und Notizen
+- 🏢 **Betreiber-Analyse** mit geografischer Verteilung
+- 📱 **Responsive Design** für alle Geräte
+- 🔒 **Sichere Produktionsumgebung** mit SSL/HTTPS
 
-## 🛠️ Technologie-Stack
+## 🚀 Schnellstart
 
-- **Backend**: Django 5.2, Python 3.11
-- **Frontend**: Bootstrap 5, Leaflet Maps
-- **Database**: PostgreSQL (Production), SQLite (Development)
-- **Cache**: Redis
-- **Payment**: Stripe
-- **Deployment**: Gunicorn, Nginx
-
-## 🚀 Quick Start
-
-### Lokale Entwicklung
-
+### Entwicklung
 ```bash
 # Repository klonen
-git clone <repository-url>
-cd version2
+git clone https://github.com/your-username/MSTRScraper.git
+cd MSTRScraper
 
-# Virtual Environment erstellen
-python3 -m venv venv
+# Virtuelle Umgebung erstellen
+python -m venv venv
 source venv/bin/activate  # Linux/Mac
-# oder
-venv\\Scripts\\activate  # Windows
+# oder: venv\Scripts\activate  # Windows
 
-# Dependencies installieren
+# Abhängigkeiten installieren
 pip install -r requirements.txt
-
-# Environment konfigurieren
-cp env_example.txt .env
-# .env Datei bearbeiten
 
 # Datenbank-Migrationen
 python manage.py migrate
@@ -52,78 +39,86 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-## 🌐 Production Deployment
+### Produktion (Coolify)
+```bash
+# Repository zu GitHub pushen
+git add .
+git commit -m "Produktionsbereit"
+git push origin main
 
-Das Projekt ist für verschiedene Deployment-Optionen optimiert. Siehe `docs/` für detaillierte Anweisungen.
-
-### Voraussetzungen
-
-- Web Server (Nginx/Apache)
-- PostgreSQL Database
-- Redis Cache
-- Domain mit SSL
-
-### Deployment
-
-1. Environment Variables konfigurieren
-2. Database und Cache einrichten
-3. Static Files sammeln
-4. Gunicorn starten
-
-## 📁 Projektstruktur
-
+# In Coolify konfigurieren (siehe COOLIFY_DEPLOYMENT.md)
 ```
-version2/
-├── accounts/           # User Management
-├── dashboard/          # Hauptanwendung
-├── subscriptions/      # Payment System
-├── data_visualizer/    # Django Settings
-├── templates/          # HTML Templates
-├── static/            # Static Files
-├── docs/              # Dokumentation
-├── requirements.txt   # Dependencies
-└── manage.py          # Django Management
+
+## 📋 Coolify-Konfiguration
+
+### Umgebungsvariablen
+```bash
+DJANGO_SETTINGS_MODULE=data_visualizer.production_settings
+DEBUG=False
+SECRET_KEY=your-secure-secret-key
+ALLOWED_HOSTS=your-domain.com,www.your-domain.com
+CSRF_TRUSTED_ORIGINS=https://your-domain.com
+DATABASE_URL=postgresql://user:password@host:port/database
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-app-password
 ```
+
+### Build-Commands
+```bash
+# Pre-Build
+pip install -r requirements.txt
+python manage.py migrate --settings=data_visualizer.production_settings
+python manage.py collectstatic --noinput --settings=data_visualizer.production_settings
+
+# Start-Command
+python manage.py runserver 0.0.0.0:$PORT --settings=data_visualizer.production_settings
+```
+
+## 🔧 Technische Details
+
+- **Django 5.2.3** - Aktuelle stabile Version
+- **SQLite/PostgreSQL** - Flexible Datenbankunterstützung
+- **Bootstrap 5** - Modernes Responsive Design
+- **Chart.js** - Interaktive Visualisierungen
+- **Leaflet.js** - Kartenintegration
+- **Redis** - Caching (optional)
+
+## 📊 Admin-Zugang
+
+- **URL:** `/admin/`
+- **Benutzer:** `admin`
+- **Passwort:** `admin123`
 
 ## 🔒 Sicherheit
 
-- HTTPS/SSL Enforcement
-- CSRF Protection
-- XSS Protection
-- Rate Limiting
-- Secure Headers
-- Password Validation
-- SQL Injection Protection
+- ✅ DEBUG = False in Produktion
+- ✅ SSL/HTTPS aktiviert
+- ✅ Sichere Cookies (HttpOnly, Secure, SameSite)
+- ✅ CSRF-Schutz
+- ✅ XSS-Schutz
+- ✅ E-Mail-Verifikation
+- ✅ Session-Sicherheit
 
-## 📊 Monitoring
+## 📚 Dokumentation
 
-- Health Check Endpoint: `/health/`
-- Structured Logging
-- Error Tracking (Sentry)
-- Performance Monitoring
+- [COOLIFY_DEPLOYMENT.md](COOLIFY_DEPLOYMENT.md) - Detaillierte Coolify-Anleitung
+- [PRODUCTION_READY.md](PRODUCTION_READY.md) - Produktions-Checkliste
+- [PROJECT_FINAL_STATUS.md](PROJECT_FINAL_STATUS.md) - Vollständiger Projektstatus
 
-## 🧪 Testing
+## 🆘 Support
 
-```bash
-# Unit Tests
-python manage.py test
-
-# Code Quality
-flake8 dashboard/ accounts/ subscriptions/
-black --check dashboard/ accounts/ subscriptions/
-```
-
-## 📞 Support
-
-Bei Fragen oder Problemen:
-1. Dokumentation in `docs/` prüfen
-2. Logs in `logs/` analysieren
-3. Health Check testen
+Bei Problemen:
+1. **Coolify-Logs** prüfen
+2. **Umgebungsvariablen** kontrollieren
+3. **Django-Logs** in `logs/` anschauen
+4. **Health-Check:** `/health/`
 
 ## 📄 Lizenz
 
-Proprietär - Alle Rechte vorbehalten
+Dieses Projekt ist für den internen Gebrauch bestimmt.
 
 ---
 
-**Entwickelt mit ❤️ für die Energiewende**
+**Status:** ✅ Produktionsbereit  
+**Version:** 1.0.0  
+**Letzte Aktualisierung:** $(date)

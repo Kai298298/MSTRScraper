@@ -5,9 +5,9 @@ from . import views
 app_name = 'accounts'
 
 urlpatterns = [
+    path('register/', views.register, name='register'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
-    path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
     path('password_change/', auth_views.PasswordChangeView.as_view(
         template_name='accounts/password_change.html',
@@ -30,4 +30,10 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
         template_name='accounts/password_reset_complete.html'
     ), name='password_reset_complete'),
+
+    # E-Mail-Verifikation
+    path('verification-sent/', views.verification_sent, name='verification_sent'),
+    path('verify-email/<str:token>/', views.verify_email, name='verify_email'),
+    path('resend-verification/', views.resend_verification, name='resend_verification'),
+    path('complete-onboarding/', views.complete_onboarding, name='complete_onboarding'),
 ]

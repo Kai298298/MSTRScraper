@@ -11,6 +11,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
     
     <style>
         :root {
@@ -86,11 +88,12 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!-- Verbesserte Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'dashboard:home' %}">
-                <i class="fas fa-bolt me-2"></i>MaStR Lead Generator
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="fas fa-solar-panel"></i>
+                MaStR Lead Generator
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -98,60 +101,112 @@
             </button>
             
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'dashboard:data' %}">Anlagen</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'dashboard:betreiber' %}">Betreiber</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'dashboard:anlagen_listen' %}">Listen</a>
-                    </li>
-                </ul>
-                
-                <ul class="navbar-nav">
-                    {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'data' %}active{% endif %}" href="{% url 'dashboard:data' %}">
+                                <i class="fas fa-search"></i> MaStR-Suche
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'anlagen_listen' %}active{% endif %}" href="{% url 'dashboard:anlagen_listen' %}">
+                                <i class="fas fa-bookmark"></i> Listen
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'betreiber' %}active{% endif %}" href="{% url 'dashboard:betreiber' %}">
+                                <i class="fas fa-building"></i> Betreiber
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'analytics' %}active{% endif %}" href="{% url 'dashboard:analytics' %}">
+                                <i class="fas fa-chart-bar"></i> Analytics
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user me-1"></i>{{ user.username }}
-                                {% if user.subscription %}
-                                    <span class="badge bg-primary rounded-pill ms-2">{{ user.subscription.plan.display_name }}</span>
-                                    {% if user.subscription.plan.name == 'premium' and user.subscription.end_date %}
-                                        <span class="badge bg-warning rounded-pill ms-1">
-                                            <i class="fas fa-clock"></i> Test
-                                        </span>
-                                    {% endif %}
-                                {% endif %}
+                                <i class="fas fa-user"></i> {{ user.username }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">
-                                    <i class="fas fa-user-edit fa-fw me-2"></i>Profil
-                                </a></li>
                                 <li><a class="dropdown-item" href="{% url 'subscriptions:plans' %}">
-                                    <i class="fas fa-crown fa-fw me-2"></i>Abonnements
+                                    <i class="fas fa-star"></i> Abonnement
                                 </a></li>
                                 <li><a class="dropdown-item" href="{% url 'subscriptions:usage' %}">
-                                    <i class="fas fa-chart-pie fa-fw me-2"></i>Nutzung
+                                    <i class="fas fa-chart-line"></i> Nutzung
                                 </a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">
-                                    <i class="fas fa-sign-out-alt fa-fw me-2"></i>Abmelden
+                                <li><a class="dropdown-item" href="{% url 'hilfe' %}">
+                                    <i class="fas fa-question-circle"></i> Hilfe
+                                </a></li>
+                                <li><a class="dropdown-item" href="{% url 'password_change' %}">
+                                    <i class="fas fa-key"></i> Passwort ändern
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">
+                                    <i class="fas fa-sign-out-alt"></i> Abmelden
                                 </a></li>
                             </ul>
                         </li>
-                    {% else %}
+                    </ul>
+                {% else %}
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:login' %}">Anmelden</a>
+                            <a class="nav-link" href="{% url 'login' %}">
+                                <i class="fas fa-sign-in-alt"></i> Anmelden
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'accounts:register' %}" class="btn btn-primary">Registrieren</a>
+                            <a class="nav-link" href="{% url 'register' %}">
+                                <i class="fas fa-user-plus"></i> Registrieren
+                            </a>
                         </li>
-                    {% endif %}
-                </ul>
+                    </ul>
+                {% endif %}
             </div>
         </div>
     </nav>
+
+    <!-- Onboarding-Banner für neue Benutzer -->
+    {% if user.is_authenticated and not user.profile.onboarding_completed %}
+        <div class="alert alert-info alert-dismissible fade show m-3" role="alert" id="onboardingBanner">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-rocket fa-2x me-3 text-primary"></i>
+                <div class="flex-grow-1">
+                    <h5 class="alert-heading">Willkommen beim MaStR Lead Generator!</h5>
+                    <p class="mb-2">Entdecken Sie die wichtigsten Funktionen in unserer kurzen Einführung:</p>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="startOnboarding()">
+                            <i class="fas fa-play"></i> Tour starten
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="skipOnboarding()">
+                            <i class="fas fa-times"></i> Überspringen
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endif %}
+
+    <!-- Subscription-Status für Free-User -->
+    {% if user.is_authenticated and subscription and subscription.plan.name == 'free' %}
+        <div class="alert alert-warning alert-dismissible fade show m-3" role="alert" id="upgradeBanner">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-star fa-2x me-3 text-warning"></i>
+                <div class="flex-grow-1">
+                    <h6 class="alert-heading">Upgrade auf Premium</h6>
+                    <p class="mb-2">Nutzen Sie alle Features mit unbegrenzten Anfragen, CSV-Export und erweiterten Filtern.</p>
+                    <a href="{% url 'subscriptions:plans' %}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-arrow-up"></i> Jetzt upgraden
+                    </a>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endif %}
 
     <!-- Messages -->
     {% if messages %}
@@ -386,110 +441,251 @@
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Analytics Tracking Script -->
+    <!-- Onboarding und Benutzerführung -->
     <script>
-    // Analytics Tracking Funktion
-    function trackEvent(eventType, eventName, additionalData = {}) {
-        const formData = new FormData();
-        formData.append('event_type', eventType);
-        formData.append('event_name', eventName);
-        formData.append('page_url', window.location.pathname + window.location.search);
+    // Onboarding-System
+    function startOnboarding() {
+        const steps = [
+            {
+                target: '.navbar-brand',
+                content: 'Willkommen beim MaStR Lead Generator! Hier können Sie nach Anlagen im Marktstammdatenregister suchen.',
+                placement: 'bottom'
+            },
+            {
+                target: 'a[href*="data"]',
+                content: 'Startpunkt: Nutzen Sie die MaStR-Suche um Anlagen nach verschiedenen Kriterien zu filtern.',
+                placement: 'bottom'
+            },
+            {
+                target: '.card-header h5',
+                content: 'Hier können Sie verschiedene Filter kombinieren: Energieträger, Bundesland, Leistung, etc.',
+                placement: 'bottom'
+            },
+            {
+                target: '.table th',
+                content: 'Die Suchergebnisse zeigen alle wichtigen Anlageninformationen. Klicken Sie auf Spaltenüberschriften zum Sortieren.',
+                placement: 'top'
+            },
+            {
+                target: '.anlage-checkbox',
+                content: 'Markieren Sie interessante Anlagen mit den Checkboxen um sie in Listen zu speichern.',
+                placement: 'left'
+            },
+            {
+                target: 'a[href*="anlagen_listen"]',
+                content: 'Verwalten Sie Ihre gespeicherten Anlagen in thematischen Listen.',
+                placement: 'bottom'
+            },
+            {
+                target: 'a[href*="betreiber"]',
+                content: 'Analysieren Sie Anlagenbetreiber und deren Portfolio.',
+                placement: 'bottom'
+            }
+        ];
         
-        // Zusätzliche Daten hinzufügen
-        for (const [key, value] of Object.entries(additionalData)) {
-            formData.append(key, value);
+        showOnboardingSteps(steps);
+    }
+    
+    function showOnboardingSteps(steps) {
+        let currentStep = 0;
+        
+        function showStep() {
+            if (currentStep >= steps.length) {
+                completeOnboarding();
+                return;
+            }
+            
+            const step = steps[currentStep];
+            const target = document.querySelector(step.target);
+            
+            if (target) {
+                // Highlight-Element erstellen
+                const highlight = document.createElement('div');
+                highlight.className = 'onboarding-highlight';
+                highlight.style.cssText = `
+                    position: absolute;
+                    border: 3px solid #007bff;
+                    border-radius: 8px;
+                    box-shadow: 0 0 20px rgba(0,123,255,0.5);
+                    z-index: 9999;
+                    pointer-events: none;
+                    transition: all 0.3s ease;
+                `;
+                
+                // Tooltip erstellen
+                const tooltip = document.createElement('div');
+                tooltip.className = 'onboarding-tooltip';
+                tooltip.innerHTML = `
+                    <div class="tooltip-content">
+                        <p>${step.content}</p>
+                        <div class="tooltip-actions">
+                            <button class="btn btn-sm btn-primary" onclick="nextStep()">Weiter</button>
+                            <button class="btn btn-sm btn-secondary" onclick="skipOnboarding()">Überspringen</button>
+                        </div>
+                    </div>
+                `;
+                tooltip.style.cssText = `
+                    position: absolute;
+                    background: white;
+                    border: 1px solid #dee2e6;
+                    border-radius: 8px;
+                    padding: 15px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    z-index: 10000;
+                    max-width: 300px;
+                `;
+                
+                document.body.appendChild(highlight);
+                document.body.appendChild(tooltip);
+                
+                // Position berechnen
+                const rect = target.getBoundingClientRect();
+                highlight.style.left = rect.left - 5 + 'px';
+                highlight.style.top = rect.top - 5 + 'px';
+                highlight.style.width = rect.width + 10 + 'px';
+                highlight.style.height = rect.height + 10 + 'px';
+                
+                // Tooltip positionieren
+                if (step.placement === 'top') {
+                    tooltip.style.left = rect.left + 'px';
+                    tooltip.style.top = rect.top - tooltip.offsetHeight - 20 + 'px';
+                } else if (step.placement === 'bottom') {
+                    tooltip.style.left = rect.left + 'px';
+                    tooltip.style.top = rect.bottom + 20 + 'px';
+                } else if (step.placement === 'left') {
+                    tooltip.style.left = rect.left - tooltip.offsetWidth - 20 + 'px';
+                    tooltip.style.top = rect.top + 'px';
+                } else {
+                    tooltip.style.left = rect.right + 20 + 'px';
+                    tooltip.style.top = rect.top + 'px';
+                }
+                
+                // Scroll zu Element
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                currentStep++;
+                showStep();
+            }
         }
         
-        // CSRF-Token hinzufügen
-        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
-        if (csrfToken) {
-            formData.append('csrfmiddlewaretoken', csrfToken);
+        window.nextStep = function() {
+            // Aktuelle Elemente entfernen
+            const highlight = document.querySelector('.onboarding-highlight');
+            const tooltip = document.querySelector('.onboarding-tooltip');
+            if (highlight) highlight.remove();
+            if (tooltip) tooltip.remove();
+            
+            currentStep++;
+            setTimeout(showStep, 300);
+        };
+        
+        showStep();
+    }
+    
+    function skipOnboarding() {
+        // Alle Onboarding-Elemente entfernen
+        const elements = document.querySelectorAll('.onboarding-highlight, .onboarding-tooltip');
+        elements.forEach(el => el.remove());
+        
+        // Banner ausblenden
+        const banner = document.getElementById('onboardingBanner');
+        if (banner) {
+            banner.style.display = 'none';
         }
         
-        // Event an Server senden
-        fetch('/track-event/', {
+        completeOnboarding();
+    }
+    
+    function completeOnboarding() {
+        // AJAX-Request um Onboarding als abgeschlossen zu markieren
+        fetch('/accounts/complete-onboarding/', {
             method: 'POST',
-            body: formData
-        }).catch(error => {
-            console.log('Analytics tracking error:', error);
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        }).then(() => {
+            const banner = document.getElementById('onboardingBanner');
+            if (banner) {
+                banner.style.display = 'none';
+            }
         });
     }
     
-    // Automatisches Tracking für Button-Klicks
+    // Verbesserte Benutzerführung
     document.addEventListener('DOMContentLoaded', function() {
-        // Tracke Seitenaufruf
-        trackEvent('page_view', window.location.pathname);
+        // Tooltips für alle Elemente mit title-Attribut
+        const tooltipElements = document.querySelectorAll('[title]');
+        tooltipElements.forEach(element => {
+            if (!element.hasAttribute('data-bs-toggle')) {
+                element.setAttribute('data-bs-toggle', 'tooltip');
+                element.setAttribute('data-bs-placement', 'top');
+            }
+        });
         
-        // Tracke Button-Klicks
-        document.addEventListener('click', function(e) {
-            const button = e.target.closest('button, a.btn, .btn');
-            if (button) {
-                const buttonText = button.textContent.trim() || button.getAttribute('aria-label') || 'Unbekannter Button';
-                trackEvent('button_click', buttonText, {
-                    button_id: button.id || '',
-                    button_class: button.className || '',
-                    href: button.href || ''
+        // Bootstrap Tooltips initialisieren
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        
+        // Keyboard-Navigation verbessern
+        document.addEventListener('keydown', function(e) {
+            // ESC-Taste schließt Modals und Dropdowns
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal.show');
+                modals.forEach(modal => {
+                    const modalInstance = bootstrap.Modal.getInstance(modal);
+                    if (modalInstance) modalInstance.hide();
+                });
+                
+                const dropdowns = document.querySelectorAll('.dropdown-menu.show');
+                dropdowns.forEach(dropdown => {
+                    const dropdownInstance = bootstrap.Dropdown.getInstance(dropdown);
+                    if (dropdownInstance) dropdownInstance.hide();
                 });
             }
         });
         
-        // Tracke Formular-Submissions
-        document.addEventListener('submit', function(e) {
-            const form = e.target;
-            const formName = form.getAttribute('action') || form.id || 'Unbekanntes Formular';
-            trackEvent('form_submit', formName, {
-                form_id: form.id || '',
-                form_action: form.getAttribute('action') || ''
+        // Verbesserte Formulare
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function() {
+                const submitButton = form.querySelector('button[type="submit"]');
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Wird verarbeitet...';
+                }
             });
         });
         
-        // Tracke Filter-Anwendungen
-        const filterForm = document.querySelector('form[data-filter-form]');
-        if (filterForm) {
-            filterForm.addEventListener('submit', function(e) {
-                const formData = new FormData(filterForm);
-                const filters = {};
-                for (const [key, value] of formData.entries()) {
-                    if (value) filters[key] = value;
-                }
-                trackEvent('filter_used', 'Datenfilter', filters);
-            });
-        }
-    });
-    </script>
-    
-    <!-- Cookie-Banner Logik -->
-    <script>
-    // Cookie-Banner Logik
-    function setCookie(name, value, days) {
-        let expires = "";
-        if (days) {
-            const date = new Date();
-            date.setTime(date.getTime() + (days*24*60*60*1000));
-            expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-    }
-    function getCookie(name) {
-        const nameEQ = name + "=";
-        const ca = document.cookie.split(';');
-        for(let i=0;i < ca.length;i++) {
-            let c = ca[i];
-            while (c.charAt(0)==' ') c = c.substring(1,c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-        }
-        return null;
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-        if (!getCookie('cookie_accepted')) {
-            document.getElementById('cookie-banner').classList.remove('d-none');
-        }
-        document.getElementById('cookie-accept-btn').addEventListener('click', function() {
-            setCookie('cookie_accepted', '1', 365);
-            document.getElementById('cookie-banner').classList.add('d-none');
+        // Auto-Hide für Alerts
+        const alerts = document.querySelectorAll('.alert:not(.alert-dismissible)');
+        alerts.forEach(alert => {
+            if (alert.classList.contains('alert-success') || alert.classList.contains('alert-info')) {
+                setTimeout(() => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }, 5000);
+            }
         });
+    });
+    
+    // Verbesserte Fehlerbehandlung
+    window.addEventListener('error', function(e) {
+        console.error('JavaScript Error:', e.error);
+        // Hier könnte ein Error-Tracking-Service eingebunden werden
+    });
+    
+    // Performance-Monitoring
+    window.addEventListener('load', function() {
+        if ('performance' in window) {
+            const perfData = performance.getEntriesByType('navigation')[0];
+            if (perfData.loadEventEnd - perfData.loadEventStart > 3000) {
+                console.warn('Page load time is slow:', perfData.loadEventEnd - perfData.loadEventStart + 'ms');
+            }
+        }
     });
     </script>
     

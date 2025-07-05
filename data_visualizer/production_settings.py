@@ -1,6 +1,6 @@
 """
-Production Settings für MaStR Lead Generator
-Diese Datei enthält alle Produktions-spezifischen Einstellungen
+Produktions-Settings für MaStR Lead Generator
+Diese Datei enthält sichere Einstellungen für die Produktionsumgebung
 """
 
 import os
@@ -11,49 +11,21 @@ from .settings import *
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# Produktions-Sicherheit
 DEBUG = False
 
-# Production Hosts
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='hsgkccss4w88s4k0cocwgwoo.5.181.48.221.sslip.io,localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
+# Sichere SECRET_KEY (in Produktion über Umgebungsvariable setzen)
+SECRET_KEY = os.environ.get('SECRET_KEY', '@*q(-up3f(d&rvc4s4it3%l04rnm@05b_^6n@3=kf4@&d-#vf2')
 
-# Database Configuration für Produktion
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='mastr_db'),
-        'USER': config('DB_USER', default='postgres'),
-        'PASSWORD': config('DB_PASSWORD', default=''),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
-    }
-}
+# Host-Konfiguration
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
-# Cache Configuration für Redis
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': config('REDIS_URL', default='redis://localhost:6379/1'),
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
-}
+# CSRF-Schutz
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'https://localhost').split(',')
 
-# Session Configuration
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-SESSION_CACHE_ALIAS = 'default'
-
-# Static Files für Produktion
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Security Settings für Produktion
+# SSL/HTTPS-Einstellungen
 SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_SECONDS = 31536000  # 1 Jahr
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SECURE_BROWSER_XSS_FILTER = True
@@ -61,27 +33,25 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_FRAME_DENY = True
 X_FRAME_OPTIONS = 'DENY'
 
-# Session Security
+# Cookie-Sicherheit
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 3600
-
-# CSRF Protection
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Lax'
-CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
 
-# Email Configuration für Produktion
+# E-Mail-Konfiguration (für Produktion anpassen)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config('EMAIL_HOST', default='localhost')
-EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@mastr-leads.de')
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() == 'true'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'noreply@mastr-leads.de')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'your-email-password')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@mastr-leads.de')
+
+# Site URL für E-Mail-Verifikation
+SITE_URL = os.environ.get('SITE_URL', 'https://localhost')
 
 # Logging für Produktion
 LOGGING = {
@@ -100,50 +70,93 @@ LOGGING = {
             'filename': BASE_DIR / 'logs' / 'django.log',
             'formatter': 'verbose',
         },
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
+        'security_file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'logs' / 'security.log',
             'formatter': 'verbose',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['file', 'console'],
+            'handlers': ['file'],
             'level': 'INFO',
             'propagate': True,
         },
         'django.security': {
-            'handlers': ['file'],
+            'handlers': ['security_file'],
             'level': 'WARNING',
             'propagate': False,
         },
     },
 }
 
-# Sentry für Error Tracking (optional)
-SENTRY_DSN = config('SENTRY_DSN', default='')
-if SENTRY_DSN:
-    import sentry_sdk
-    from sentry_sdk.integrations.django import DjangoIntegration
-    
-    sentry_sdk.init(
-        dsn=SENTRY_DSN,
-        integrations=[DjangoIntegration()],
-        traces_sample_rate=0.1,
-        send_default_pii=True,
-    )
+# Cache für Produktion (Redis optional)
+REDIS_URL = os.environ.get('REDIS_URL')
+if REDIS_URL:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': REDIS_URL,
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            }
+        }
+    }
+else:
+    # Fallback auf lokalen Cache
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'unique-snowflake',
+        }
+    }
 
-# Performance Optimierungen
-MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+# Statische Dateien
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+# Datenbank (für Produktion PostgreSQL empfohlen)
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    # PostgreSQL über DATABASE_URL
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+else:
+    # Fallback auf SQLite
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
+# Sicherheits-Header
+SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = 'require-corp'
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+
+# Session-Sicherheit
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 3600  # 1 Stunde
+SESSION_SAVE_EVERY_REQUEST = True
+
+# Rate Limiting
+MAX_REQUESTS_PER_DAY = 1000
+MAX_REQUESTS_PER_MINUTE = 60
 
 # File Upload Limits
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440  # 2.5 MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440  # 2.5 MB
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
 
-# Rate Limiting
-RATELIMIT_ENABLE = True
-RATELIMIT_USE_CACHE = 'default'
-
 # Create logs directory
 os.makedirs(BASE_DIR / 'logs', exist_ok=True) 
+
+print("✅ Produktions-Settings geladen - DEBUG = False, SSL aktiviert") 

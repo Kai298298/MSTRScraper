@@ -1,62 +1,410 @@
 {% extends 'base.html' %}
-{% block title %}Hilfe & Bedienung{% endblock %}
+{% load static %}
+
+{% block title %}Hilfe & Anleitung - MaStR Lead-Generierung{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
-    <h1 class="mb-4"><i class="fas fa-question-circle text-primary"></i> Hilfe & Bedienung</h1>
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white"><strong>1. Allgemeine Bedienung</strong></div>
-        <div class="card-body">
-            <ul>
-                <li><strong>Registrierung & Login:</strong> Erstellen Sie ein Benutzerkonto und melden Sie sich an, um alle Funktionen zu nutzen.</li>
-                <li><strong>Filter & Suche:</strong> Nutzen Sie die Filter (Energieträger, Bundesland, Status, Leistung, Umkreissuche nach PLZ, Freitextsuche) um gezielt Anlagen zu finden.</li>
-                <li><strong>Umkreissuche:</strong> PLZ und Radius eingeben, um Anlagen im Umkreis zu finden (auch wenn keine Koordinaten in den MaStR-Daten vorhanden sind).</li>
-                <li><strong>Ergebnislisten & Pagination:</strong> Die Ergebnisse werden tabellarisch angezeigt, 30 pro Seite. Blättern Sie mit den Pfeilen unten weiter.</li>
-                <li><strong>CSV-Export:</strong> Premium-Nutzer können die gefilterten Ergebnisse als CSV-Datei exportieren.</li>
-                <li><strong>Anlagen-Listen:</strong> Speichern Sie interessante Anlagen in eigenen Listen, verwalten Sie diese und fügen Sie Notizen hinzu.</li>
-                <li><strong>Notizen:</strong> Zu jeder gespeicherten Anlage können Sie persönliche Notizen hinterlegen (nur für Sie sichtbar).</li>
-                <li><strong>Kartenansicht:</strong> Zeigt die gefundenen Anlagen auf einer interaktiven Karte (Leaflet.js).</li>
-                <li><strong>Filter speichern/laden:</strong> Premium-Nutzer können eigene Filtersets speichern und wiederverwenden.</li>
-                <li><strong>Impressum & Hilfe:</strong> Unten in der Fußzeile finden Sie das Impressum und diese Hilfeseite.</li>
-                <li><strong>Logout:</strong> Über das Menü oben rechts können Sie sich abmelden.</li>
-            </ul>
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-0">
+                    <i class="fas fa-question-circle text-primary"></i>
+                    Hilfe & Anleitung
+                </h1>
+                <a href="{% url 'dashboard:data' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left"></i> Zurück zur Suche
+                </a>
+            </div>
         </div>
     </div>
-    <div class="card mb-4">
-        <div class="card-header bg-success text-white"><strong>2. CSV-Export & Import in CRM-Systeme</strong></div>
-        <div class="card-body">
-            <h5>CSV-Export</h5>
-            <ol>
-                <li>Filtern Sie die gewünschten Anlagen.</li>
-                <li>Klicken Sie auf <strong>Export (CSV)</strong> (nur Premium).</li>
-                <li>Die Datei <code>mastr_leads.csv</code> wird heruntergeladen (UTF-8, Semikolon-getrennt).</li>
-            </ol>
-            <h5>Import in CRM-Systeme (z.B. Salesforce, HubSpot, Zoho, Pipedrive, Lexoffice, weclapp, openHandwerk)</h5>
-            <ol>
-                <li>Öffnen Sie Ihr CRM und wählen Sie <strong>Import</strong> (oft unter "Kontakte", "Leads" oder "Firmen").</li>
-                <li>Laden Sie die CSV-Datei hoch. Achten Sie auf folgende Einstellungen:
-                    <ul>
-                        <li><strong>Zeichencodierung:</strong> UTF-8 (wichtig für Umlaute/ß)</li>
-                        <li><strong>Trennzeichen:</strong> Semikolon <code>;</code></li>
-                        <li><strong>Feldzuordnung:</strong> Ordnen Sie die Spalten der CSV den Feldern im CRM zu (z.B. Name, PLZ, Ort, Betreiber, Leistung, Status, Notiz).</li>
-                        <li><strong>Duplikate:</strong> Viele CRMs bieten eine Duplikatprüfung beim Import.</li>
-                    </ul>
-                </li>
-                <li>Starten Sie den Import. Prüfen Sie nach dem Import die Daten auf Vollständigkeit und Korrektheit.</li>
-            </ol>
-            <p><strong>Hinweis:</strong> Bei Problemen mit Umlauten oder Sonderzeichen stellen Sie sicher, dass Sie "UTF-8" als Zeichencodierung wählen. In Excel ggf. "Daten > Aus Text/CSV importieren" nutzen und "65001: Unicode (UTF-8)" auswählen.</p>
-            <p>Für spezielle CRM-Systeme können Sie die CSV-Datei ggf. vorher in Excel/LibreOffice öffnen und anpassen.</p>
+
+    <!-- Schnellnavigation -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-compass"></i>
+                        Schnellnavigation
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <a href="#maestr-suche" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-search"></i><br>
+                                MaStR-Suche
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="#anlagen-listen" class="btn btn-outline-success w-100">
+                                <i class="fas fa-bookmark"></i><br>
+                                Anlagen-Listen
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="#betreiber-suche" class="btn btn-outline-info w-100">
+                                <i class="fas fa-building"></i><br>
+                                Betreiber-Suche
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="#premium-features" class="btn btn-outline-warning w-100">
+                                <i class="fas fa-star"></i><br>
+                                Premium-Features
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="card mb-4">
-        <div class="card-header bg-info text-white"><strong>3. FAQ & Troubleshooting</strong></div>
-        <div class="card-body">
-            <ul>
-                <li><strong>Ich kann mich nicht einloggen:</strong> Prüfen Sie Benutzername/Passwort. Passwort vergessen? Nutzen Sie "Passwort zurücksetzen".</li>
-                <li><strong>Export nicht möglich:</strong> Nur Premium-Nutzer können exportieren. Prüfen Sie Ihren Tarif.</li>
-                <li><strong>Fehler beim Import ins CRM:</strong> Prüfen Sie Zeichencodierung (UTF-8) und Trennzeichen (Semikolon).</li>
-                <li><strong>Listen/Notizen fehlen:</strong> Nur Premium-Nutzer können Listen und Notizen nutzen.</li>
-                <li><strong>Weitere Fragen?</strong> Kontaktieren Sie den Support (siehe Impressum).</li>
-            </ul>
+
+    <!-- MaStR-Suche -->
+    <div class="row mb-4" id="maestr-suche">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-search text-primary"></i>
+                        MaStR-Suche - Schritt für Schritt
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h6 class="text-primary">1. Filter einstellen</h6>
+                            <p class="text-muted">Nutzen Sie die verschiedenen Filter um Ihre Suche zu verfeinern:</p>
+                            <ul class="text-muted">
+                                <li><strong>Freitextsuche:</strong> Suchen Sie nach Anlagenname, Ort, Betreiber oder anderen Begriffen</li>
+                                <li><strong>Energieträger:</strong> Wählen Sie Solar, Wind, Biomasse, etc.</li>
+                                <li><strong>Bundesland:</strong> Begrenzen Sie die Suche auf bestimmte Bundesländer</li>
+                                <li><strong>Leistung:</strong> Definieren Sie Mindest- und Maximalleistung in kW</li>
+                                <li><strong>Status:</strong> Filtern Sie nach Betriebsstatus (In Betrieb, Stillgelegt, etc.)</li>
+                                <li><strong>Umkreissuche:</strong> Suchen Sie Anlagen in einem bestimmten Radius um eine PLZ</li>
+                            </ul>
+
+                            <h6 class="text-primary mt-4">2. Ergebnisse verstehen</h6>
+                            <p class="text-muted">Die Suchergebnisse zeigen folgende Informationen:</p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-success">Anlagen-Informationen</h6>
+                                    <ul class="small text-muted">
+                                        <li><strong>Anlagenname:</strong> Offizieller Name im MaStR</li>
+                                        <li><strong>Energieträger:</strong> Art der Energieerzeugung</li>
+                                        <li><strong>Leistung (kW):</strong> Elektrische Bruttoleistung</li>
+                                        <li><strong>Technologie:</strong> Spezifische Technologie</li>
+                                        <li><strong>Status:</strong> Aktueller Betriebsstatus</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-info">Standort & Betreiber</h6>
+                                    <ul class="small text-muted">
+                                        <li><strong>Bundesland/Ort/PLZ:</strong> Standortinformationen</li>
+                                        <li><strong>Betreiber:</strong> Name des Anlagenbetreibers</li>
+                                        <li><strong>Inbetriebnahme:</strong> Datum der ersten Inbetriebnahme</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <h6 class="text-primary mt-4">3. Anlagen speichern</h6>
+                            <ol class="text-muted">
+                                <li>Markieren Sie interessante Anlagen mit den Checkboxen</li>
+                                <li>Wählen Sie eine bestehende Liste aus oder erstellen Sie eine neue</li>
+                                <li>Fügen Sie optional Notizen hinzu</li>
+                                <li>Klicken Sie auf "Ausgewählte speichern"</li>
+                            </ol>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="alert alert-info">
+                                <h6><i class="fas fa-lightbulb"></i> Tipps für bessere Suchergebnisse</h6>
+                                <ul class="mb-0 small">
+                                    <li>Beginnen Sie mit wenigen Filtern</li>
+                                    <li>Nutzen Sie die Freitextsuche für allgemeine Begriffe</li>
+                                    <li>Kombinieren Sie Filter für präzisere Ergebnisse</li>
+                                    <li>Beachten Sie die täglichen Anfragenlimits</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="alert alert-warning">
+                                <h6><i class="fas fa-exclamation-triangle"></i> Wichtige Hinweise</h6>
+                                <ul class="mb-0 small">
+                                    <li>Free-Plan: Max. 3 Filter gleichzeitig</li>
+                                    <li>Premium-Plan: Bis zu 10 Filter möglich</li>
+                                    <li>CSV-Export nur im Premium-Plan</li>
+                                    <li>Daten stammen aus dem offiziellen MaStR</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Anlagen-Listen -->
+    <div class="row mb-4" id="anlagen-listen">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-bookmark text-success"></i>
+                        Anlagen-Listen verwalten
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h6 class="text-success">Listen erstellen und verwalten</h6>
+                            <p class="text-muted">Anlagen-Listen helfen Ihnen dabei, interessante Leads zu organisieren und wiederzufinden.</p>
+                            
+                            <h6 class="text-primary mt-3">Listen-Funktionen:</h6>
+                            <ul class="text-muted">
+                                <li><strong>Listen erstellen:</strong> Organisieren Sie Anlagen in thematischen Listen</li>
+                                <li><strong>Listen duplizieren:</strong> Kopieren Sie bestehende Listen als Vorlage</li>
+                                <li><strong>Listen löschen:</strong> Entfernen Sie nicht mehr benötigte Listen</li>
+                                <li><strong>CSV-Export:</strong> Laden Sie Listen als Excel-Datei herunter (Premium)</li>
+                                <li><strong>Listen teilen:</strong> Teilen Sie Listen mit Kollegen (Premium)</li>
+                            </ul>
+
+                            <h6 class="text-primary mt-3">Best Practices:</h6>
+                            <ul class="text-muted">
+                                <li>Erstellen Sie thematische Listen (z.B. "Solaranlagen Bayern", "Windparks Nordsee")</li>
+                                <li>Fügen Sie aussagekräftige Beschreibungen hinzu</li>
+                                <li>Nutzen Sie Notizen für wichtige Details zu einzelnen Anlagen</li>
+                                <li>Exportieren Sie regelmäßig wichtige Listen als Backup</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="text-primary">Beispiel-Listen</h6>
+                                    <ul class="small text-muted">
+                                        <li>🔍 <strong>Interessante Solaranlagen</strong><br>
+                                            <small>Anlagen > 100kW in Bayern</small></li>
+                                        <li>🌊 <strong>Offshore-Windparks</strong><br>
+                                            <small>Windenergie in der Nordsee</small></li>
+                                        <li>🏭 <strong>Industrie-Betreiber</strong><br>
+                                            <small>Große Betreiber mit >10 Anlagen</small></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Betreiber-Suche -->
+    <div class="row mb-4" id="betreiber-suche">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-building text-info"></i>
+                        Betreiber-Suche
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h6 class="text-info">Betreiber finden und analysieren</h6>
+                            <p class="text-muted">Die Betreiber-Suche hilft Ihnen dabei, Anlagenbetreiber zu finden und deren Portfolio zu analysieren.</p>
+                            
+                            <h6 class="text-primary mt-3">Filter-Optionen:</h6>
+                            <ul class="text-muted">
+                                <li><strong>Betreibername:</strong> Suchen Sie nach spezifischen Betreibern</li>
+                                <li><strong>Bundesland:</strong> Begrenzen Sie auf bestimmte Bundesländer</li>
+                                <li><strong>Anzahl Anlagen:</strong> Mindest- und Maximalanzahl der Anlagen</li>
+                                <li><strong>Gesamtleistung:</strong> Leistungsbereich in MW</li>
+                                <li><strong>Hauptenergieträger:</strong> Primärer Energieträger des Betreibers</li>
+                            </ul>
+
+                            <h6 class="text-primary mt-3">Betreiber-Details:</h6>
+                            <p class="text-muted">Klicken Sie auf einen Betreiber um detaillierte Informationen zu sehen:</p>
+                            <ul class="text-muted">
+                                <li>Vollständige Anlagenliste des Betreibers</li>
+                                <li>Leistungsverteilung nach Energieträgern</li>
+                                <li>Geografische Verteilung der Anlagen</li>
+                                <li>Betriebsstatistiken und Trends</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="alert alert-info">
+                                <h6><i class="fas fa-map-marked-alt"></i> Kartenansicht</h6>
+                                <p class="mb-0 small">Nutzen Sie die Kartenansicht um die geografische Verteilung der Betreiber zu erkunden. Klicken Sie auf Marker für Details.</p>
+                            </div>
+                            
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="text-info">Betreiber-Typen</h6>
+                                    <ul class="small text-muted">
+                                        <li>🏢 <strong>Großbetreiber:</strong> >50 Anlagen</li>
+                                        <li>🏭 <strong>Mittelbetreiber:</strong> 10-50 Anlagen</li>
+                                        <li>🏠 <strong>Kleinbetreiber:</strong> <10 Anlagen</li>
+                                        <li>🌱 <strong>Spezialisten:</strong> Fokus auf einen Energieträger</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium-Features -->
+    <div class="row mb-4" id="premium-features">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-star text-warning"></i>
+                        Premium-Features
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-warning">Premium-Plan Vorteile</h6>
+                            <ul class="text-muted">
+                                <li><strong>Unbegrenzte Anfragen:</strong> Keine täglichen Limits</li>
+                                <li><strong>Erweiterte Filter:</strong> Bis zu 10 Filter gleichzeitig</li>
+                                <li><strong>CSV-Export:</strong> Listen als Excel-Datei herunterladen</li>
+                                <li><strong>Listen teilen:</strong> Listen mit Kollegen teilen</li>
+                                <li><strong>Erweiterte Analysen:</strong> Detaillierte Statistiken und Charts</li>
+                                <li><strong>Prioritäts-Support:</strong> Schnellere Antworten vom Support</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-success">Kostenlose Testversion</h6>
+                            <p class="text-muted">Testen Sie alle Premium-Features 14 Tage lang kostenlos:</p>
+                            <ul class="text-muted">
+                                <li>Vollständiger Zugang zu allen Features</li>
+                                <li>Keine Kreditkarte erforderlich</li>
+                                <li>Einfache Kündigung jederzeit möglich</li>
+                                <li>Automatische Umstellung auf Free-Plan nach Ablauf</li>
+                            </ul>
+                            
+                            <div class="alert alert-success mt-3">
+                                <h6><i class="fas fa-gift"></i> Jetzt testen!</h6>
+                                <p class="mb-2">Starten Sie Ihre kostenlose Premium-Testversion und entdecken Sie alle Features.</p>
+                                <a href="{% url 'subscriptions:plans' %}" class="btn btn-success btn-sm">
+                                    <i class="fas fa-rocket"></i> Premium testen
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Häufige Fragen -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-question-circle text-primary"></i>
+                        Häufige Fragen (FAQ)
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq1">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                                    Woher stammen die Daten?
+                                </button>
+                            </h2>
+                            <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Alle Daten stammen aus dem offiziellen Marktstammdatenregister (MaStR) der Bundesnetzagentur. Die Daten werden regelmäßig aktualisiert und sind öffentlich zugänglich.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq2">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                                    Wie oft werden die Daten aktualisiert?
+                                </button>
+                            </h2>
+                            <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Die Daten werden monatlich aus dem MaStR aktualisiert. Neue Anlagen und Änderungen werden dabei berücksichtigt.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq3">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                                    Kann ich meine Listen exportieren?
+                                </button>
+                            </h2>
+                            <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Ja, im Premium-Plan können Sie alle Ihre Listen als CSV-Datei exportieren. Diese können Sie dann in Excel oder anderen Tabellenprogrammen öffnen.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq4">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+                                    Wie kann ich mein Abonnement kündigen?
+                                </button>
+                            </h2>
+                            <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Sie können Ihr Abonnement jederzeit in Ihren Kontoeinstellungen kündigen. Nach der Kündigung haben Sie bis zum Ende der bezahlten Periode Zugang zu allen Premium-Features.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-headset text-primary"></i>
+                        Support & Kontakt
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-primary">Hilfe benötigt?</h6>
+                            <p class="text-muted">Unser Support-Team hilft Ihnen gerne weiter:</p>
+                            <ul class="text-muted">
+                                <li><strong>E-Mail:</strong> support@mastr-lead-generator.de</li>
+                                <li><strong>Telefon:</strong> +49 (0) 123 456789</li>
+                                <li><strong>Geschäftszeiten:</strong> Mo-Fr 9:00-18:00 Uhr</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-success">Weitere Ressourcen</h6>
+                            <ul class="text-muted">
+                                <li><a href="#" class="text-decoration-none">Video-Tutorials</a></li>
+                                <li><a href="#" class="text-decoration-none">Dokumentation</a></li>
+                                <li><a href="#" class="text-decoration-none">API-Dokumentation</a></li>
+                                <li><a href="#" class="text-decoration-none">Changelog</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
