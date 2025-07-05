@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Hilfe & Bedienung{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4"><i class="fas fa-question-circle text-primary"></i> Hilfe & Bedienung</h1>
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white"><strong>1. Allgemeine Bedienung</strong></div>
+        <div class="card-body">
+            <ul>
+                <li><strong>Registrierung & Login:</strong> Erstellen Sie ein Benutzerkonto und melden Sie sich an, um alle Funktionen zu nutzen.</li>
+                <li><strong>Filter & Suche:</strong> Nutzen Sie die Filter (Energieträger, Bundesland, Status, Leistung, Umkreissuche nach PLZ, Freitextsuche) um gezielt Anlagen zu finden.</li>
+                <li><strong>Umkreissuche:</strong> PLZ und Radius eingeben, um Anlagen im Umkreis zu finden (auch wenn keine Koordinaten in den MaStR-Daten vorhanden sind).</li>
+                <li><strong>Ergebnislisten & Pagination:</strong> Die Ergebnisse werden tabellarisch angezeigt, 30 pro Seite. Blättern Sie mit den Pfeilen unten weiter.</li>
+                <li><strong>CSV-Export:</strong> Premium-Nutzer können die gefilterten Ergebnisse als CSV-Datei exportieren.</li>
+                <li><strong>Anlagen-Listen:</strong> Speichern Sie interessante Anlagen in eigenen Listen, verwalten Sie diese und fügen Sie Notizen hinzu.</li>
+                <li><strong>Notizen:</strong> Zu jeder gespeicherten Anlage können Sie persönliche Notizen hinterlegen (nur für Sie sichtbar).</li>
+                <li><strong>Kartenansicht:</strong> Zeigt die gefundenen Anlagen auf einer interaktiven Karte (Leaflet.js).</li>
+                <li><strong>Filter speichern/laden:</strong> Premium-Nutzer können eigene Filtersets speichern und wiederverwenden.</li>
+                <li><strong>Impressum & Hilfe:</strong> Unten in der Fußzeile finden Sie das Impressum und diese Hilfeseite.</li>
+                <li><strong>Logout:</strong> Über das Menü oben rechts können Sie sich abmelden.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white"><strong>2. CSV-Export & Import in CRM-Systeme</strong></div>
+        <div class="card-body">
+            <h5>CSV-Export</h5>
+            <ol>
+                <li>Filtern Sie die gewünschten Anlagen.</li>
+                <li>Klicken Sie auf <strong>Export (CSV)</strong> (nur Premium).</li>
+                <li>Die Datei <code>mastr_leads.csv</code> wird heruntergeladen (UTF-8, Semikolon-getrennt).</li>
+            </ol>
+            <h5>Import in CRM-Systeme (z.B. Salesforce, HubSpot, Zoho, Pipedrive, Lexoffice, weclapp, openHandwerk)</h5>
+            <ol>
+                <li>Öffnen Sie Ihr CRM und wählen Sie <strong>Import</strong> (oft unter "Kontakte", "Leads" oder "Firmen").</li>
+                <li>Laden Sie die CSV-Datei hoch. Achten Sie auf folgende Einstellungen:
+                    <ul>
+                        <li><strong>Zeichencodierung:</strong> UTF-8 (wichtig für Umlaute/ß)</li>
+                        <li><strong>Trennzeichen:</strong> Semikolon <code>;</code></li>
+                        <li><strong>Feldzuordnung:</strong> Ordnen Sie die Spalten der CSV den Feldern im CRM zu (z.B. Name, PLZ, Ort, Betreiber, Leistung, Status, Notiz).</li>
+                        <li><strong>Duplikate:</strong> Viele CRMs bieten eine Duplikatprüfung beim Import.</li>
+                    </ul>
+                </li>
+                <li>Starten Sie den Import. Prüfen Sie nach dem Import die Daten auf Vollständigkeit und Korrektheit.</li>
+            </ol>
+            <p><strong>Hinweis:</strong> Bei Problemen mit Umlauten oder Sonderzeichen stellen Sie sicher, dass Sie "UTF-8" als Zeichencodierung wählen. In Excel ggf. "Daten > Aus Text/CSV importieren" nutzen und "65001: Unicode (UTF-8)" auswählen.</p>
+            <p>Für spezielle CRM-Systeme können Sie die CSV-Datei ggf. vorher in Excel/LibreOffice öffnen und anpassen.</p>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white"><strong>3. FAQ & Troubleshooting</strong></div>
+        <div class="card-body">
+            <ul>
+                <li><strong>Ich kann mich nicht einloggen:</strong> Prüfen Sie Benutzername/Passwort. Passwort vergessen? Nutzen Sie "Passwort zurücksetzen".</li>
+                <li><strong>Export nicht möglich:</strong> Nur Premium-Nutzer können exportieren. Prüfen Sie Ihren Tarif.</li>
+                <li><strong>Fehler beim Import ins CRM:</strong> Prüfen Sie Zeichencodierung (UTF-8) und Trennzeichen (Semikolon).</li>
+                <li><strong>Listen/Notizen fehlen:</strong> Nur Premium-Nutzer können Listen und Notizen nutzen.</li>
+                <li><strong>Weitere Fragen?</strong> Kontaktieren Sie den Support (siehe Impressum).</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %} 

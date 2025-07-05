@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - DataViz{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="h3 mb-0">
+            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+        </h1>
+        <p class="text-muted">Willkommen zurück, {{ user.first_name|default:user.username }}!</p>
+    </div>
+</div>
+
+<!-- Premium-Test Hinweis -->
+{% if subscription.plan.name == 'premium' and subscription.end_date %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="alert alert-info border-0 shadow-sm">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-star fa-2x text-warning me-3"></i>
+                <div class="flex-grow-1">
+                    <h5 class="alert-heading mb-1">
+                        <i class="fas fa-crown text-warning"></i> Premium-Test aktiv!
+                    </h5>
+                    <p class="mb-2">
+                        Du genießt alle Premium-Features bis zum <strong>{{ subscription.end_date|date:"d.m.Y" }}</strong>. 
+                        Danach wird dein Account automatisch auf den kostenlosen Plan zurückgestuft.
+                    </p>
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle"></i> 
+                        Du kannst jederzeit ein kostenpflichtiges Premium-Abo abschließen, um alle Features dauerhaft zu nutzen.
+                    </small>
+                </div>
+                <div class="ms-3">
+                    <a href="{% url 'subscriptions:plans' %}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-arrow-up"></i> Upgrade
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Statistiken -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card stats-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title text-white-50">Gesamte Datenpunkte</h6>
+                        <h3 class="mb-0">{{ total_data_points|default:"0" }}</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-database fa-2x text-white-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <div class="card stats-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title text-white-50">Kategorien</h6>
+                        <h3 class="mb-0">{{ categories.count|default:"0" }}</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-tags fa-2x text-white-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <div class="card stats-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title text-white-50">Anfragen heute</h6>
+                        <h3 class="mb-0">{{ subscription.requests_used_today }}/{{ subscription.plan.requests_per_day }}</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-chart-line fa-2x text-white-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <div class="card stats-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title text-white-50">Aktueller Plan</h6>
+                        <h3 class="mb-0">{{ subscription.plan.display_name }}</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-crown fa-2x text-white-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Schnellzugriff -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-bolt me-2"></i>Schnellzugriff
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <a href="{% url 'dashboard:data' %}" class="btn btn-outline-primary w-100 h-100 d-flex flex-column align-items-center justify-content-center p-4">
+                            <i class="fas fa-database fa-3x mb-3"></i>
+                            <h5>Daten durchsuchen</h5>
+                            <p class="text-muted mb-0">Filtere und suche in den Daten</p>
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a href="{% url 'dashboard:charts' %}" class="btn btn-outline-primary w-100 h-100 d-flex flex-column align-items-center justify-content-center p-4">
+                            <i class="fas fa-chart-bar fa-3x mb-3"></i>
+                            <h5>Charts erstellen</h5>
+                            <p class="text-muted mb-0">Visualisiere Daten in Charts</p>
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a href="{% url 'subscriptions:plans' %}" class="btn btn-outline-info w-100 h-100 d-flex flex-column align-items-center justify-content-center p-4">
+                            <i class="fas fa-crown fa-3x mb-3"></i>
+                            <h5>Plan upgraden</h5>
+                            <p class="text-muted mb-0">Mehr Funktionen freischalten</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Letzte Aktivität -->
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-history me-2"></i>Letzte Aktivität
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Zeitpunkt</th>
+                                <th>Aktion</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in recent_logs|slice:":5" %}
+                            <tr>
+                                <td>{{ log.timestamp|date:"d.m.Y H:i" }}</td>
+                                <td>{{ log.endpoint }}</td>
+                                <td>
+                                    {% if log.success %}
+                                        <span class="badge bg-success">Erfolgreich</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Fehler</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">
+                                    Noch keine Aktivität vorhanden
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-info-circle me-2"></i>Plan-Info
+                </h5>
+            </div>
+            <div class="card-body">
+                <h6>{{ subscription.plan.display_name }}</h6>
+                <p class="text-muted">{{ subscription.plan.description }}</p>
+                
+                <div class="mb-3">
+                    <label class="form-label">Anfragen pro Tag</label>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" 
+                             style="width: {{ subscription.requests_used_today|div:subscription.plan.requests_per_day|mul:100 }}%">
+                            {{ subscription.requests_used_today }}/{{ subscription.plan.requests_per_day }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Maximale Filter</label>
+                    <span class="badge bg-primary">{{ subscription.plan.max_filters }}</span>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Export möglich</label>
+                    {% if subscription.plan.can_export %}
+                        <span class="badge bg-success">Ja</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Nein</span>
+                    {% endif %}
+                </div>
+                
+                <a href="{% url 'subscriptions:plans' %}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-arrow-up me-1"></i>Upgraden
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Anlagen-Listen{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Tab Navigation -->
+    {% include 'partials/main_tabs.html' %}
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-0">
+                    <i class="fas fa-bookmark text-primary"></i>
+                    Anlagen-Listen
+                </h1>
+                <a href="{% url 'dashboard:data' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left"></i> Zurück zur Suche
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list"></i>
+                        Meine Listen
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if listen %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Anlagen</th>
+                                        <th>Erstellt</th>
+                                        <th>Aktionen</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for liste in listen %}
+                                        <tr>
+                                            <td>
+                                                <strong>{{ liste.name }}</strong>
+                                                {% if liste.beschreibung %}
+                                                    <br><small class="text-muted">{{ liste.beschreibung }}</small>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">{{ liste.anzahl_anlagen }}</span>
+                                            </td>
+                                            <td>{{ liste.erstellt_am|date:"d.m.Y H:i" }}</td>
+                                            <td>
+                                                <a href="{% url 'dashboard:liste_detail' liste.id %}" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i> Anzeigen
+                                                </a>
+                                                <a href="{% url 'dashboard:liste_duplizieren' liste.id %}" class="btn btn-sm btn-outline-warning">
+                                                    <i class="fas fa-copy"></i> Duplizieren
+                                                </a>
+                                                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ liste.id }}">
+                                                    <i class="fas fa-trash"></i> Löschen
+                                                </button>
+
+                                                <!-- Delete Modal -->
+                                                <div class="modal fade" id="deleteModal{{ liste.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ liste.id }}" aria-hidden="true">
+                                                  <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteModalLabel{{ liste.id }}">Liste löschen</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                        Möchten Sie die Liste <strong>{{ liste.name }}</strong> wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                                                        <form method="post" action="{% url 'dashboard:liste_loeschen' liste.id %}">
+                                                          {% csrf_token %}
+                                                          <button type="submit" class="btn btn-danger">Löschen</button>
+                                                        </form>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-bookmark fa-3x text-muted mb-3"></i>
+                            <h4 class="text-muted">Noch keine Listen erstellt</h4>
+                            <p class="text-muted">Erstellen Sie Ihre erste Liste, um interessante Anlagen zu speichern.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-plus"></i>
+                        Neue Liste erstellen
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="liste_name" class="form-label">Listenname</label>
+                            <input type="text" class="form-control" id="liste_name" name="listenname" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="liste_description" class="form-label">Beschreibung (optional)</label>
+                            <textarea class="form-control" id="liste_description" name="beschreibung" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-plus"></i> Liste erstellen
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle"></i>
+                        Informationen
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">
+                        <strong>Anlagen-Listen</strong> ermöglichen es Ihnen, interessante Anlagen zu speichern und später wiederzufinden.
+                    </p>
+                    <ul class="small text-muted">
+                        <li>Speichern Sie Anlagen während der Suche</li>
+                        <li>Organisieren Sie Ihre Leads in Listen</li>
+                        <li>Exportieren Sie Listen als CSV</li>
+                        <li>Teilen Sie Listen mit Kollegen</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

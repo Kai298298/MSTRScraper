@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ betreiber.name }} - Betreiber Details{% endblock %}
+
+{% block extra_css %}
+<style>
+    .betreiber-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+    }
+    .stats-card {
+        transition: transform 0.2s;
+    }
+    .stats-card:hover {
+        transform: translateY(-2px);
+    }
+    .anlage-row {
+        transition: background-color 0.2s;
+    }
+    .anlage-row:hover {
+        background-color: #f8f9fa;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard:betreiber' %}">Anlagenbetreiber</a></li>
+                    <li class="breadcrumb-item active">{{ betreiber.name }}</li>
+                </ol>
+            </nav>
+
+            <!-- Betreiber-Info -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2 class="mb-0">{{ betreiber.name }}</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Betreiber-Informationen</h5>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Betreibernummer:</strong></td>
+                                    <td><code>{{ betreiber.betreibernummer }}</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Adresse:</strong></td>
+                                    <td>{{ betreiber.strasse|default:"-" }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Email:</strong></td>
+                                    <td>
+                                        {% if betreiber.email %}
+                                            <a href="mailto:{{ betreiber.email }}">{{ betreiber.email }}</a>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Telefon:</strong></td>
+                                    <td>
+                                        {% if betreiber.telefon %}
+                                            <a href="tel:{{ betreiber.telefon }}">{{ betreiber.telefon }}</a>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Website:</strong></td>
+                                    <td>
+                                        {% if betreiber.website %}
+                                            <a href="{{ betreiber.website }}" target="_blank">{{ betreiber.website }}</a>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Anlagen-Übersicht</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="card bg-primary text-white">
+                                        <div class="card-body text-center">
+                                            <h3>{{ betreiber.anzahl_anlagen|default:0 }}</h3>
+                                            <p class="mb-0">Anlagen</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card bg-success text-white">
+                                        <div class="card-body text-center">
+                                            <h3>{{ betreiber.gesamtleistung|floatformat:0|default:0 }}</h3>
+                                            <p class="mb-0">kW Gesamtleistung</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anlagen-Liste -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Anlagen des Betreibers ({{ page_obj.paginator.count }} gefunden)</h5>
+                </div>
+                <div class="card-body">
+                    {% if page_obj %}
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>MaStR-Nr.</th>
+                                        <th>Anlagenname</th>
+                                        <th>Energieträger</th>
+                                        <th>Leistung</th>
+                                        <th>Status</th>
+                                        <th>Standort</th>
+                                        <th>Inbetriebnahme</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for anlage in page_obj %}
+                                    <tr>
+                                        <td><code>{{ anlage.0 }}</code></td>
+                                        <td><strong>{{ anlage.1 }}</strong></td>
+                                        <td>
+                                            <span class="badge bg-info">{{ anlage.2 }}</span>
+                                        </td>
+                                        <td>
+                                            {% if anlage.3 %}
+                                                {{ anlage.3|floatformat:0 }} kW
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if anlage.4 == "In Betrieb" %}
+                                                <span class="badge bg-success">{{ anlage.4 }}</span>
+                                            {% elif anlage.4 == "Stillgelegt" %}
+                                                <span class="badge bg-danger">{{ anlage.4 }}</span>
+                                            {% else %}
+                                                <span class="badge bg-warning">{{ anlage.4 }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if anlage.5 and anlage.6 %}
+                                                {{ anlage.6 }} {{ anlage.5 }}
+                                            {% elif anlage.5 %}
+                                                {{ anlage.5 }}
+                                            {% elif anlage.6 %}
+                                                {{ anlage.6 }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if anlage.8 %}
+                                                {{ anlage.8|date:"d.m.Y" }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        {% if page_obj.has_other_pages %}
+                            {% include 'partials/pagination.html' with page_obj=page_obj %}
+                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-info">
+                            Keine Anlagen für diesen Betreiber gefunden.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Liste löschen{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h4>Liste löschen</h4>
+                </div>
+                <div class="card-body">
+                    <p>Möchten Sie die Liste <strong>{{ liste.name }}</strong> wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Ja, löschen</button>
+                        <a href="{% url 'dashboard:anlagen_listen' %}" class="btn btn-secondary ms-2">Abbrechen</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

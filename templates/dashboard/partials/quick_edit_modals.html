@@ -1,0 +1,132 @@
+<!-- Quick Edit Status Modal -->
+<div class="modal fade" id="quickEditStatusModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-tag text-primary"></i> Status ändern
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="quickEditStatusForm">
+                    <div class="mb-3">
+                        <label for="statusSelect" class="form-label">Neuer Status</label>
+                        <select class="form-select" id="statusSelect" name="status">
+                            <option value="neu">Neu</option>
+                            <option value="kontaktiert">Kontaktiert</option>
+                            <option value="in_bearbeitung">In Bearbeitung</option>
+                            <option value="angebot_versendet">Angebot versendet</option>
+                            <option value="verhandlungen">In Verhandlungen</option>
+                            <option value="abgeschlossen">Abgeschlossen</option>
+                            <option value="abgelehnt">Abgelehnt</option>
+                            <option value="archiviert">Archiviert</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-primary" onclick="saveQuickEditStatus()">Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Edit Priorität Modal -->
+<div class="modal fade" id="quickEditPrioritaetModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-flag text-primary"></i> Priorität ändern
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="quickEditPrioritaetForm">
+                    <div class="mb-3">
+                        <label for="prioritaetSelect" class="form-label">Neue Priorität</label>
+                        <select class="form-select" id="prioritaetSelect" name="prioritaet">
+                            <option value="niedrig">Niedrig</option>
+                            <option value="mittel">Mittel</option>
+                            <option value="hoch">Hoch</option>
+                            <option value="kritisch">Kritisch</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-primary" onclick="saveQuickEditPrioritaet()">Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Edit Notiz Modal -->
+<div class="modal fade" id="quickEditNotizModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-sticky-note text-primary"></i> Notiz bearbeiten
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="quickEditNotizForm">
+                    <div class="mb-3">
+                        <label for="notizTextarea" class="form-label">Notiz</label>
+                        <textarea class="form-control" id="notizTextarea" name="notiz" rows="4" 
+                                  placeholder="Fügen Sie hier Ihre Notizen hinzu..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-primary" onclick="saveQuickEditNotiz()">Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentAnlageId = null;
+
+function openQuickEditStatusModal(anlageId, currentStatus) {
+    currentAnlageId = anlageId;
+    document.getElementById('statusSelect').value = currentStatus;
+    new bootstrap.Modal(document.getElementById('quickEditStatusModal')).show();
+}
+
+function openQuickEditPrioritaetModal(anlageId, currentPrioritaet) {
+    currentAnlageId = anlageId;
+    document.getElementById('prioritaetSelect').value = currentPrioritaet;
+    new bootstrap.Modal(document.getElementById('quickEditPrioritaetModal')).show();
+}
+
+function openQuickEditNotizModal(anlageId, currentNotiz) {
+    currentAnlageId = anlageId;
+    document.getElementById('notizTextarea').value = currentNotiz;
+    new bootstrap.Modal(document.getElementById('quickEditNotizModal')).show();
+}
+
+function saveQuickEditStatus() {
+    const status = document.getElementById('statusSelect').value;
+    updateAnlageStatus(currentAnlageId, status);
+    bootstrap.Modal.getInstance(document.getElementById('quickEditStatusModal')).hide();
+}
+
+function saveQuickEditPrioritaet() {
+    const prioritaet = document.getElementById('prioritaetSelect').value;
+    updateAnlagePrioritaet(currentAnlageId, prioritaet);
+    bootstrap.Modal.getInstance(document.getElementById('quickEditPrioritaetModal')).hide();
+}
+
+function saveQuickEditNotiz() {
+    const notiz = document.getElementById('notizTextarea').value;
+    updateAnlageNotiz(currentAnlageId, notiz);
+    bootstrap.Modal.getInstance(document.getElementById('quickEditNotizModal')).hide();
+}
+</script> 

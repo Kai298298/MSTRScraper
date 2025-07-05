@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+
+{% block title %}Analytics Dashboard - MaStR Analytics{% endblock %}
+
+{% block extra_css %}
+<style>
+    .analytics-card {
+        transition: transform 0.2s;
+    }
+    .analytics-card:hover {
+        transform: translateY(-2px);
+    }
+    .metric-value {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+    .chart-container {
+        height: 300px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1><i class="fas fa-chart-line me-2"></i>Analytics Dashboard</h1>
+                <div class="text-muted">
+                    <small>Zeitraum: {{ start_date|date:"d.m.Y" }} - {{ end_date|date:"d.m.Y" }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Übersichtskarten -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card analytics-card bg-primary text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-mouse-pointer fa-2x mb-2"></i>
+                    <div class="metric-value">{{ total_events }}</div>
+                    <div class="card-title">Gesamte Events</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card analytics-card bg-success text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-2x mb-2"></i>
+                    <div class="metric-value">{{ top_users|length }}</div>
+                    <div class="card-title">Aktive Benutzer</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card analytics-card bg-info text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-eye fa-2x mb-2"></i>
+                    <div class="metric-value">{{ event_counts.page_view|default:0 }}</div>
+                    <div class="card-title">Seitenaufrufe</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card analytics-card bg-warning text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-mouse fa-2x mb-2"></i>
+                    <div class="metric-value">{{ event_counts.button_click|default:0 }}</div>
+                    <div class="card-title">Button-Klicks</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Top Button-Klicks -->
+        <div class="col-md-6 mb-4">
+            <div class="card analytics-card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-mouse me-2"></i>Top Button-Klicks</h5>
+                </div>
+                <div class="card-body">
+                    {% if top_buttons %}
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Button</th>
+                                        <th class="text-end">Klicks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for button, count in top_buttons %}
+                                    <tr>
+                                        <td>{{ button }}</td>
+                                        <td class="text-end">
+                                            <span class="badge bg-primary">{{ count }}</span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-center">Keine Button-Klicks im ausgewählten Zeitraum.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Seitenaufrufe -->
+        <div class="col-md-6 mb-4">
+            <div class="card analytics-card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-eye me-2"></i>Top Seitenaufrufe</h5>
+                </div>
+                <div class="card-body">
+                    {% if top_pages %}
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Seite</th>
+                                        <th class="text-end">Aufrufe</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for page, count in top_pages %}
+                                    <tr>
+                                        <td>
+                                            <small>{{ page|truncatechars:40 }}</small>
+                                        </td>
+                                        <td class="text-end">
+                                            <span class="badge bg-info">{{ count }}</span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-center">Keine Seitenaufrufe im ausgewählten Zeitraum.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Top Benutzer -->
+        <div class="col-md-6 mb-4">
+            <div class="card analytics-card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-users me-2"></i>Top Aktive Benutzer</h5>
+                </div>
+                <div class="card-body">
+                    {% if top_users %}
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Benutzer</th>
+                                        <th class="text-end">Aktivitäten</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user, count in top_users %}
+                                    <tr>
+                                        <td>{{ user }}</td>
+                                        <td class="text-end">
+                                            <span class="badge bg-success">{{ count }}</span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-center">Keine Benutzeraktivitäten im ausgewählten Zeitraum.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Event-Typen -->
+        <div class="col-md-6 mb-4">
+            <div class="card analytics-card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Event-Typen</h5>
+                </div>
+                <div class="card-body">
+                    {% if event_counts %}
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Event-Typ</th>
+                                        <th class="text-end">Anzahl</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for event_type, count in event_counts.items %}
+                                    <tr>
+                                        <td>{{ event_type|title }}</td>
+                                        <td class="text-end">
+                                            <span class="badge bg-secondary">{{ count }}</span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-center">Keine Events im ausgewählten Zeitraum.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tägliche Aktivität -->
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card analytics-card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Tägliche Aktivität</h5>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="dailyActivityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tägliche Aktivität Chart
+    const dailyData = {{ daily_activity|safe }};
+    const labels = Object.keys(dailyData);
+    const values = Object.values(dailyData);
+    
+    const ctx = document.getElementById('dailyActivityChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Events pro Tag',
+                data: values,
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %} 

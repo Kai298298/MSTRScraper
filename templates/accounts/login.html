@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+
+{% block title %}MaStR Lead Generator - Login{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Linke Seite: Werbung und Tarife -->
+        <div class="col-lg-8 bg-gradient-primary text-white py-5" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);">
+            <div class="container">
+                <div class="row align-items-center min-vh-100">
+                    <div class="col-lg-10 mx-auto text-center">
+                        <!-- Header -->
+                        <div class="mb-5">
+                            <h1 class="display-4 fw-bold mb-3">
+                                <i class="fas fa-search-dollar me-3"></i>
+                                MaStR Lead Generator
+                            </h1>
+                            <p class="lead fs-4 mb-4">
+                                Entdecken Sie profitable Geschäftsmöglichkeiten im Marktstammdatenregister
+                            </p>
+                        </div>
+
+                        <!-- Features -->
+                        <div class="row mb-5">
+                            <div class="col-md-4 mb-4">
+                                <div class="feature-card p-4 h-100">
+                                    <i class="fas fa-filter fa-3x mb-3 text-warning"></i>
+                                    <h5>Intelligente Filter</h5>
+                                    <p class="mb-0">Präzise Suche nach Energieträger, Bundesland, Leistung und mehr</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="feature-card p-4 h-100">
+                                    <i class="fas fa-download fa-3x mb-3 text-success"></i>
+                                    <h5>CSV Export</h5>
+                                    <p class="mb-0">Exportieren Sie gefilterte Leads für Ihre CRM-Systeme</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="feature-card p-4 h-100">
+                                    <i class="fas fa-chart-line fa-3x mb-3 text-info"></i>
+                                    <h5>Echtzeit-Daten</h5>
+                                    <p class="mb-0">Aktuelle Daten aus dem offiziellen Marktstammdatenregister</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarife -->
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <h2 class="fw-bold mb-4">
+                                    <i class="fas fa-crown me-2"></i>
+                                    Wählen Sie Ihren Tarif
+                                </h2>
+                            </div>
+                            
+                            <!-- Free Tarif -->
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-white text-dark h-100 shadow-lg">
+                                    <div class="card-header bg-light text-center py-3">
+                                        <h4 class="mb-0">
+                                            <i class="fas fa-gift text-success me-2"></i>
+                                            Free
+                                        </h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h2 class="text-success mb-3">€0<span class="fs-6">/Monat</span></h2>
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>10 Suchen pro Tag</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>3 gespeicherte Filter</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Basis-Filter</li>
+                                            <li class="mb-2 text-muted"><i class="fas fa-times text-danger me-2"></i>Kein CSV-Export</li>
+                                            <li class="mb-2 text-muted"><i class="fas fa-times text-danger me-2"></i>Keine API</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Basic Tarif -->
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-white text-dark h-100 shadow-lg border-primary">
+                                    <div class="card-header bg-primary text-white text-center py-3">
+                                        <h4 class="mb-0">
+                                            <i class="fas fa-star text-warning me-2"></i>
+                                            Basic
+                                        </h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h2 class="text-primary mb-3">€29<span class="fs-6">/Monat</span></h2>
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>100 Suchen pro Tag</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>10 gespeicherte Filter</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Erweiterte Filter</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>CSV-Export (1000 Zeilen)</li>
+                                            <li class="mb-2 text-muted"><i class="fas fa-times text-danger me-2"></i>Keine API</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Premium Tarif -->
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-white text-dark h-100 shadow-lg border-warning">
+                                    <div class="card-header bg-warning text-dark text-center py-3">
+                                        <h4 class="mb-0">
+                                            <i class="fas fa-crown text-warning me-2"></i>
+                                            Premium
+                                        </h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h2 class="text-warning mb-3">€99<span class="fs-6">/Monat</span></h2>
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unbegrenzte Suchen</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unbegrenzte Filter</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Alle Filter-Optionen</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unbegrenzter CSV-Export</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>API-Zugang</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Call to Action -->
+                        <div class="mt-5">
+                            <p class="fs-5 mb-4">
+                                <strong>Über 2.400 Anlagen</strong> warten darauf, von Ihnen entdeckt zu werden!
+                            </p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="{% url 'accounts:register' %}" class="btn btn-success btn-lg">
+                                    <i class="fas fa-user-plus me-2"></i>Jetzt registrieren
+                                </a>
+                                <a href="#demo" class="btn btn-outline-light btn-lg">
+                                    <i class="fas fa-play me-2"></i>Demo ansehen
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rechte Seite: Login -->
+        <div class="col-lg-4 bg-light py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-primary text-white text-center">
+                                <h4 class="mb-0">
+                                    <i class="fas fa-sign-in-alt me-2"></i>
+                                    Anmelden
+                                </h4>
+                            </div>
+                            <div class="card-body p-4">
+                                {% if form.errors %}
+                                    <div class="alert alert-danger">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        Bitte überprüfen Sie Ihre Eingaben.
+                                    </div>
+                                {% endif %}
+                                
+                                <form method="post" novalidate>
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="id_username" class="form-label fw-bold">
+                                            <i class="fas fa-user me-1"></i>Benutzername
+                                        </label>
+                                        <input type="text" name="username" autofocus required 
+                                               class="form-control form-control-lg" id="id_username" 
+                                               placeholder="Benutzername" value="{{ form.username.value|default:'' }}">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="id_password" class="form-label fw-bold">
+                                            <i class="fas fa-lock me-1"></i>Passwort
+                                        </label>
+                                        <input type="password" name="password" required 
+                                               class="form-control form-control-lg" id="id_password" 
+                                               placeholder="Passwort">
+                                    </div>
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="fas fa-sign-in-alt me-2"></i>Anmelden
+                                        </button>
+                                    </div>
+                                </form>
+                                
+                                <div class="mt-4 text-center">
+                                    <a href="{% url 'accounts:password_reset' %}" class="text-decoration-none">
+                                        <i class="fas fa-key me-1"></i>Passwort vergessen?
+                                    </a>
+                                </div>
+                                
+                                <hr class="my-4">
+                                
+                                <div class="text-center">
+                                    <p class="mb-3">Noch kein Konto?</p>
+                                    <a href="{% url 'accounts:register' %}" class="btn btn-success w-100">
+                                        <i class="fas fa-user-plus me-2"></i>Kostenlos registrieren
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+
+.min-vh-100 {
+    min-height: 100vh;
+}
+</style>
+{% endblock %} 

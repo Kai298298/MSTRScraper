@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profil - {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="h3 mb-0">
+                <i class="fas fa-user text-primary"></i>
+                Profil: {{ user.username }}
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-circle"></i>
+                        Benutzerinformationen
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary mt-2">
+                            <i class="fas fa-save"></i> Profil speichern
+                        </button>
+                    </form>
+                    <hr>
+                    <div class="row mb-3">
+                        <div class="col-sm-4">
+                            <strong>Benutzername:</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            {{ user.username }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4">
+                            <strong>E-Mail:</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            {{ user.email|default:"Nicht angegeben" }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4">
+                            <strong>Registriert seit:</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            {{ user.date_joined|date:"d.m.Y H:i" }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4">
+                            <strong>Letzter Login:</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            {{ user.last_login|date:"d.m.Y H:i"|default:"Noch nie" }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-crown"></i>
+                        Abonnement
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if subscription %}
+                        <div class="row mb-3">
+                            <div class="col-sm-4">
+                                <strong>Tarif:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <span class="badge bg-{{ subscription.plan.name|yesno:'success,warning' }}">
+                                    {{ subscription.plan.display_name }}
+                                </span>
+                                {% if subscription.plan.name == 'premium' and subscription.end_date %}
+                                    <span class="badge bg-info ms-2">
+                                        <i class="fas fa-clock"></i> Test bis {{ subscription.end_date|date:"d.m.Y" }}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if subscription.plan.name == 'premium' and subscription.end_date %}
+                            <div class="alert alert-info">
+                                <i class="fas fa-star"></i>
+                                <strong>Premium-Test aktiv!</strong> Du genießt alle Premium-Features bis zum {{ subscription.end_date|date:"d.m.Y" }}. 
+                                Danach wird dein Account automatisch auf den kostenlosen Plan zurückgestuft.
+                                <br><small class="text-muted">Du kannst jederzeit ein kostenpflichtiges Premium-Abo abschließen.</small>
+                            </div>
+                        {% endif %}
+                        <div class="row mb-3">
+                            <div class="col-sm-4">
+                                <strong>Preis:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                {{ subscription.plan.price }}€ / Monat
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4">
+                                <strong>Anfragen heute:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                {{ subscription.requests_used_today }} / {{ subscription.plan.requests_per_day }}
+                                <div class="progress mt-1" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" 
+                                         style="width: {{ subscription.requests_used_today|div:subscription.plan.requests_per_day|mul:100 }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4">
+                                <strong>Max. Filter:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                {{ subscription.plan.max_filters }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4">
+                                <strong>CSV-Export:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                {% if subscription.plan.can_export %}
+                                    <span class="badge bg-success">Verfügbar</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Nicht verfügbar</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Kein Abonnement gefunden.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-cog"></i>
+                        Aktionen
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <a href="{% url 'accounts:password_change' %}" class="btn btn-primary w-100">
+                                <i class="fas fa-key"></i>
+                                Passwort ändern
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <a href="{% url 'dashboard:data' %}" class="btn btn-success w-100">
+                                <i class="fas fa-search"></i>
+                                Zur Suche
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <a href="{% url 'accounts:logout' %}" class="btn btn-outline-danger w-100">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Abmelden
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

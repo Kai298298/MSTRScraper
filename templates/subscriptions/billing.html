@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Abrechnung - MaStR Lead Generator{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fas fa-credit-card"></i> Abrechnungsinformationen</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Aktueller Plan</h5>
+                            <p><strong>{{ subscription.plan.display_name }}</strong></p>
+                            <p class="text-muted">{{ subscription.plan.description }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Preis</h5>
+                            <p class="h4 text-primary">€{{ subscription.plan.price }}/Monat</p>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Abonnement-Details</h5>
+                            <p><strong>Startdatum:</strong> {{ subscription.start_date|date:"d.m.Y" }}</p>
+                            <p><strong>Status:</strong> 
+                                {% if subscription.is_active %}
+                                    <span class="badge bg-success">Aktiv</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Inaktiv</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Nutzung</h5>
+                            <p><strong>Anfragen heute:</strong> {{ subscription.requests_used_today }}/{{ subscription.plan.requests_per_day }}</p>
+                            <p><strong>Letzte Anfrage:</strong> 
+                                {% if subscription.last_request_date %}
+                                    {{ subscription.last_request_date|date:"d.m.Y" }}
+                                {% else %}
+                                    Noch keine Anfragen
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="text-center">
+                        <a href="{% url 'subscriptions:plans' %}" class="btn btn-primary">
+                            <i class="fas fa-arrow-up"></i> Plan ändern
+                        </a>
+                        <a href="{% url 'subscriptions:usage' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-chart-line"></i> Nutzungsstatistiken
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

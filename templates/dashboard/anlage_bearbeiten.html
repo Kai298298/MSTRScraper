@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Anlage bearbeiten - MaStR Lead Generator{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-edit"></i> Anlage bearbeiten
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- Anlagen-Informationen -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h6 class="text-muted">Anlagen-Details</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Anlagenname</label>
+                                    <input type="text" class="form-control" value="{{ anlage.anlagenname }}" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Energieträger</label>
+                                    <input type="text" class="form-control" value="{{ anlage.energietraeger }}" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Leistung</label>
+                                    <input type="text" class="form-control" value="{{ anlage.leistung|default:'-' }} kW" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-muted">Standort</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Bundesland</label>
+                                    <input type="text" class="form-control" value="{{ anlage.bundesland }}" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Ort</label>
+                                    <input type="text" class="form-control" value="{{ anlage.ort }}" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">PLZ</label>
+                                    <input type="text" class="form-control" value="{{ anlage.plz }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Benutzerdefinierte Eigenschaften -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Priorität</h6>
+                                <div class="mb-3">
+                                    <select name="prioritaet" class="form-select">
+                                        {% for value, label in prioritaet_choices %}
+                                        <option value="{{ value }}" {% if anlage.prioritaet == value %}selected{% endif %}>
+                                            {{ label }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="form-text">
+                                        Bestimmt die Wichtigkeit dieser Anlage für Ihr Geschäft.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Anlagenstatus</h6>
+                                <div class="mb-3">
+                                    <select name="anlagenstatus" class="form-select">
+                                        {% for value, label in anlagenstatus_choices %}
+                                        <option value="{{ value }}" {% if anlage.anlagenstatus == value %}selected{% endif %}>
+                                            {{ label }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="form-text">
+                                        Aktueller Status in Ihrem Verkaufsprozess.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Benutzer-Notizen -->
+                        <div class="mb-4">
+                            <h6 class="text-primary">Benutzer-Notizen</h6>
+                            <div class="mb-3">
+                                <textarea name="benutzer_notizen" class="form-control" rows="6" 
+                                          placeholder="Fügen Sie hier Ihre persönlichen Notizen, Kontaktdaten, Termine oder andere wichtige Informationen hinzu...">{{ anlage.benutzer_notizen }}</textarea>
+                                <div class="form-text">
+                                    Persönliche Notizen, Kontaktdaten, Termine oder andere wichtige Informationen.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- System-Informationen -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h6 class="text-muted">System-Informationen</h6>
+                                <div class="mb-2">
+                                    <small class="text-muted">MaStR Anlagen-ID:</small><br>
+                                    <code>{{ anlage.anlagen_id }}</code>
+                                </div>
+                                <div class="mb-2">
+                                    <small class="text-muted">Hinzugefügt am:</small><br>
+                                    {{ anlage.hinzugefuegt_am|date:"d.m.Y H:i" }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-muted">Liste</h6>
+                                <div class="mb-2">
+                                    <a href="{% url 'dashboard:liste_detail' anlage.liste.id %}" class="text-decoration-none">
+                                        <i class="fas fa-folder"></i> {{ anlage.liste.name }}
+                                    </a>
+                                </div>
+                                <div class="mb-2">
+                                    <small class="text-muted">Letzte Bearbeitung:</small><br>
+                                    {{ anlage.letzte_bearbeitung|date:"d.m.Y H:i" }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'dashboard:liste_detail' anlage.liste.id %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Zurück zur Liste
+                            </a>
+                            <div>
+                                <a href="{% url 'dashboard:anlagen_verwaltung' %}" class="btn btn-outline-info me-2">
+                                    <i class="fas fa-list"></i> Alle Anlagen
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Änderungen speichern
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

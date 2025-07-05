@@ -1,0 +1,435 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Anlagenverwaltung - MaStR Lead Generator{% endblock %}
+
+{% block extra_css %}
+<style>
+    .priority-badge {
+        font-size: 0.8em;
+        padding: 0.25em 0.5em;
+    }
+    .status-badge {
+        font-size: 0.8em;
+    }
+    .filter-card {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+    }
+    .stats-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    .table-hover tbody tr:hover {
+        background-color: rgba(0,123,255,0.1);
+    }
+    .quick-edit {
+        cursor: pointer;
+    }
+    .quick-edit:hover {
+        background-color: #e9ecef;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Filter-Sidebar -->
+        <div class="col-md-3">
+            <div class="card filter-card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-filter"></i> Filter & Sortierung</h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" id="filterForm">
+                        <!-- Priorität Filter -->
+                        <div class="mb-3">
+                            <label for="prioritaet" class="form-label">Priorität</label>
+                            <select class="form-select" id="prioritaet" name="prioritaet">
+                                <option value="">Alle Prioritäten</option>
+                                {% for value, label in prioritaet_choices %}
+                                <option value="{{ value }}" {% if current_filters.prioritaet == value %}selected{% endif %}>
+                                    {{ label }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Status Filter -->
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Anlagenstatus</label>
+                            <select class="form-select" id="status" name="status">
+                                <option value="">Alle Status</option>
+                                {% for value, label in anlagenstatus_choices %}
+                                <option value="{{ value }}" {% if current_filters.status == value %}selected{% endif %}>
+                                    {{ label }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Liste Filter -->
+                        <div class="mb-3">
+                            <label for="liste" class="form-label">Liste</label>
+                            <select class="form-select" id="liste" name="liste">
+                                <option value="">Alle Listen</option>
+                                {% for liste in listen %}
+                                <option value="{{ liste.id }}" {% if current_filters.liste == liste.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ liste.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Sortierung -->
+                        <div class="mb-3">
+                            <label for="sort" class="form-label">Sortierung</label>
+                            <select class="form-select" id="sort" name="sort">
+                                <option value="-letzte_bearbeitung" {% if current_filters.sort == '-letzte_bearbeitung' %}selected{% endif %}>
+                                    Neueste zuerst
+                                </option>
+                                <option value="letzte_bearbeitung" {% if current_filters.sort == 'letzte_bearbeitung' %}selected{% endif %}>
+                                    Älteste zuerst
+                                </option>
+                                <option value="anlagenname" {% if current_filters.sort == 'anlagenname' %}selected{% endif %}>
+                                    Name A-Z
+                                </option>
+                                <option value="-anlagenname" {% if current_filters.sort == '-anlagenname' %}selected{% endif %}>
+                                    Name Z-A
+                                </option>
+                                <option value="prioritaet" {% if current_filters.sort == 'prioritaet' %}selected{% endif %}>
+                                    Priorität aufsteigend
+                                </option>
+                                <option value="-prioritaet" {% if current_filters.sort == '-prioritaet' %}selected{% endif %}>
+                                    Priorität absteigend
+                                </option>
+                                <option value="anlagenstatus" {% if current_filters.sort == 'anlagenstatus' %}selected{% endif %}>
+                                    Status A-Z
+                                </option>
+                                <option value="-anlagenstatus" {% if current_filters.sort == '-anlagenstatus' %}selected{% endif %}>
+                                    Status Z-A
+                                </option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-2">
+                            <i class="fas fa-search"></i> Filter anwenden
+                        </button>
+                        <a href="{% url 'dashboard:anlagen_verwaltung' %}" class="btn btn-outline-secondary w-100">
+                            <i class="fas fa-times"></i> Filter zurücksetzen
+                        </a>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Export -->
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0"><i class="fas fa-download"></i> Export</h6>
+                </div>
+                <div class="card-body">
+                    <a href="{% url 'dashboard:anlagen_export' %}?{{ request.GET.urlencode }}" class="btn btn-success w-100">
+                        <i class="fas fa-file-csv"></i> CSV Export
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hauptinhalt -->
+        <div class="col-md-9">
+            <!-- Statistiken -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card stats-card text-center">
+                        <div class="card-body">
+                            <h4>{{ stats.total }}</h4>
+                            <small>Gesamt</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-primary text-white text-center">
+                        <div class="card-body">
+                            <h4>{{ stats.neu }}</h4>
+                            <small>Neu</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-info text-white text-center">
+                        <div class="card-body">
+                            <h4>{{ stats.kontaktiert }}</h4>
+                            <small>Kontaktiert</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-success text-white text-center">
+                        <div class="card-body">
+                            <h4>{{ stats.abgeschlossen }}</h4>
+                            <small>Abgeschlossen</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anlagen-Tabelle -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list"></i> Anlagen ({{ anlagen.paginator.count }})
+                    </h5>
+                    <div>
+                        <span class="badge bg-secondary">{{ anlagen.number }}/{{ anlagen.paginator.num_pages }}</span>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Anlage</th>
+                                    <th>Liste</th>
+                                    <th>Priorität</th>
+                                    <th>Status</th>
+                                    <th>Letzte Bearbeitung</th>
+                                    <th>Aktionen</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for anlage in anlagen %}
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <strong>{{ anlage.anlagenname|truncatechars:50 }}</strong>
+                                            <br>
+                                            <small class="text-muted">
+                                                {{ anlage.energietraeger }} • {{ anlage.leistung|default:"-" }} kW
+                                            </small>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'dashboard:liste_detail' anlage.liste.id %}" class="text-decoration-none">
+                                            {{ anlage.liste.name }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="priority-badge {{ anlage.get_prioritaet_color }}">
+                                            {{ anlage.get_prioritaet_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge {{ anlage.get_status_color }}">
+                                            {{ anlage.get_anlagenstatus_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <small>{{ anlage.letzte_bearbeitung|date:"d.m.Y H:i" }}</small>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{% url 'dashboard:anlage_bearbeiten' anlage.id %}" 
+                                               class="btn btn-outline-primary" title="Bearbeiten">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split" 
+                                                    data-bs-toggle="dropdown">
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" href="#" 
+                                                       onclick="quickEditStatus({{ anlage.id }}, '{{ anlage.anlagenstatus }}')">
+                                                        <i class="fas fa-tag"></i> Status ändern
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#" 
+                                                       onclick="quickEditPrioritaet({{ anlage.id }}, '{{ anlage.prioritaet }}')">
+                                                        <i class="fas fa-flag"></i> Priorität ändern
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#" 
+                                                       onclick="quickEditNotiz({{ anlage.id }}, '{{ anlage.benutzer_notizen|escapejs }}')">
+                                                        <i class="fas fa-sticky-note"></i> Notiz bearbeiten
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-4">
+                                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                        <p class="text-muted">Keine Anlagen gefunden.</p>
+                                        <a href="{% url 'dashboard:data' %}" class="btn btn-primary">
+                                            <i class="fas fa-search"></i> Anlagen suchen
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paginierung -->
+            {% if anlagen.has_other_pages %}
+            <nav aria-label="Anlagen-Paginierung" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if anlagen.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ anlagen.previous_page_number }}&{{ request.GET.urlencode }}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in anlagen.paginator.page_range %}
+                        {% if anlagen.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% elif num > anlagen.number|add:'-3' and num < anlagen.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}&{{ request.GET.urlencode }}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if anlagen.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ anlagen.next_page_number }}&{{ request.GET.urlencode }}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Quick Edit Modals -->
+{% include 'dashboard/partials/quick_edit_modals.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Quick Edit Funktionen
+function quickEditStatus(anlageId, currentStatus) {
+    const statusOptions = {
+        'neu': 'Neu',
+        'kontaktiert': 'Kontaktiert', 
+        'in_bearbeitung': 'In Bearbeitung',
+        'angebot_versendet': 'Angebot versendet',
+        'verhandlungen': 'In Verhandlungen',
+        'abgeschlossen': 'Abgeschlossen',
+        'abgelehnt': 'Abgelehnt',
+        'archiviert': 'Archiviert'
+    };
+    
+    const newStatus = prompt('Status auswählen:\n' + Object.entries(statusOptions).map(([k,v]) => `${k}: ${v}`).join('\n'), currentStatus);
+    
+    if (newStatus && newStatus !== currentStatus && statusOptions[newStatus]) {
+        updateAnlageStatus(anlageId, newStatus);
+    }
+}
+
+function quickEditPrioritaet(anlageId, currentPrioritaet) {
+    const prioritaetOptions = {
+        'niedrig': 'Niedrig',
+        'mittel': 'Mittel',
+        'hoch': 'Hoch',
+        'kritisch': 'Kritisch'
+    };
+    
+    const newPrioritaet = prompt('Priorität auswählen:\n' + Object.entries(prioritaetOptions).map(([k,v]) => `${k}: ${v}`).join('\n'), currentPrioritaet);
+    
+    if (newPrioritaet && newPrioritaet !== currentPrioritaet && prioritaetOptions[newPrioritaet]) {
+        updateAnlagePrioritaet(anlageId, newPrioritaet);
+    }
+}
+
+function quickEditNotiz(anlageId, currentNotiz) {
+    const newNotiz = prompt('Notiz bearbeiten:', currentNotiz);
+    
+    if (newNotiz !== null) {
+        updateAnlageNotiz(anlageId, newNotiz);
+    }
+}
+
+function updateAnlageStatus(anlageId, status) {
+    fetch(`/anlage/${anlageId}/status-update/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: `status=${status}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Fehler beim Aktualisieren des Status: ' + data.error);
+        }
+    });
+}
+
+function updateAnlagePrioritaet(anlageId, prioritaet) {
+    fetch(`/anlage/${anlageId}/prioritaet-update/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: `prioritaet=${prioritaet}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Fehler beim Aktualisieren der Priorität: ' + data.error);
+        }
+    });
+}
+
+function updateAnlageNotiz(anlageId, notiz) {
+    fetch(`/anlage/${anlageId}/notiz-update/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: `notiz=${encodeURIComponent(notiz)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Fehler beim Aktualisieren der Notiz');
+        }
+    });
+}
+
+// Auto-submit Filter-Form bei Änderungen
+document.addEventListener('DOMContentLoaded', function() {
+    const filterForm = document.getElementById('filterForm');
+    const filterInputs = filterForm.querySelectorAll('select');
+    
+    filterInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            filterForm.submit();
+        });
+    });
+});
+</script>
+{% endblock %} 

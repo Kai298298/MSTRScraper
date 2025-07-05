@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Registrierung - MaStR Analytics{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Registrierung</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form.username|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.email|as_crispy_field }}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form.password1|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.password2|as_crispy_field }}
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="form-check">
+                                {{ form.datenschutz_akzeptiert }}
+                                <label class="form-check-label" for="{{ form.datenschutz_akzeptiert.id_for_label }}">
+                                    {{ form.datenschutz_akzeptiert.label }}
+                                </label>
+                                {% if form.datenschutz_akzeptiert.help_text %}
+                                    <small class="form-text text-muted">{{ form.datenschutz_akzeptiert.help_text }}</small>
+                                {% endif %}
+                                {% if form.datenschutz_akzeptiert.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.datenschutz_akzeptiert.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <h6>Datenschutzerklärung</h6>
+                            <p class="mb-2">Mit der Registrierung stimmen Sie zu, dass wir Ihre Daten gemäß unserer Datenschutzerklärung verarbeiten. 
+                            Wir verwenden Ihre Daten ausschließlich für die Bereitstellung unserer Dienstleistungen und zur Verbesserung unserer Angebote.</p>
+                            <small>
+                                <strong>Erhobene Daten:</strong> Benutzername, E-Mail-Adresse, Nutzungsdaten<br>
+                                <strong>Zweck:</strong> Bereitstellung der MaStR Analytics Plattform<br>
+                                <strong>Speicherdauer:</strong> Bis zur Löschung Ihres Kontos<br>
+                                <strong>Weitergabe:</strong> Keine Weitergabe an Dritte
+                            </small>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-user-plus me-2"></i>Registrierung abschließen
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="text-center">
+                        <p class="mb-0">Bereits registriert? <a href="{% url 'accounts:login' %}" class="text-decoration-none">Hier anmelden</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

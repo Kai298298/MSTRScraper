@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Impressum - MaStR Lead Generator{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Impressum</h1>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h2>Angaben gemäß § 5 TMG</h2>
+                    <p><strong>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</strong></p>
+                    <p>
+                        [Ihr Name]<br>
+                        [Ihre Straße und Hausnummer]<br>
+                        [PLZ und Ort]<br>
+                        Deutschland
+                    </p>
+                    
+                    <h3>Kontakt</h3>
+                    <p>
+                        Telefon: [Ihre Telefonnummer]<br>
+                        E-Mail: [Ihre E-Mail-Adresse]
+                    </p>
+                    
+                    <h3>Umsatzsteuer-ID</h3>
+                    <p>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br>
+                    [Ihre USt-IdNr.]</p>
+                    
+                    <h3>Verbraucherstreitbeilegung/Universalschlichtungsstelle</h3>
+                    <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+                    
+                    <h2>Haftung für Inhalte</h2>
+                    <p>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
+                    
+                    <h2>Urheberrecht</h2>
+                    <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
+                    
+                    <h2>Datenschutz</h2>
+                    <p>Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder E-Mail-Adressen) erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis.</p>
+                    
+                    <h2>Datenquellen</h2>
+                    <p>Diese Anwendung nutzt Daten aus dem Marktstammdatenregister (MaStR) der Bundesnetzagentur. Die Daten werden regelmäßig aktualisiert, können jedoch zeitliche Verzögerungen aufweisen.</p>
+                    
+                    <h2>Haftungsausschluss</h2>
+                    <p>Die Informationen auf dieser Website werden sorgfältig geprüft und regelmäßig aktualisiert. Dennoch kann keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität der bereitgestellten Informationen übernommen werden.</p>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{% url 'dashboard:home' %}" class="btn btn-primary">Zurück zur Startseite</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

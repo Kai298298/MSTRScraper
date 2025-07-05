@@ -1,0 +1,393 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Anlagenbetreiber - MaStR Lead-Generierung{% endblock %}
+
+{% block extra_css %}
+<!-- OpenLayers CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v8.2.0/ol.css">
+<style>
+    .betreiber-card {
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .betreiber-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    /* OpenLayers Karte Styling */
+    #anlagen-map {
+        height: 80vh;
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .ol-popup {
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #cccccc;
+        bottom: 12px;
+        left: -50px;
+        min-width: 280px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .ol-popup:after, .ol-popup:before {
+        top: 100%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+    
+    .ol-popup:after {
+        border-top-color: white;
+        border-width: 10px;
+        left: 48px;
+        margin-left: -10px;
+    }
+    
+    .ol-popup:before {
+        border-top-color: #cccccc;
+        border-width: 11px;
+        left: 48px;
+        margin-left: -11px;
+    }
+    
+    .ol-popup-closer {
+        text-decoration: none;
+        position: absolute;
+        top: 2px;
+        right: 8px;
+        color: #666;
+        font-size: 18px;
+    }
+    
+    .ol-popup-closer:after {
+        content: "✖";
+    }
+    
+    /* Responsive Verbesserungen */
+    @media (max-width: 768px) {
+        #anlagen-map {
+            height: 70vh;
+        }
+        .ol-popup {
+            max-width: 250px;
+            font-size: 14px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-0">
+                    <i class="fas fa-building text-primary"></i>
+                    Anlagenbetreiber
+                </h1>
+                <div class="d-flex align-items-center">
+                    <button type="button" class="btn btn-outline-info me-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMap" aria-controls="offcanvasMap">
+                        <i class="fas fa-map-marked-alt"></i> Auf Karte anzeigen
+                    </button>
+                    <span class="badge bg-info me-2">
+                        <i class="fas fa-chart-line"></i>
+                        {{ requests_remaining }} Anfragen verbleibend
+                    </span>
+                    {% if subscription %}
+                        <span class="badge bg-{{ subscription.plan.name|yesno:'success,warning' }}">
+                            {{ subscription.plan.display_name }}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    {% include 'partials/main_tabs.html' %}
+
+    <!-- Filter -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter text-primary"></i>
+                        Filter
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" id="filterForm">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="name" class="form-label">Betreibername</label>
+                                <input type="text" class="form-control" id="name" name="name" value="{{ request.GET.name }}" placeholder="Betreibername suchen...">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="bundesland" class="form-label">Bundesland</label>
+                                <select class="form-select" id="bundesland" name="bundesland">
+                                    <option value="">Alle Bundesländer</option>
+                                    <option value="Baden-Württemberg" {% if request.GET.bundesland == 'Baden-Württemberg' %}selected{% endif %}>Baden-Württemberg</option>
+                                    <option value="Bayern" {% if request.GET.bundesland == 'Bayern' %}selected{% endif %}>Bayern</option>
+                                    <option value="Berlin" {% if request.GET.bundesland == 'Berlin' %}selected{% endif %}>Berlin</option>
+                                    <option value="Brandenburg" {% if request.GET.bundesland == 'Brandenburg' %}selected{% endif %}>Brandenburg</option>
+                                    <option value="Bremen" {% if request.GET.bundesland == 'Bremen' %}selected{% endif %}>Bremen</option>
+                                    <option value="Hamburg" {% if request.GET.bundesland == 'Hamburg' %}selected{% endif %}>Hamburg</option>
+                                    <option value="Hessen" {% if request.GET.bundesland == 'Hessen' %}selected{% endif %}>Hessen</option>
+                                    <option value="Mecklenburg-Vorpommern" {% if request.GET.bundesland == 'Mecklenburg-Vorpommern' %}selected{% endif %}>Mecklenburg-Vorpommern</option>
+                                    <option value="Niedersachsen" {% if request.GET.bundesland == 'Niedersachsen' %}selected{% endif %}>Niedersachsen</option>
+                                    <option value="Nordrhein-Westfalen" {% if request.GET.bundesland == 'Nordrhein-Westfalen' %}selected{% endif %}>Nordrhein-Westfalen</option>
+                                    <option value="Rheinland-Pfalz" {% if request.GET.bundesland == 'Rheinland-Pfalz' %}selected{% endif %}>Rheinland-Pfalz</option>
+                                    <option value="Saarland" {% if request.GET.bundesland == 'Saarland' %}selected{% endif %}>Saarland</option>
+                                    <option value="Sachsen" {% if request.GET.bundesland == 'Sachsen' %}selected{% endif %}>Sachsen</option>
+                                    <option value="Sachsen-Anhalt" {% if request.GET.bundesland == 'Sachsen-Anhalt' %}selected{% endif %}>Sachsen-Anhalt</option>
+                                    <option value="Schleswig-Holstein" {% if request.GET.bundesland == 'Schleswig-Holstein' %}selected{% endif %}>Schleswig-Holstein</option>
+                                    <option value="Thüringen" {% if request.GET.bundesland == 'Thüringen' %}selected{% endif %}>Thüringen</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label for="anzahl_min" class="form-label">Min. Anlagen</label>
+                                <input type="number" class="form-control" id="anzahl_min" name="anzahl_min" value="{{ request.GET.anzahl_min }}" min="1">
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label for="anzahl_max" class="form-label">Max. Anlagen</label>
+                                <input type="number" class="form-control" id="anzahl_max" name="anzahl_max" value="{{ request.GET.anzahl_max }}" min="1">
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label for="leistung_min" class="form-label">Min. Leistung (MW)</label>
+                                <input type="number" class="form-control" id="leistung_min" name="leistung_min" value="{{ request.GET.leistung_min }}" min="0" step="0.1">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="leistung_max" class="form-label">Max. Leistung (MW)</label>
+                                <input type="number" class="form-control" id="leistung_max" name="leistung_max" value="{{ request.GET.leistung_max }}" min="0" step="0.1">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="energietraeger" class="form-label">Hauptenergieträger</label>
+                                <select class="form-select" id="energietraeger" name="energietraeger">
+                                    <option value="">Alle Energieträger</option>
+                                    <option value="Solare Strahlungsenergie" {% if request.GET.energietraeger == 'Solare Strahlungsenergie' %}selected{% endif %}>Solar</option>
+                                    <option value="Windenergie" {% if request.GET.energietraeger == 'Windenergie' %}selected{% endif %}>Wind</option>
+                                    <option value="Biomasse" {% if request.GET.energietraeger == 'Biomasse' %}selected{% endif %}>Biomasse</option>
+                                    <option value="Wasserkraft" {% if request.GET.energietraeger == 'Wasserkraft' %}selected{% endif %}>Wasserkraft</option>
+                                    <option value="Geothermie" {% if request.GET.energietraeger == 'Geothermie' %}selected{% endif %}>Geothermie</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3 d-flex align-items-end">
+                                <div class="d-flex gap-2 w-100">
+                                    <button type="submit" class="btn btn-primary flex-fill">
+                                        <i class="fas fa-search"></i> Suchen
+                                    </button>
+                                    <a href="{% url 'dashboard:betreiber' %}" class="btn btn-outline-secondary">
+                                        <i class="fas fa-times"></i> Zurücksetzen
+                                    </a>
+                                    {% if can_export %}
+                                        <button type="submit" name="export" value="csv" class="btn btn-success">
+                                            <i class="fas fa-download"></i> CSV
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ergebnisse -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list"></i>
+                        Betreiber ({{ page_obj.paginator.count }} gefunden)
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if page_obj %}
+                        <div class="row">
+                            {% for betreiber in page_obj %}
+                                <div class="col-md-6 col-lg-4 mb-4">
+                                    <div class="card betreiber-card h-100" onclick="window.location.href='{% url 'dashboard:betreiber_detail' betreiber.betreibernummer %}'">
+                                        <div class="card-body">
+                                            <h6 class="card-title text-primary">{{ betreiber.name|truncatechars:50 }}</h6>
+                                            <div class="row text-muted small mb-2">
+                                                <div class="col-6">
+                                                    <i class="fas fa-map-marker-alt"></i> {{ betreiber.bundesland|default:"-" }}
+                                                </div>
+                                                <div class="col-6">
+                                                    <i class="fas fa-solar-panel"></i> {{ betreiber.anzahl_anlagen }} Anlagen
+                                                </div>
+                                            </div>
+                                            <div class="row text-muted small mb-2">
+                                                <div class="col-6">
+                                                    <i class="fas fa-bolt"></i> {{ betreiber.gesamtleistung|floatformat:0|default:"0" }} MW
+                                                </div>
+                                                <div class="col-6">
+                                                    <i class="fas fa-leaf"></i> {{ betreiber.hauptenergietraeger|default:"-" }}
+                                                </div>
+                                            </div>
+                                            {% if betreiber.ort %}
+                                                <div class="text-muted small">
+                                                    <i class="fas fa-building"></i> {{ betreiber.ort }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="card-footer bg-transparent">
+                                            <small class="text-muted">
+                                                <i class="fas fa-eye"></i> Details anzeigen
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Pagination -->
+                        {% if page_obj.has_other_pages %}
+                            {% include 'partials/pagination.html' with page_obj=page_obj %}
+                        {% endif %}
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                            <h4 class="text-muted">Keine Betreiber gefunden</h4>
+                            <p class="text-muted">Versuchen Sie andere Suchkriterien.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Offcanvas für Karte -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMap" aria-labelledby="offcanvasMapLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasMapLabel"><i class="fas fa-map-marked-alt"></i> Betreiber auf Karte</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Schließen"></button>
+  </div>
+  <div class="offcanvas-body p-0">
+    <div id="anlagen-map">
+      <div class="map-container"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<!-- OpenLayers JS -->
+<script src="https://cdn.jsdelivr.net/npm/ol@v8.2.0/dist/ol.js"></script>
+<script>
+// OpenLayers Kartenintegration im Offcanvas
+let mapInstance = null;
+let popup = null;
+
+function initMap() {
+    const anlagen = JSON.parse('{{ anlagen_json|escapejs }}');
+    
+    if (mapInstance) {
+        mapInstance.setTarget(null);
+    }
+    
+    // Karte erstellen
+    mapInstance = new ol.Map({
+        target: 'anlagen-map',
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            })
+        ],
+        view: new ol.View({
+            center: ol.proj.fromLonLat([10.1, 51.3]), // Deutschland Zentrum
+            zoom: 6
+        }),
+        controls: ol.control.defaults().extend([
+            new ol.control.FullScreen(),
+            new ol.control.ScaleLine()
+        ])
+    });
+    
+    // Popup-Overlay erstellen
+    popup = new ol.Overlay({
+        element: document.createElement('div'),
+        positioning: 'bottom-center',
+        stopEvent: false
+    });
+    mapInstance.addOverlay(popup);
+    
+    // Marker hinzufügen
+    const features = [];
+    anlagen.forEach((anlage) => {
+        if (anlage.lat && anlage.lon) {
+            const feature = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat([anlage.lon, anlage.lat])),
+                name: anlage.name || 'Unbekannt',
+                ort: anlage.ort || '',
+                anzahl_anlagen: anlage.anzahl_anlagen || '',
+                gesamtleistung: anlage.gesamtleistung || ''
+            });
+            
+            // Marker-Style
+            feature.setStyle(new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 8,
+                    fill: new ol.style.Fill({
+                        color: '#28a745'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: '#ffffff',
+                        width: 2
+                    })
+                })
+            }));
+            
+            features.push(feature);
+        }
+    });
+    
+    // Vector Layer für Marker
+    const vectorLayer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: features
+        })
+    });
+    mapInstance.addLayer(vectorLayer);
+    
+    // Click-Event für Marker
+    mapInstance.on('click', function(evt) {
+        const feature = mapInstance.forEachFeatureAtPixel(evt.pixel, function(feature) {
+            return feature;
+        });
+        
+        if (feature) {
+            const coordinates = feature.getGeometry().getCoordinates();
+            const properties = feature.getProperties();
+            
+            const popupElement = popup.getElement();
+            popupElement.innerHTML = `
+                <div class="ol-popup">
+                    <a href="#" class="ol-popup-closer" id="popup-closer"></a>
+                    <div id="popup-content">
+                        <h6 style="margin: 0 0 8px 0; color: #333;">${properties.name}</h6>
+                        ${properties.ort ? `<p style="margin: 4px 0; color: #666;"><strong>Ort:</strong> ${properties.ort}</p>` : ''}
+                        ${properties.anzahl_anlagen ? `<p style="margin: 4px 0; color: #666;"><strong>Anlagen:</strong> ${properties.anzahl_anlagen}</p>` : ''}
+                        ${properties.gesamtleistung ? `<p style="margin: 4px 0; color: #666;"><strong>Leistung:</strong> ${properties.gesamtleistung} MW</p>`

@@ -1,0 +1,102 @@
+# MaStR Lead Generator - Production Requirements
+# Django und Core Dependencies
+
+# Django Framework
+Django>=5.2.0,<5.3.0
+django-crispy-forms>=2.1
+crispy-bootstrap5>=0.7
+djangorestframework>=3.14.0
+
+# Environment und Configuration
+python-decouple>=3.8
+django-environ>=0.11.2
+
+# Database (für Produktion)
+psycopg2-binary>=2.9.7  # PostgreSQL Support
+dj-database-url>=2.1.0  # Database URL Parser
+
+# Security und Authentication
+django-ratelimit>=4.1.0
+django-cors-headers>=4.3.1
+argon2-cffi>=23.1.0
+
+# Payment Processing
+stripe>=7.8.0
+
+# Image Processing
+Pillow>=10.1.0
+
+# HTTP Requests
+requests>=2.31.0
+httpx>=0.25.0
+
+# Data Processing
+pandas>=2.1.0
+numpy>=1.24.0
+
+# Caching
+redis>=5.0.0
+django-redis>=5.4.0
+
+# Email
+django-anymail>=10.2
+
+# Monitoring und Logging
+sentry-sdk[django]>=1.38.0
+
+# Production Server
+gunicorn>=21.2.0
+whitenoise>=6.6.0
+
+# Static Files
+django-storages>=1.14.2
+
+# Development Tools (optional für Produktion)
+# black>=23.11.0
+# flake8>=6.1.0
+# isort>=5.12.0
+
+# Testing (optional für Produktion)
+# pytest>=7.4.3
+# pytest-django>=4.7.0
+# pytest-cov>=4.1.0
+# factory-boy>=3.3.0
+# faker>=20.1.0
+
+# Selenium (optional für Produktion)
+# selenium>=4.15.2
+# webdriver-manager>=4.0.1
+# undetected-chromedriver>=3.5.4
+
+# Performance und Monitoring
+django-debug-toolbar>=4.2.0  # Nur für Development
+django-extensions>=3.2.3
+
+# File Upload
+django-cleanup>=8.1.0
+
+# API Documentation
+drf-yasg>=1.21.7
+
+# Background Tasks (optional)
+celery>=5.3.4
+django-celery-beat>=2.5.0
+django-celery-results>=2.5.1
+
+# Health Checks
+django-health-check>=3.17.0
+
+# Compression
+django-compressor>=4.4
+
+# Internationalization
+django-modeltranslation>=0.18.12
+
+# Search (optional)
+django-elasticsearch-dsl>=8.0
+
+# Backup
+django-dbbackup>=3.3.0
+
+# Maintenance Mode
+django-maintenance-mode>=0.17.0 

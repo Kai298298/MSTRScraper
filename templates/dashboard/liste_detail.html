@@ -1,0 +1,470 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ liste.name }} - Anlagenliste{% endblock %}
+
+{% block extra_css %}
+<!-- OpenLayers CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v8.2.0/ol.css">
+<style>
+    .priority-badge {
+        font-size: 0.8em;
+        padding: 0.25em 0.5em;
+    }
+    .status-badge {
+        font-size: 0.8em;
+    }
+    .quick-edit {
+        cursor: pointer;
+    }
+    .quick-edit:hover {
+        background-color: #e9ecef;
+    }
+    
+    /* Mapbox Karte Styling */
+    #anlagen-map {
+        height: 80vh;
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .ol-popup {
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #cccccc;
+        bottom: 12px;
+        left: -50px;
+        min-width: 280px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .ol-popup:after, .ol-popup:before {
+        top: 100%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+    
+    .ol-popup:after {
+        border-top-color: white;
+        border-width: 10px;
+        left: 48px;
+        margin-left: -10px;
+    }
+    
+    .ol-popup:before {
+        border-top-color: #cccccc;
+        border-width: 11px;
+        left: 48px;
+        margin-left: -11px;
+    }
+    
+    .ol-popup-closer {
+        text-decoration: none;
+        position: absolute;
+        top: 2px;
+        right: 8px;
+        color: #666;
+        font-size: 18px;
+    }
+    
+    .ol-popup-closer:after {
+        content: "✖";
+    }
+    
+    /* Responsive Verbesserungen */
+    @media (max-width: 768px) {
+        #anlagen-map {
+            height: 70vh;
+        }
+        .ol-popup {
+            max-width: 250px;
+            font-size: 14px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Tab Navigation -->
+    {% include 'partials/main_tabs.html' %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0">
+                        <i class="fas fa-list text-primary"></i>
+                        {{ liste.name }}
+                    </h1>
+                    {% if liste.beschreibung %}
+                        <p class="text-muted mb-0">{{ liste.beschreibung }}</p>
+                    {% endif %}
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="{% url 'dashboard:anlagen_listen' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Zurück zu Listen
+                    </a>
+                    <button type="button" class="btn btn-outline-info" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMap" aria-controls="offcanvasMap">
+                        <i class="fas fa-map-marked-alt"></i> Auf Karte anzeigen
+                    </button>
+                    <a href="{% url 'dashboard:liste_duplizieren' liste.id %}" class="btn btn-outline-primary">
+                        <i class="fas fa-copy"></i> Duplizieren
+                    </a>
+                    <a href="{% url 'dashboard:liste_loeschen' liste.id %}" class="btn btn-outline-danger">
+                        <i class="fas fa-trash"></i> Löschen
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-solar-panel"></i>
+                        Anlagen in dieser Liste ({{ anlagen.count }})
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if anlagen %}
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Anlagenname</th>
+                                        <th>Energieträger</th>
+                                        <th>Leistung</th>
+                                        <th>Bundesland</th>
+                                        <th>Ort</th>
+                                        <th>Priorität</th>
+                                        <th>Anlagenstatus</th>
+                                        <th>Betreiber</th>
+                                        <th>Inbetriebnahme</th>
+                                        <th>Benutzer-Notizen</th>
+                                        <th>Aktionen</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for anlage in anlagen %}
+                                        <tr>
+                                            <td><strong>{{ anlage.anlagenname|default:"-" }}</strong></td>
+                                            <td>{{ anlage.energietraeger|default:"-" }}</td>
+                                            <td>{% if anlage.leistung %}{{ anlage.leistung }} kW{% else %}-{% endif %}</td>
+                                            <td>{{ anlage.bundesland|default:"-" }}</td>
+                                            <td>{{ anlage.ort|default:"-" }}</td>
+                                            <td>
+                                                <span class="priority-badge {{ anlage.get_prioritaet_color }}">
+                                                    {{ anlage.get_prioritaet_display }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="status-badge {{ anlage.get_status_color }}">
+                                                    {{ anlage.get_anlagenstatus_display }}
+                                                </span>
+                                            </td>
+                                            <td>{{ anlage.betreiber|default:"-" }}</td>
+                                            <td>{{ anlage.inbetriebnahme|date:"d.m.Y"|default:"-" }}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <input type="text" 
+                                                           value="{{ anlage.benutzer_notizen }}" 
+                                                           class="form-control form-control-sm me-2" 
+                                                           style="min-width:120px;"
+                                                           onchange="updateNotiz({{ anlage.id }}, this.value)"
+                                                           placeholder="Notiz hinzufügen...">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="{% url 'dashboard:anlage_bearbeiten' anlage.id %}" 
+                                                       class="btn btn-outline-primary" title="Bearbeiten">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split" 
+                                                            data-bs-toggle="dropdown">
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a class="dropdown-item" href="#" 
+                                                               onclick="quickEditStatus({{ anlage.id }}, '{{ anlage.anlagenstatus }}')">
+                                                                <i class="fas fa-tag"></i> Status ändern
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="#" 
+                                                               onclick="quickEditPrioritaet({{ anlage.id }}, '{{ anlage.prioritaet }}')">
+                                                                <i class="fas fa-flag"></i> Priorität ändern
+                                                            </a>
+                                                        </li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li>
+                                                            <form method="post" action="{% url 'dashboard:liste_detail' liste.id %}" style="display:inline;">
+                                                                {% csrf_token %}
+                                                                <input type="hidden" name="anlage_id" value="{{ anlage.id }}">
+                                                                <button type="submit" name="action" value="entfernen" 
+                                                                        class="dropdown-item text-danger"
+                                                                        onclick="return confirm('Anlage wirklich aus der Liste entfernen?')">
+                                                                    <i class="fas fa-trash"></i> Aus Liste entfernen
+                                                                </button>
+                                                            </form>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item text-warning" href="#" data-bs-toggle="modal" data-bs-target="#feedbackModal{{ anlage.id }}">
+                                                                <i class="fas fa-exclamation-circle"></i> Feedback zu dieser Anlage
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- Feedback Modal -->
+                                        <div class="modal fade" id="feedbackModal{{ anlage.id }}" tabindex="-1" aria-labelledby="feedbackModalLabel{{ anlage.id }}" aria-hidden="true">
+                                          <div class="modal-dialog">
+                                            <div class="modal-content">
+                                              <form method="post" action="{% url 'dashboard:liste_detail' liste.id %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="action" value="feedback">
+                                                <input type="hidden" name="anlage_id" value="{{ anlage.id }}">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title" id="feedbackModalLabel{{ anlage.id }}">
+                                                    <i class="fas fa-exclamation-circle text-warning"></i> Feedback zu {{ anlage.anlagenname|truncatechars:40 }}
+                                                  </h5>
+                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  <div class="mb-3">
+                                                    <label for="feedback_typ_{{ anlage.id }}" class="form-label">Feedback-Typ</label>
+                                                    <select class="form-select" id="feedback_typ_{{ anlage.id }}" name="feedback_typ" required>
+                                                      <option value="daten_fehler">Datenfehler</option>
+                                                      <option value="veraltete_daten">Veraltete Daten</option>
+                                                      <option value="fehlende_daten">Fehlende Daten</option>
+                                                      <option value="falsche_zuordnung">Falsche Zuordnung</option>
+                                                      <option value="sonstiges">Sonstiges</option>
+                                                    </select>
+                                                  </div>
+                                                  <div class="mb-3">
+                                                    <label for="feedback_beschreibung_{{ anlage.id }}" class="form-label">Beschreibung</label>
+                                                    <textarea class="form-control" id="feedback_beschreibung_{{ anlage.id }}" name="feedback_beschreibung" rows="3" maxlength="1000" required placeholder="Beschreiben Sie das Problem..."></textarea>
+                                                  </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                                                  <button type="submit" class="btn btn-primary">Feedback absenden</button>
+                                                </div>
+                                              </form>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        {% if page_obj.has_other_pages %}
+                            {% include 'partials/pagination.html' with page_obj=page_obj %}
+                        {% endif %}
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <h4 class="text-muted">Liste ist leer</h4>
+                            <p class="text-muted">Fügen Sie Anlagen aus der Suche zu dieser Liste hinzu.</p>
+                            <a href="{% url 'dashboard:data' %}" class="btn btn-primary">
+                                <i class="fas fa-search"></i> Zur Suche
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Offcanvas für Karte -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMap" aria-labelledby="offcanvasMapLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasMapLabel"><i class="fas fa-map-marked-alt"></i> Anlagen auf Karte</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Schließen"></button>
+  </div>
+  <div class="offcanvas-body p-0">
+    <div id="anlagen-map">
+      <div class="map-container"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<!-- OpenLayers JS -->
+<script src="https://cdn.jsdelivr.net/npm/ol@v8.2.0/dist/ol.js"></script>
+<script>
+// Quick Edit Funktionen
+function quickEditStatus(anlageId, currentStatus) {
+    const statusOptions = {
+        'neu': 'Neu',
+        'kontaktiert': 'Kontaktiert', 
+        'in_bearbeitung': 'In Bearbeitung',
+        'angebot_versendet': 'Angebot versendet',
+        'verhandlungen': 'In Verhandlungen',
+        'abgeschlossen': 'Abgeschlossen',
+        'abgelehnt': 'Abgelehnt',
+        'archiviert': 'Archiviert'
+    };
+    
+    const newStatus = prompt('Status auswählen:\n' + Object.entries(statusOptions).map(([k,v]) => `${k}: ${v}`).join('\n'), currentStatus);
+    
+    if (newStatus && newStatus !== currentStatus && statusOptions[newStatus]) {
+        updateAnlageStatus(anlageId, newStatus);
+    }
+}
+
+function quickEditPrioritaet(anlageId, currentPrioritaet) {
+    const prioritaetOptions = {
+        'niedrig': 'Niedrig',
+        'mittel': 'Mittel',
+        'hoch': 'Hoch',
+        'kritisch': 'Kritisch'
+    };
+    
+    const newPrioritaet = prompt('Priorität auswählen:\n' + Object.entries(prioritaetOptions).map(([k,v]) => `${k}: ${v}`).join('\n'), currentPrioritaet);
+    
+    if (newPrioritaet && newPrioritaet !== currentPrioritaet && prioritaetOptions[newPrioritaet]) {
+        updateAnlagePrioritaet(anlageId, newPrioritaet);
+    }
+}
+
+function updateNotiz(anlageId, notiz) {
+    fetch(`/anlage/${anlageId}/notiz-update/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: `notiz=${encodeURIComponent(notiz)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Optional: Erfolgsmeldung anzeigen
+            console.log('Notiz aktualisiert');
+        } else {
+            alert('Fehler beim Aktualisieren der Notiz');
+        }
+    });
+}
+
+function updateAnlageStatus(anlageId, status) {
+    fetch(`/anlage/${anlageId}/status-update/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: `status=${status}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Fehler beim Aktualisieren des Status: ' + data.error);
+        }
+    });
+}
+
+function updateAnlagePrioritaet(anlageId, prioritaet) {
+    fetch(`/anlage/${anlageId}/prioritaet-update/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: `prioritaet=${prioritaet}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Fehler beim Aktualisieren der Priorität: ' + data.error);
+        }
+    });
+}
+
+// OpenLayers Kartenintegration im Offcanvas
+let mapInstance = null;
+let popup = null;
+function initMap() {
+    const anlagen = JSON.parse('{{ anlagen_json|escapejs }}');
+    if (mapInstance) { mapInstance.setTarget(null); }
+    mapInstance = new ol.Map({
+        target: 'anlagen-map',
+        layers: [ new ol.layer.Tile({ source: new ol.source.OSM() }) ],
+        view: new ol.View({ center: ol.proj.fromLonLat([10.1, 51.3]), zoom: 6 }),
+        controls: ol.control.defaults().extend([ new ol.control.FullScreen(), new ol.control.ScaleLine() ])
+    });
+    popup = new ol.Overlay({ element: document.createElement('div'), positioning: 'bottom-center', stopEvent: false });
+    mapInstance.addOverlay(popup);
+    const features = [];
+    anlagen.forEach((anlage) => {
+        if (anlage.lat && anlage.lon) {
+            const feature = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat([anlage.lon, anlage.lat])),
+                name: anlage.name || 'Unbekannt',
+                ort: anlage.ort || '',
+                plz: anlage.plz || '',
+                energietraeger: anlage.energietraeger || '',
+                leistung: anlage.leistung || ''
+            });
+            feature.setStyle(new ol.style.Style({
+                image: new ol.style.Circle({ radius: 8, fill: new ol.style.Fill({ color: '#007bff' }), stroke: new ol.style.Stroke({ color: '#fff', width: 2 }) })
+            }));
+            features.push(feature);
+        }
+    });
+    const vectorLayer = new ol.layer.Vector({ source: new ol.source.Vector({ features: features }) });
+    mapInstance.addLayer(vectorLayer);
+    mapInstance.on('click', function(evt) {
+        const feature = mapInstance.forEachFeatureAtPixel(evt.pixel, function(feature) { return feature; });
+        if (feature) {
+            const coordinates = feature.getGeometry().getCoordinates();
+            const properties = feature.getProperties();
+            const popupElement = popup.getElement();
+            popupElement.innerHTML = `
+                <div class="ol-popup">
+                    <a href="#" class="ol-popup-closer" id="popup-closer"></a>
+                    <div id="popup-content">
+                        <h6 style="margin: 0 0 8px 0; color: #333;">${properties.name}</h6>
+                        ${properties.ort ? `<p style=\"margin: 4px 0; color: #666;\"><strong>Ort:</strong> ${properties.ort}</p>` : ''}
+                        ${properties.plz ? `<p style=\"margin: 4px 0; color: #666;\"><strong>PLZ:</strong> ${properties.plz}</p>` : ''}
+                        ${properties.energietraeger ? `<p style=\"margin: 4px 0; color: #666;\"><strong>Energieträger:</strong> ${properties.energietraeger}</p>` : ''}
+                        ${properties.leistung ? `<p style=\"margin: 4px 0; color: #666;\"><strong>Leistung:</strong> ${properties.leistung} kW</p>` : ''}
+                    </div>
+                </div>
+            `;
+            popup.setPosition(coordinates);
+            document.getElementById('popup-closer').onclick = function() { popup.setPosition(undefined); return false; };
+        }
+    });
+    if (features.length > 0) {
+        const extent = vectorLayer.getSource().getExtent();
+        mapInstance.getView().fit(extent, { padding: [50, 50, 50, 50], duration: 1000 });
+    }
+}
+
+document.getElementById('offcanvasMap').addEventListener('shown.bs.offcanvas', function () { setTimeout(initMap, 200); });
+</script>
+{% endblock %} 
