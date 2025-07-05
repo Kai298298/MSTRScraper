@@ -21,23 +21,23 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '@*q(-up3f(d&rvc4s4it3%l04rnm@05b_^6n@
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 # CSRF-Schutz
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'https://localhost').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost').split(',')
 
-# SSL/HTTPS-Einstellungen
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 31536000  # 1 Jahr
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+# SSL/HTTPS-Einstellungen (deaktiviert für Coolify-Kompatibilität)
+SECURE_SSL_REDIRECT = False  # Coolify übernimmt SSL
+SECURE_HSTS_SECONDS = 0  # Deaktiviert
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_FRAME_DENY = True
 X_FRAME_OPTIONS = 'DENY'
 
-# Cookie-Sicherheit
-SESSION_COOKIE_SECURE = True
+# Cookie-Sicherheit (angepasst für Coolify)
+SESSION_COOKIE_SECURE = False  # Coolify übernimmt HTTPS
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False  # Coolify übernimmt HTTPS
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Lax'
 
@@ -51,7 +51,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'your-email-password
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@mastr-leads.de')
 
 # Site URL für E-Mail-Verifikation
-SITE_URL = os.environ.get('SITE_URL', 'https://localhost')
+SITE_URL = os.environ.get('SITE_URL', 'http://localhost')
 
 # Logging für Produktion
 LOGGING = {
@@ -137,10 +137,10 @@ else:
         }
     }
 
-# Sicherheits-Header
-SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = 'require-corp'
-SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
-SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+# Sicherheits-Header (angepasst für Coolify)
+SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = None  # Deaktiviert
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None  # Deaktiviert
+SECURE_REFERRER_POLICY = None  # Deaktiviert
 
 # Session-Sicherheit
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -159,4 +159,4 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
 # Create logs directory
 os.makedirs(BASE_DIR / 'logs', exist_ok=True) 
 
-print("✅ Produktions-Settings geladen - DEBUG = False, SSL aktiviert") 
+print("✅ Produktions-Settings geladen - DEBUG = False, SSL deaktiviert für Coolify") 

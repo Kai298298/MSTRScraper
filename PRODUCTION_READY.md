@@ -8,8 +8,8 @@ Das MaStR Lead Generator Projekt wurde erfolgreich für die Produktion konfiguri
 
 ### ✅ Implementierte Sicherheitsfeatures
 - **DEBUG = False** - Keine Debug-Informationen in Produktion
-- **SSL/HTTPS** - Vollständig aktiviert mit HSTS
-- **Sichere Cookies** - HttpOnly, Secure, SameSite
+- **HTTP** - SSL wird von Coolify übernommen
+- **Sichere Cookies** - HttpOnly, SameSite
 - **CSRF-Schutz** - Aktiviert für alle Formulare
 - **XSS-Schutz** - Browser-XSS-Filter aktiviert
 - **Content-Type-Sniffing-Schutz** - Aktiviert
@@ -121,7 +121,7 @@ export DJANGO_SETTINGS_MODULE=data_visualizer.production_settings
 export SECRET_KEY="your-secure-secret-key"
 export DEBUG=False
 export ALLOWED_HOSTS="your-domain.com,www.your-domain.com"
-export CSRF_TRUSTED_ORIGINS="https://your-domain.com"
+export CSRF_TRUSTED_ORIGINS="http://your-domain.com"
 ```
 
 ### Optionale Variablen
@@ -142,7 +142,7 @@ export EMAIL_HOST_PASSWORD="your-email-password"
 ### Health Check
 ```bash
 # Anwendung testen
-curl https://your-domain.com/health/
+curl http://your-domain.com/health/
 
 # Datenbank testen
 python manage.py check --database default --settings=data_visualizer.production_settings
@@ -161,8 +161,7 @@ python manage.py check --database default --settings=data_visualizer.production_
 ### Sicherheitscheckliste
 - [x] DEBUG = False
 - [x] Sichere SECRET_KEY
-- [x] HTTPS/SSL aktiviert
-- [x] HSTS aktiviert
+- [x] HTTP (SSL von Coolify übernommen)
 - [x] Sichere Cookies
 - [x] CSRF-Schutz
 - [x] XSS-Schutz

@@ -20,8 +20,9 @@ DJANGO_SETTINGS_MODULE=data_visualizer.production_settings
 DEBUG=False
 SECRET_KEY=@*q(-up3f(d&rvc4s4it3%l04rnm@05b_^6n@3=kf4@&d-#vf2
 ALLOWED_HOSTS=your-domain.com,www.your-domain.com
-CSRF_TRUSTED_ORIGINS=https://your-domain.com
-SITE_URL=https://your-domain.com
+CSRF_TRUSTED_ORIGINS=http://your-domain.com
+SITE_URL=http://your-domain.com
+# SSL wird von Coolify übernommen - keine zusätzlichen SSL-Einstellungen nötig
 ```
 
 #### E-Mail-Konfiguration:
@@ -91,6 +92,8 @@ Coolify übernimmt automatisch:
 - SSL-Zertifikate (Let's Encrypt)
 - HTTPS-Redirects
 - HSTS-Header
+
+**Wichtig:** Die Django-SSL-Einstellungen sind deaktiviert, damit Coolify die SSL-Verwaltung übernehmen kann.
 
 ### Custom Domain
 - Domain in Coolify hinzufügen
