@@ -4319,3 +4319,4 @@ INFO 2025-07-05 19:16:08,985 autoreload 17369 8209315904 /Users/kairitter/Librar
 INFO 2025-07-05 19:16:09,792 autoreload 17390 8209315904 Watching for file changes with StatReloader
 INFO 2025-07-05 19:16:13,177 autoreload 17390 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
 INFO 2025-07-05 19:16:14,125 autoreload 17394 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 19:24:03,087 basehttp 17394 6158331904 "HEAD /health/ HTTP/1.1" 301 0
