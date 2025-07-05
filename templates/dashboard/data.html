@@ -941,7 +941,7 @@ function saveSelectedAnlagen() {
         return;
     }
 
-    fetch('{% url "dashboard:anlagen_speichern" %}', {
+    fetch('{% url "dashboard:anlage_speichern" %}', {
         method: 'POST',
         headers: {
             'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
