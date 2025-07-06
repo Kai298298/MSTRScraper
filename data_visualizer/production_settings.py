@@ -7,6 +7,8 @@ import os
 from pathlib import Path
 from decouple import config
 from .settings import *
+import logging
+logging.basicConfig(level=logging.INFO)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +31,7 @@ if allowed_hosts_env:
 else:
     ALLOWED_HOSTS = DEFAULT_ALLOWED_HOSTS
 
-print(f"[DEBUG] ALLOWED_HOSTS verwendet: {ALLOWED_HOSTS}")
+logging.info(f"[DEBUG] ALLOWED_HOSTS verwendet: {ALLOWED_HOSTS}")
 
 # CSRF-Schutz
 CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost').split(',')
@@ -174,4 +176,4 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
 # Create logs directory
 os.makedirs(BASE_DIR / 'logs', exist_ok=True) 
 
-print("✅ Produktions-Settings geladen - DEBUG = False, SSL deaktiviert für Coolify") 
+logging.info("✅ Produktions-Settings geladen - DEBUG = False, SSL deaktiviert für Coolify") 
