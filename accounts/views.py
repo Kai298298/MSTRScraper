@@ -23,8 +23,8 @@ def register(request):
             user.is_active = False  # Benutzer ist inaktiv bis E-Mail verifiziert
             user.save()
             
-            # UserProfile erstellen
-            profile = UserProfile.objects.create(user=user)
+            # UserProfile wird automatisch durch Signal erstellt
+            profile = user.profile
             
             # Verifikations-E-Mail senden
             if profile.send_verification_email():
@@ -149,7 +149,7 @@ def login_view(request):
             else:
                 messages.error(request, "Ungültige Anmeldedaten.")
         else:
-            messages.error(request, "Bitte korrigieren Sie die Fehler unten.")
+            messages.error(request, "Benutzername oder Passwort ist falsch.")
     else:
         form = CustomAuthenticationForm()
 
