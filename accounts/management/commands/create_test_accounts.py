@@ -4,14 +4,13 @@ Management-Command zum Erstellen von Test-Accounts für E2E-Tests
 
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
-from django.utils import timezone
-from datetime import timedelta
-from subscriptions.models import SubscriptionPlan, UserSubscription
 from accounts.models import UserProfile
+from subscriptions.models import SubscriptionPlan, UserSubscription
+from django.db import transaction
 
 
 class Command(BaseCommand):
-    help = 'Erstellt Test-Accounts für E2E-Tests'
+    help = 'Erstellt Test-Accounts mit verschiedenen Benutzerrechten (Basic, Premium, Admin)'
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -21,7 +20,10 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        self.stdout.write("🧪 Erstelle Test-Accounts für E2E-Tests...")
+        force = options['force']
+        
+        # Stelle sicher, dass alle Subscription-Pläne existieren
+        self.ensure_subscription_plans()
         
         # Test-Accounts definieren
         test_accounts = [
@@ -31,9 +33,19 @@ class Command(BaseCommand):
                 'password': 'testpass123',
                 'first_name': 'Test',
                 'last_name': 'User',
+                'plan': 'basic',
                 'is_staff': False,
-                'is_superuser': False,
-                'subscription_type': 'premium'
+                'is_superuser': False
+            },
+            {
+                'username': 'premiumuser',
+                'email': 'premiumuser@example.com',
+                'password': 'premiumpass123',
+                'first_name': 'Premium',
+                'last_name': 'User',
+                'plan': 'premium',
+                'is_staff': False,
+                'is_superuser': False
             },
             {
                 'username': 'admin',
@@ -41,142 +53,121 @@ class Command(BaseCommand):
                 'password': 'adminpass123',
                 'first_name': 'Admin',
                 'last_name': 'User',
+                'plan': 'premium',  # Admin bekommt Premium-Rechte
                 'is_staff': True,
-                'is_superuser': True,
-                'subscription_type': 'premium'
-            },
-            {
-                'username': 'basicuser',
-                'email': 'basicuser@example.com',
-                'password': 'basicpass123',
-                'first_name': 'Basic',
-                'last_name': 'User',
-                'is_staff': False,
-                'is_superuser': False,
-                'subscription_type': 'basic'
+                'is_superuser': True
             }
         ]
-        
-        # Premium-Plan erstellen falls nicht vorhanden
-        premium_plan, created = SubscriptionPlan.objects.get_or_create(
-            name='premium',
-            defaults={
-                'display_name': 'Premium',
-                'description': 'Unbegrenzte Anfragen, Export, Analytics',
-                'price': 99.99,
-                'requests_per_day': 1000,
-                'max_filters': 50,
-                'can_export': True,
-                'can_share': True
-            }
-        )
-        
-        basic_plan, created = SubscriptionPlan.objects.get_or_create(
-            name='basic',
-            defaults={
-                'display_name': 'Basic',
-                'description': 'Erweiterte Funktionen',
-                'price': 49.99,
-                'requests_per_day': 100,
-                'max_filters': 10,
-                'can_export': True,
-                'can_share': False
-            }
-        )
-        
-        free_plan, created = SubscriptionPlan.objects.get_or_create(
-            name='free',
-            defaults={
-                'display_name': 'Kostenlos',
-                'description': 'Basis-Funktionen',
-                'price': 0.00,
-                'requests_per_day': 10,
-                'max_filters': 3,
-                'can_export': False,
-                'can_share': False
-            }
-        )
         
         created_count = 0
         updated_count = 0
         
         for account_data in test_accounts:
             username = account_data['username']
+            plan_name = account_data['plan']
             
-            # Prüfe ob User bereits existiert
-            user, created = User.objects.get_or_create(
-                username=username,
-                defaults={
-                    'email': account_data['email'],
-                    'first_name': account_data['first_name'],
-                    'last_name': account_data['last_name'],
-                    'is_staff': account_data['is_staff'],
-                    'is_superuser': account_data['is_superuser'],
-                    'is_active': True
-                }
-            )
-            
-            if created:
-                # Passwort setzen
-                user.set_password(account_data['password'])
-                user.save()
-                
-                # UserProfile erstellen
-                profile, profile_created = UserProfile.objects.get_or_create(
-                    user=user,
-                    defaults={
-                        'company_name': f"{account_data['first_name']} {account_data['last_name']} GmbH",
-                        'city': 'Berlin',
-                        'phone': '+49 30 12345678'
-                    }
-                )
-                
-                # Subscription erstellen
-                if account_data['subscription_type'] == 'premium':
-                    plan = premium_plan
-                else:
-                    plan = basic_plan
+            try:
+                with transaction.atomic():
+                    # Prüfe ob User bereits existiert
+                    user, created = User.objects.get_or_create(
+                        username=username,
+                        defaults={
+                            'email': account_data['email'],
+                            'first_name': account_data['first_name'],
+                            'last_name': account_data['last_name'],
+                            'is_staff': account_data['is_staff'],
+                            'is_superuser': account_data['is_superuser']
+                        }
+                    )
                     
-                subscription, sub_created = UserSubscription.objects.get_or_create(
-                    user=user,
-                    defaults={
-                        'plan': plan,
-                        'start_date': timezone.now(),
-                        'end_date': timezone.now() + timedelta(days=365),
-                        'is_active': True
-                    }
+                    if created:
+                        # Setze Passwort für neuen User
+                        user.set_password(account_data['password'])
+                        user.save()
+                        
+                        # Erstelle UserProfile (überschreibt falls vorhanden)
+                        UserProfile.objects.filter(user=user).delete()
+                        UserProfile.objects.create(user=user)
+                        
+                        # Erstelle Subscription
+                        plan = SubscriptionPlan.objects.get(name=plan_name)
+                        subscription = UserSubscription.objects.create(
+                            user=user,
+                            plan=plan
+                        )
+                        
+                        # Für Premium-User: Starte Trial
+                        if plan_name == 'premium':
+                            subscription.start_premium_trial()
+                        
+                        created_count += 1
+                        self.stdout.write(
+                            self.style.SUCCESS(f'✅ Test-Account "{username}" ({plan_name}) erstellt')
+                        )
+                        
+                    elif force:
+                        # Update bestehenden User
+                        user.email = account_data['email']
+                        user.first_name = account_data['first_name']
+                        user.last_name = account_data['last_name']
+                        user.is_staff = account_data['is_staff']
+                        user.is_superuser = account_data['is_superuser']
+                        user.set_password(account_data['password'])
+                        user.save()
+                        
+                        # Update oder erstelle UserProfile
+                        profile, profile_created = UserProfile.objects.get_or_create(user=user)
+                        
+                        # Update oder erstelle Subscription
+                        plan = SubscriptionPlan.objects.get(name=plan_name)
+                        subscription, sub_created = UserSubscription.objects.get_or_create(
+                            user=user,
+                            defaults={'plan': plan}
+                        )
+                        
+                        if not sub_created:
+                            subscription.plan = plan
+                            subscription.save()
+                        
+                        # Für Premium-User: Starte Trial
+                        if plan_name == 'premium':
+                            subscription.start_premium_trial()
+                        
+                        updated_count += 1
+                        self.stdout.write(
+                            self.style.WARNING(f'🔄 Test-Account "{username}" ({plan_name}) aktualisiert')
+                        )
+                    else:
+                        self.stdout.write(
+                            self.style.WARNING(f'⚠️ Test-Account "{username}" existiert bereits (--force zum Überschreiben)')
+                        )
+                        
+            except Exception as e:
+                self.stdout.write(
+                    self.style.ERROR(f'❌ Fehler beim Erstellen von "{username}": {str(e)}')
                 )
-                
-                created_count += 1
-                self.stdout.write(f"✅ Test-Account erstellt: {username}")
-                
-            elif options['force']:
-                # User existiert bereits, aber --force wurde verwendet
-                user.email = account_data['email']
-                user.first_name = account_data['first_name']
-                user.last_name = account_data['last_name']
-                user.is_staff = account_data['is_staff']
-                user.is_superuser = account_data['is_superuser']
-                user.set_password(account_data['password'])
-                user.save()
-                
-                updated_count += 1
-                self.stdout.write(f"🔄 Test-Account aktualisiert: {username}")
-            else:
-                self.stdout.write(f"⚠️ Test-Account existiert bereits: {username}")
         
-        self.stdout.write(f"\n📊 Zusammenfassung:")
-        self.stdout.write(f"   ✅ Erstellt: {created_count}")
-        self.stdout.write(f"   🔄 Aktualisiert: {updated_count}")
-        self.stdout.write(f"   📋 Gesamt: {created_count + updated_count}")
+        # Zusammenfassung
+        self.stdout.write('\n' + '='*50)
+        self.stdout.write('📊 ZUSAMMENFASSUNG:')
+        self.stdout.write(f'✅ {created_count} neue Test-Accounts erstellt')
+        self.stdout.write(f'🔄 {updated_count} Test-Accounts aktualisiert')
+        self.stdout.write('\n🔑 ANMELDEDATEN:')
+        self.stdout.write('Basic-User: testuser / testpass123')
+        self.stdout.write('Premium-User: premiumuser / premiumpass123')
+        self.stdout.write('Admin-User: admin / adminpass123')
+        self.stdout.write('\n💡 Verwendung:')
+        self.stdout.write('python manage.py create_test_accounts --force  # Überschreibt bestehende Accounts')
+        self.stdout.write('='*50)
         
-        self.stdout.write(f"\n🔑 Test-Accounts:")
-        self.stdout.write(f"   👤 testuser / testpass123 (Premium)")
-        self.stdout.write(f"   👑 admin / adminpass123 (Admin)")
-        self.stdout.write(f"   👤 basicuser / basicpass123 (Basic)")
-        
-        self.stdout.write(f"\n💡 Verwendung:")
-        self.stdout.write(f"   python manage.py create_test_accounts --force")
-        self.stdout.write(f"   python tests/e2e_test_app.py")
-        
-        self.stdout.write(self.style.SUCCESS("✅ Test-Accounts erfolgreich erstellt!")) 
+    def ensure_subscription_plans(self):
+        """Stellt sicher, dass alle Subscription-Pläne existieren"""
+        try:
+            # Führe das set_premium Command aus
+            from django.core.management import call_command
+            call_command('set_premium', verbosity=0)
+            self.stdout.write('✅ Subscription-Pläne sichergestellt')
+        except Exception as e:
+            self.stdout.write(
+                self.style.WARNING(f'⚠️ Fehler beim Erstellen der Subscription-Pläne: {str(e)}')
+            ) 
