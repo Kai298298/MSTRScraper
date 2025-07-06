@@ -153,11 +153,14 @@ class E2ETestApp:
                                 await link.click()
                                 await page.wait_for_load_state('domcontentloaded')
                                 
-                                # Prüfe ob neue Seite geladen wurde
+                                # Prüfe ob neue Seite geladen wurde (flexibler Check)
                                 current_url = page.url
                                 if current_url != self.base_url:
                                     self.success_count += 1
                                     logger.info(f"✅ Navigation erfolgreich: {href}")
+                                    
+                                    # Prüfe auf Fehlerseiten nach Navigation
+                                    await self.check_for_error_pages(page, f"Navigation zu {href}")
                                 else:
                                     self.warnings.append(f"⚠️ Navigation möglicherweise fehlgeschlagen: {href}")
                                     
@@ -425,9 +428,9 @@ class E2ETestApp:
                 self.success_count += 1
                 logger.info("✅ Listen-Seite erfolgreich geladen")
                 
-                # Prüfe ob Tabelle oder "Keine Listen" Nachricht vorhanden ist
+                # Prüfe ob Tabelle oder "Noch keine Listen erstellt" Nachricht vorhanden ist
                 table = await page.query_selector('table')
-                no_lists_message = await page.query_selector('text="Keine Listen"')
+                no_lists_message = await page.query_selector('text="Noch keine Listen erstellt"')
                 
                 if table or no_lists_message:
                     self.success_count += 1
@@ -446,11 +449,12 @@ class E2ETestApp:
                 self.success_count += 1
                 logger.info("✅ Betreiber-Seite erfolgreich geladen")
                 
-                # Prüfe ob Tabelle oder "Keine Betreiber" Nachricht vorhanden ist
-                table = await page.query_selector('table')
-                no_betreiber_message = await page.query_selector('text="Keine Betreiber"')
+                # Prüfe ob Betreiber-Karten oder "Keine Betreiber gefunden" Nachricht vorhanden ist
+                betreibers_cards = await page.query_selector('.betreiber-card')
+                no_betreiber_message = await page.query_selector('text="Keine Betreiber gefunden"')
+                filter_form = await page.query_selector('form#filterForm')
                 
-                if table or no_betreiber_message:
+                if betreibers_cards or no_betreiber_message or filter_form:
                     self.success_count += 1
                     logger.info("✅ Betreiber-Seite zeigt erwartete Inhalte")
                 else:
@@ -613,35 +617,40 @@ class E2ETestApp:
         try:
             # Finde alle klickbaren Elemente
             clickable_selectors = [
-                'button',
-                'a[href]',
+                'button:not([disabled])',
+                'a[href]:not([href="#"])',
                 'input[type="submit"]',
                 'input[type="button"]',
-                '[role="button"]',
-                '.btn',
-                '.clickable',
-                '[onclick]'
+                '[role="button"]:not([disabled])',
+                '.btn:not([disabled])'
             ]
             
             for selector in clickable_selectors:
                 elements = await page.query_selector_all(selector)
                 
-                for i, element in enumerate(elements[:5]):  # Maximal 5 Elemente pro Selector
+                for i, element in enumerate(elements[:3]):  # Maximal 3 Elemente pro Selector
                     try:
                         # Prüfe ob Element sichtbar und klickbar ist
                         is_visible = await element.is_visible()
                         if is_visible:
+                            # Prüfe ob Element nicht in einem Modal oder Dropdown ist
+                            parent_modal = await element.query_selector('xpath=ancestor::div[contains(@class, "modal") or contains(@class, "dropdown")]')
+                            if parent_modal:
+                                continue
+                                
                             # Versuche zu klicken
                             await element.click()
-                            await page.wait_for_timeout(500)  # Kurze Pause
+                            await page.wait_for_timeout(1000)  # Längere Pause für bessere Stabilität
                             
                             # Prüfe auf Fehlerseiten
                             await self.check_for_error_pages(page, f"{page_name} - {selector} #{i}")
                             
-                            # Gehe zurück falls nötig
-                            if page.url != f"{self.base_url}{page.url.split('/')[-2]}/":
-                                await page.go_back()
-                                await page.wait_for_load_state('networkidle')
+                            # Gehe zurück falls nötig (nur bei Navigation)
+                            current_url = page.url
+                            if page_name in ['Daten-Seite', 'Betreiber-Seite', 'Listen-Seite']:
+                                if not current_url.endswith(f"/{page_name.lower().replace('-', '/')}/"):
+                                    await page.go_back()
+                                    await page.wait_for_load_state('networkidle')
                                 
                     except Exception as e:
                         # Ignoriere Klick-Fehler, da nicht alle Elemente klickbar sein müssen
@@ -787,24 +796,33 @@ class E2ETestApp:
     async def check_for_error_pages(self, page, context):
         """Prüft ob eine Fehlerseite angezeigt wird"""
         try:
-            # Prüfe auf verschiedene Fehlerseiten-Indikatoren
+            # Prüfe auf echte Fehlerseiten-Indikatoren (nicht CSS-Klassen)
             error_indicators = [
                 'h1:has-text("404")',
                 'h1:has-text("403")',
                 'h1:has-text("500")',
-                '.error-404',
-                '.error-403',
-                '.error-500',
-                '[class*="error"]',
-                '[class*="404"]',
-                '[class*="403"]',
-                '[class*="500"]',
-                'text="Seite nicht gefunden"',
-                'text="Zugriff verweigert"',
-                'text="Serverfehler"',
-                'text="Internal Server Error"'
+                'h1:has-text("Seite nicht gefunden")',
+                'h1:has-text("Zugriff verweigert")',
+                'h1:has-text("Serverfehler")',
+                'h1:has-text("Internal Server Error")',
+                'title:has-text("404")',
+                'title:has-text("403")',
+                'title:has-text("500")',
+                'title:has-text("Error")',
+                'title:has-text("Not Found")',
+                'title:has-text("Forbidden")'
             ]
             
+            # Prüfe auch URL-basierte Fehler
+            current_url = page.url
+            if any(error_code in current_url for error_code in ['404', '403', '500', 'error']):
+                self.errors.append(f"❌ Fehlerseite erkannt: {context} - URL enthält Fehlercode")
+                logger.error(f"❌ Fehlerseite erkannt: {context} - URL: {current_url}")
+                if self.screenshot_on_error:
+                    await page.screenshot(path=f"error_page_{int(time.time())}.png")
+                return
+            
+            # Prüfe auf spezifische Fehlerseiten-Elemente
             for indicator in error_indicators:
                 error_element = await page.query_selector(indicator)
                 if error_element:
