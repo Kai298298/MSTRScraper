@@ -118,3 +118,10 @@ WARNING 2025-06-27 21:21:51,578 log 5070 6247526400 Forbidden (CSRF token missin
 WARNING 2025-06-27 21:21:54,623 log 5070 6247526400 Forbidden (CSRF token missing.): /track-event/
 WARNING 2025-06-27 21:39:58,558 log 5070 6180220928 Forbidden (CSRF token missing.): /track-event/
 WARNING 2025-06-27 21:40:01,604 log 5070 6180220928 Forbidden (CSRF token missing.): /track-event/
+WARNING 2025-07-05 19:36:01,157 log 25116 6166622208 Forbidden (CSRF cookie not set.): /accounts/login/
+WARNING 2025-07-05 19:36:16,040 base 25116 6166622208 Session data corrupted
+WARNING 2025-07-05 19:37:33,688 log 25116 6305132544 Forbidden (CSRF token missing.): /data/
+WARNING 2025-07-05 19:38:15,100 log 28655 6162427904 Forbidden (CSRF token missing.): /accounts/login/
+WARNING 2025-07-05 19:39:14,561 log 31324 6125252608 Forbidden (CSRF token missing.): /accounts/login/
+WARNING 2025-07-05 19:49:32,863 log 34327 6163001344 Forbidden (CSRF token missing.): /accounts/login/
+WARNING 2025-07-06 01:27:14,146 log 55867 6203207680 Forbidden (CSRF token missing.): /accounts/login/

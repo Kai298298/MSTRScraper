@@ -3,11 +3,15 @@
 
 {% block title %}Anlagen-Listen{% endblock %}
 
+{% block extra_head %}
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="{% static 'vendor/leaflet/leaflet.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/leaflet.markercluster/MarkerCluster.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/leaflet.markercluster/MarkerCluster.Default.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
-    <!-- Tab Navigation -->
-    {% include 'partials/main_tabs.html' %}
-
     <div class="row mb-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
@@ -18,6 +22,20 @@
                 <a href="{% url 'dashboard:data' %}" class="btn btn-outline-primary">
                     <i class="fas fa-arrow-left"></i> Zurück zur Suche
                 </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kartenbereich -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-map"></i> Anlagen-Karte</h5>
+                </div>
+                <div class="card-body">
+                    <div id="map-container" style="height: 400px;"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -162,8 +180,8 @@
                     <hr>
                     <div class="alert alert-info">
                         <i class="fas fa-question-circle"></i>
-                        <strong>Hilfe benötigt?</strong> 
-                        <a href="{% url 'hilfe' %}" class="alert-link">Besuchen Sie unsere Hilfeseite</a> oder 
+                        <strong>Hilfe benötigt?</strong>
+                        <a href="{% url 'dashboard:hilfe' %}" class="alert-link">Besuchen Sie unsere Hilfeseite</a> oder 
                         kontaktieren Sie unseren Support.
                     </div>
                 </div>
@@ -171,4 +189,24 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+    <!-- Leaflet JS -->
+    <script src="{% static 'vendor/leaflet/leaflet.js' %}"></script>
+    <script src="{% static 'vendor/leaflet.markercluster/leaflet.markercluster.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var map = L.map('map-container').setView([51.1657, 10.4515], 6); // Deutschland Mitte
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '© OpenStreetMap-Mitwirkende'
+            }).addTo(map);
+            var markers = L.markerClusterGroup();
+            // Beispielmarker (kann später dynamisch ersetzt werden)
+            var exampleMarker = L.marker([52.52, 13.405]).bindPopup('Beispiel: Berlin');
+            markers.addLayer(exampleMarker);
+            map.addLayer(markers);
+        });
+    </script>
 {% endblock %} 

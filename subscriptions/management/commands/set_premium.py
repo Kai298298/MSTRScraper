@@ -25,7 +25,7 @@ class Command(BaseCommand):
                 'name': 'basic',
                 'display_name': 'Basic',
                 'description': 'Ideal für kleine Unternehmen und Einzelunternehmer',
-                'price': 19.00,
+                'price': 49.00,
                 'requests_per_day': 100,
                 'max_filters': 5,
                 'can_export': True,
@@ -35,7 +35,7 @@ class Command(BaseCommand):
                 'name': 'premium',
                 'display_name': 'Premium',
                 'description': 'Professionelle Lösung mit allen Features und 14 Tage kostenlos testen',
-                'price': 49.00,  # Von 29€ auf 49€ erhöht
+                'price': 99.00,
                 'requests_per_day': 999999,  # Unbegrenzt
                 'max_filters': 999999,  # Alle Filter
                 'can_export': True,

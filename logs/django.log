@@ -4571,3 +4571,1644 @@ django.urls.exceptions.NoReverseMatch: Reverse for 'login' not found. 'login' is
 INFO 2025-07-05 19:29:34,476 middleware 19044 6192738304 Response: HEAD / Status: 500 Duration: 0.003s
 ERROR 2025-07-05 19:29:34,476 basehttp 19044 6192738304 "HEAD / HTTP/1.1" 500 0
 INFO 2025-07-05 19:30:19,652 basehttp 19044 6192738304 "HEAD / HTTP/1.1" 200 0
+INFO 2025-07-05 19:32:54,422 autoreload 22545 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 19:32:57,309 basehttp 19044 6192738304 "HEAD / HTTP/1.1" 200 0
+INFO 2025-07-05 19:33:51,714 basehttp 19044 6192738304 "GET / HTTP/1.1" 200 54661
+INFO 2025-07-05 19:33:51,749 middleware 19044 6192738304 Response: GET /static/css/custom.css Status: 404 Duration: 0.005s
+WARNING 2025-07-05 19:33:51,749 log 19044 6192738304 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:33:51,751 basehttp 19044 6192738304 "GET /static/css/custom.css HTTP/1.1" 404 179
+INFO 2025-07-05 19:33:51,818 middleware 19044 6192738304 Response: GET /static/css/custom.css Status: 404 Duration: 0.000s
+WARNING 2025-07-05 19:33:51,818 log 19044 6192738304 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:33:51,819 basehttp 19044 6192738304 "GET /static/css/custom.css HTTP/1.1" 404 179
+INFO 2025-07-05 19:33:51,826 middleware 19044 6192738304 Response: GET /favicon.ico Status: 404 Duration: 0.000s
+WARNING 2025-07-05 19:33:51,827 log 19044 6192738304 Not Found: /favicon.ico
+WARNING 2025-07-05 19:33:51,827 basehttp 19044 6192738304 "GET /favicon.ico HTTP/1.1" 404 179
+INFO 2025-07-05 19:34:04,964 basehttp 19044 6192738304 "GET /accounts/login/ HTTP/1.1" 200 40125
+INFO 2025-07-05 19:34:04,988 middleware 19044 6192738304 Response: GET /static/css/custom.css Status: 404 Duration: 0.000s
+WARNING 2025-07-05 19:34:04,989 log 19044 6192738304 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:34:04,990 basehttp 19044 6192738304 "GET /static/css/custom.css HTTP/1.1" 404 179
+INFO 2025-07-05 19:34:05,003 middleware 19044 6192738304 Response: GET /static/css/custom.css Status: 404 Duration: 0.000s
+WARNING 2025-07-05 19:34:05,003 log 19044 6192738304 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:34:05,004 basehttp 19044 6192738304 "GET /static/css/custom.css HTTP/1.1" 404 179
+INFO 2025-07-05 19:34:15,935 basehttp 19044 6192738304 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-05 19:34:15,940 middleware 19044 6192738304 Request: GET /data/ from 127.0.0.1 User: testuser
+ERROR 2025-07-05 19:34:15,963 log 19044 6192738304 Internal Server Error: /data/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py", line 360, in data_view
+    return render(request, "dashboard/data.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/defaulttags.py", line 327, in render
+    return nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/urls/base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'hilfe' not found. 'hilfe' is not a valid view function or pattern name.
+INFO 2025-07-05 19:34:15,964 middleware 19044 6192738304 Response: GET /data/ Status: 500 Duration: 0.024s
+ERROR 2025-07-05 19:34:15,964 basehttp 19044 6192738304 "GET /data/ HTTP/1.1" 500 145
+INFO 2025-07-05 19:35:43,880 autoreload 25116 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 19:35:52,056 basehttp 25116 6166622208 "HEAD / HTTP/1.1" 200 0
+WARNING 2025-07-05 19:36:01,158 basehttp 25116 6166622208 "POST /accounts/login/ HTTP/1.1" 403 1427
+INFO 2025-07-05 19:36:05,003 basehttp 25116 6166622208 "GET /accounts/login/ HTTP/1.1" 200 40125
+INFO 2025-07-05 19:36:16,049 basehttp 25116 6166622208 "GET / HTTP/1.1" 200 54661
+WARNING 2025-07-05 19:36:16,067 log 25116 6166622208 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:36:16,068 basehttp 25116 6166622208 "GET /static/css/custom.css HTTP/1.1" 404 179
+WARNING 2025-07-05 19:36:16,094 log 25116 6166622208 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:36:16,094 basehttp 25116 6166622208 "GET /static/css/custom.css HTTP/1.1" 404 179
+INFO 2025-07-05 19:36:18,365 basehttp 25116 6166622208 "GET /accounts/login/ HTTP/1.1" 200 40125
+WARNING 2025-07-05 19:36:18,388 log 25116 6166622208 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:36:18,389 basehttp 25116 6166622208 "GET /static/css/custom.css HTTP/1.1" 404 179
+WARNING 2025-07-05 19:36:18,408 log 25116 6166622208 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:36:18,408 basehttp 25116 6166622208 "GET /static/css/custom.css HTTP/1.1" 404 179
+INFO 2025-07-05 19:36:20,282 basehttp 25116 6166622208 "POST /accounts/login/ HTTP/1.1" 302 0
+ERROR 2025-07-05 19:36:20,309 log 25116 6166622208 Internal Server Error: /data/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py", line 360, in data_view
+    return render(request, "dashboard/data.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 327, in render
+    return nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/urls/base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'hilfe' not found. 'hilfe' is not a valid view function or pattern name.
+ERROR 2025-07-05 19:36:20,313 basehttp 25116 6166622208 "GET /data/ HTTP/1.1" 500 145
+INFO 2025-07-05 19:36:37,054 basehttp 25116 6288306176 "GET / HTTP/1.1" 200 54661
+WARNING 2025-07-05 19:36:37,095 log 25116 6288306176 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:36:37,095 basehttp 25116 6288306176 "GET /static/css/custom.css HTTP/1.1" 404 179
+WARNING 2025-07-05 19:36:37,149 log 25116 6288306176 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:36:37,150 basehttp 25116 6288306176 "GET /static/css/custom.css HTTP/1.1" 404 179
+WARNING 2025-07-05 19:36:37,156 log 25116 6288306176 Not Found: /favicon.ico
+WARNING 2025-07-05 19:36:37,156 basehttp 25116 6288306176 "GET /favicon.ico HTTP/1.1" 404 179
+INFO 2025-07-05 19:36:38,692 basehttp 25116 6288306176 "GET /accounts/login/ HTTP/1.1" 200 40125
+WARNING 2025-07-05 19:36:38,709 log 25116 6288306176 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:36:38,710 basehttp 25116 6288306176 "GET /static/css/custom.css HTTP/1.1" 404 179
+WARNING 2025-07-05 19:36:38,726 log 25116 6288306176 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:36:38,726 basehttp 25116 6288306176 "GET /static/css/custom.css HTTP/1.1" 404 179
+INFO 2025-07-05 19:36:42,040 basehttp 25116 6288306176 "POST /accounts/login/ HTTP/1.1" 302 0
+ERROR 2025-07-05 19:36:42,062 log 25116 6288306176 Internal Server Error: /data/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py", line 360, in data_view
+    return render(request, "dashboard/data.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 327, in render
+    return nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/urls/base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'hilfe' not found. 'hilfe' is not a valid view function or pattern name.
+ERROR 2025-07-05 19:36:42,064 basehttp 25116 6288306176 "GET /data/ HTTP/1.1" 500 145
+INFO 2025-07-05 19:37:22,439 basehttp 25116 6305132544 "HEAD /data/ HTTP/1.1" 302 0
+INFO 2025-07-05 19:37:29,459 basehttp 25116 6305132544 "GET /accounts/login/ HTTP/1.1" 200 40125
+INFO 2025-07-05 19:37:33,685 basehttp 25116 6305132544 "POST /accounts/login/ HTTP/1.1" 302 0
+WARNING 2025-07-05 19:37:33,690 basehttp 25116 6305132544 "POST /data/ HTTP/1.1" 403 1017
+INFO 2025-07-05 19:37:46,132 autoreload 28655 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 19:37:49,862 basehttp 28655 6162427904 "HEAD / HTTP/1.1" 200 0
+ERROR 2025-07-05 19:37:53,444 log 28655 6162427904 Internal Server Error: /accounts/login/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/accounts/views.py", line 156, in login_view
+    return render(request, "accounts/login.html", {"form": form})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 327, in render
+    return nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/urls/base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'password_change' not found. 'password_change' is not a valid view function or pattern name.
+ERROR 2025-07-05 19:37:53,449 basehttp 28655 6162427904 "GET /accounts/login/ HTTP/1.1" 500 145
+INFO 2025-07-05 19:38:05,031 basehttp 28655 6162427904 "GET / HTTP/1.1" 200 54661
+INFO 2025-07-05 19:38:08,798 basehttp 28655 6162427904 "GET /accounts/login/ HTTP/1.1" 200 40125
+ERROR 2025-07-05 19:38:15,088 log 28655 6162427904 Internal Server Error: /accounts/login/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/accounts/views.py", line 156, in login_view
+    return render(request, "accounts/login.html", {"form": form})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 327, in render
+    return nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/urls/base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'password_change' not found. 'password_change' is not a valid view function or pattern name.
+ERROR 2025-07-05 19:38:15,089 basehttp 28655 6162427904 "GET /accounts/login/ HTTP/1.1" 500 145
+WARNING 2025-07-05 19:38:15,104 basehttp 28655 6162427904 "POST /accounts/login/ HTTP/1.1" 403 1017
+INFO 2025-07-05 19:38:18,953 basehttp 28655 6162427904 "GET / HTTP/1.1" 302 0
+ERROR 2025-07-05 19:38:18,984 log 28655 6162427904 Internal Server Error: /data/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py", line 360, in data_view
+    return render(request, "dashboard/data.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 327, in render
+    return nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/urls/base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'password_change' not found. 'password_change' is not a valid view function or pattern name.
+ERROR 2025-07-05 19:38:18,986 basehttp 28655 6162427904 "GET /data/ HTTP/1.1" 500 145
+INFO 2025-07-05 19:38:45,639 basehttp 28655 6179254272 "GET /accounts/login/ HTTP/1.1" 200 40125
+INFO 2025-07-05 19:39:04,241 autoreload 31324 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 19:39:14,514 basehttp 31324 6125252608 "GET /accounts/login/ HTTP/1.1" 200 43799
+WARNING 2025-07-05 19:39:14,571 basehttp 31324 6125252608 "POST /accounts/login/ HTTP/1.1" 403 1017
+INFO 2025-07-05 19:39:35,570 basehttp 31324 6125252608 "GET / HTTP/1.1" 302 0
+INFO 2025-07-05 19:39:36,020 basehttp 31324 6125252608 "GET /data/ HTTP/1.1" 200 313200
+WARNING 2025-07-05 19:39:36,151 log 31324 6125252608 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:39:36,152 basehttp 31324 6125252608 "GET /static/css/custom.css HTTP/1.1" 404 179
+INFO 2025-07-05 19:40:50,131 basehttp 31324 6125252608 "GET /betreiber/ HTTP/1.1" 200 47510
+WARNING 2025-07-05 19:40:50,164 log 31324 6125252608 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:40:50,164 basehttp 31324 6125252608 "GET /static/css/custom.css HTTP/1.1" 404 179
+WARNING 2025-07-05 19:40:50,209 log 31324 6125252608 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:40:50,210 basehttp 31324 6125252608 "GET /static/css/custom.css HTTP/1.1" 404 179
+INFO 2025-07-05 19:40:51,508 basehttp 31324 6125252608 "GET /anlagen-listen/ HTTP/1.1" 200 36471
+WARNING 2025-07-05 19:40:51,533 log 31324 6125252608 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:40:51,537 basehttp 31324 6125252608 "GET /static/css/custom.css HTTP/1.1" 404 179
+INFO 2025-07-05 19:40:53,922 basehttp 31324 6125252608 "GET /data/ HTTP/1.1" 200 312859
+WARNING 2025-07-05 19:40:53,949 log 31324 6125252608 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:40:53,949 basehttp 31324 6125252608 "GET /static/css/custom.css HTTP/1.1" 404 179
+INFO 2025-07-05 19:40:57,694 basehttp 31324 6125252608 "GET /accounts/logout/ HTTP/1.1" 302 0
+INFO 2025-07-05 19:40:57,699 basehttp 31324 6125252608 "GET /accounts/login/ HTTP/1.1" 200 40471
+WARNING 2025-07-05 19:40:57,745 log 31324 6125252608 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:40:57,746 basehttp 31324 6125252608 "GET /static/css/custom.css HTTP/1.1" 404 179
+WARNING 2025-07-05 19:40:57,759 log 31324 6125252608 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:40:57,759 basehttp 31324 6125252608 "GET /static/css/custom.css HTTP/1.1" 404 179
+INFO 2025-07-05 19:41:09,316 basehttp 31324 6125252608 "GET / HTTP/1.1" 200 54661
+WARNING 2025-07-05 19:41:09,328 log 31324 6125252608 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:41:09,328 basehttp 31324 6125252608 "GET /static/css/custom.css HTTP/1.1" 404 179
+WARNING 2025-07-05 19:41:09,335 log 31324 6125252608 Not Found: /static/css/custom.css
+WARNING 2025-07-05 19:41:09,336 basehttp 31324 6125252608 "GET /static/css/custom.css HTTP/1.1" 404 179
+INFO 2025-07-05 19:43:15,991 basehttp 31324 6125252608 "GET / HTTP/1.1" 200 54661
+INFO 2025-07-05 19:43:34,645 autoreload 31324 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/settings.py changed, reloading.
+INFO 2025-07-05 19:43:35,919 autoreload 32924 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 19:43:41,461 autoreload 32924 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/settings.py changed, reloading.
+INFO 2025-07-05 19:43:42,604 autoreload 32932 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 19:44:11,171 autoreload 32932 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/accounts/models.py changed, reloading.
+INFO 2025-07-05 19:44:12,157 autoreload 33004 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 19:44:43,784 autoreload 33004 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/accounts/forms.py changed, reloading.
+INFO 2025-07-05 19:44:44,534 autoreload 33413 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 19:44:54,271 autoreload 33413 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/accounts/views.py changed, reloading.
+INFO 2025-07-05 19:44:55,109 autoreload 33440 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 19:49:20,815 autoreload 34327 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 19:49:24,166 basehttp 34327 6163001344 "HEAD / HTTP/1.1" 200 0
+INFO 2025-07-05 19:49:28,091 basehttp 34327 6163001344 "GET /accounts/login/ HTTP/1.1" 200 40125
+INFO 2025-07-05 19:49:32,843 basehttp 34327 6163001344 "GET /accounts/login/ HTTP/1.1" 200 43458
+WARNING 2025-07-05 19:49:32,868 basehttp 34327 6163001344 "POST /accounts/login/ HTTP/1.1" 403 1017
+INFO 2025-07-05 19:50:11,685 basehttp 34327 6163001344 "GET / HTTP/1.1" 302 0
+ERROR 2025-07-05 19:50:11,724 log 34327 6163001344 Internal Server Error: /data/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py", line 360, in data_view
+    return render(request, "dashboard/data.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 861, in do_for
+    sequence = parser.compile_filter(bits[in_index + 1])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'zip'
+ERROR 2025-07-05 19:50:11,731 basehttp 34327 6163001344 "GET /data/ HTTP/1.1" 500 145
+INFO 2025-07-05 19:50:45,766 basehttp 34327 6179827712 "GET / HTTP/1.1" 200 55311
+INFO 2025-07-05 19:50:49,747 basehttp 34327 6179827712 "GET / HTTP/1.1" 200 55311
+INFO 2025-07-05 19:51:24,787 basehttp 34327 6179827712 "GET /data/ HTTP/1.1" 302 0
+WARNING 2025-07-05 19:53:25,106 log 34327 6163001344 Not Found: /static/img/logo.svg
+WARNING 2025-07-05 19:53:25,117 basehttp 34327 6163001344 "HEAD /static/img/logo.svg HTTP/1.1" 404 0
+WARNING 2025-07-05 19:53:25,137 log 34327 6163001344 Not Found: /static/img/favicon.svg
+WARNING 2025-07-05 19:53:25,137 basehttp 34327 6163001344 "HEAD /static/img/favicon.svg HTTP/1.1" 404 0
+WARNING 2025-07-05 19:53:25,156 log 34327 6163001344 Not Found: /static/css/branding.css
+WARNING 2025-07-05 19:53:25,156 basehttp 34327 6163001344 "HEAD /static/css/branding.css HTTP/1.1" 404 0
+INFO 2025-07-05 19:53:33,791 basehttp 34327 6163001344 "GET / HTTP/1.1" 302 0
+ERROR 2025-07-05 19:53:33,825 log 34327 6163001344 Internal Server Error: /data/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py", line 360, in data_view
+    return render(request, "dashboard/data.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 861, in do_for
+    sequence = parser.compile_filter(bits[in_index + 1])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'zip'
+ERROR 2025-07-05 19:53:33,827 basehttp 34327 6163001344 "GET /data/ HTTP/1.1" 500 145
+WARNING 2025-07-05 19:53:46,881 log 34327 6179827712 Not Found: /static/img/logo.svg
+WARNING 2025-07-05 19:53:46,881 basehttp 34327 6179827712 "HEAD /static/img/logo.svg HTTP/1.1" 404 0
+WARNING 2025-07-05 19:53:46,895 log 34327 6179827712 Not Found: /static/img/favicon.svg
+WARNING 2025-07-05 19:53:46,895 basehttp 34327 6179827712 "HEAD /static/img/favicon.svg HTTP/1.1" 404 0
+WARNING 2025-07-05 19:53:46,911 log 34327 6179827712 Not Found: /static/css/branding.css
+WARNING 2025-07-05 19:53:46,911 basehttp 34327 6179827712 "HEAD /static/css/branding.css HTTP/1.1" 404 0
+WARNING 2025-07-05 19:54:30,285 log 34327 6179827712 Not Found: /staticfiles/img/logo.svg
+WARNING 2025-07-05 19:54:30,286 basehttp 34327 6179827712 "HEAD /staticfiles/img/logo.svg HTTP/1.1" 404 0
+WARNING 2025-07-05 19:54:30,305 log 34327 6179827712 Not Found: /staticfiles/img/favicon.svg
+WARNING 2025-07-05 19:54:30,305 basehttp 34327 6179827712 "HEAD /staticfiles/img/favicon.svg HTTP/1.1" 404 0
+WARNING 2025-07-05 19:54:30,324 log 34327 6179827712 Not Found: /staticfiles/css/branding.css
+WARNING 2025-07-05 19:54:30,324 basehttp 34327 6179827712 "HEAD /staticfiles/css/branding.css HTTP/1.1" 404 0
+WARNING 2025-07-05 19:54:34,728 log 34327 6179827712 Not Found: /static/img/logo.svg
+WARNING 2025-07-05 19:54:34,728 basehttp 34327 6179827712 "HEAD /static/img/logo.svg HTTP/1.1" 404 0
+WARNING 2025-07-05 19:54:34,752 log 34327 6179827712 Not Found: /static/img/favicon.svg
+WARNING 2025-07-05 19:54:34,752 basehttp 34327 6179827712 "HEAD /static/img/favicon.svg HTTP/1.1" 404 0
+WARNING 2025-07-05 19:54:34,780 log 34327 6179827712 Not Found: /static/css/branding.css
+WARNING 2025-07-05 19:54:34,781 basehttp 34327 6179827712 "HEAD /static/css/branding.css HTTP/1.1" 404 0
+INFO 2025-07-05 19:55:34,102 autoreload 38338 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 19:56:00,858 autoreload 39001 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 19:56:09,764 basehttp 39001 6135230464 "GET / HTTP/1.1" 302 0
+ERROR 2025-07-05 19:56:09,862 log 39001 6135230464 Internal Server Error: /data/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py", line 360, in data_view
+    return render(request, "dashboard/data.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 861, in do_for
+    sequence = parser.compile_filter(bits[in_index + 1])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'zip'
+ERROR 2025-07-05 19:56:09,870 basehttp 39001 6135230464 "GET /data/ HTTP/1.1" 500 145
+ERROR 2025-07-05 19:56:13,460 log 39001 6135230464 Internal Server Error: /data/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py", line 360, in data_view
+    return render(request, "dashboard/data.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 861, in do_for
+    sequence = parser.compile_filter(bits[in_index + 1])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'zip'
+ERROR 2025-07-05 19:56:13,462 basehttp 39001 6135230464 "GET /data/ HTTP/1.1" 500 145
+INFO 2025-07-05 19:58:43,028 basehttp 39001 6135230464 "GET / HTTP/1.1" 200 55573
+INFO 2025-07-05 19:58:43,040 basehttp 39001 6135230464 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 19:58:43,072 basehttp 39001 6135230464 "GET /accounts/register/ HTTP/1.1" 200 35547
+INFO 2025-07-05 19:58:43,076 basehttp 39001 6135230464 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-05 19:58:43,081 basehttp 39001 6135230464 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40387
+INFO 2025-07-05 19:58:43,093 basehttp 39001 6135230464 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-05 19:58:43,109 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4216
+WARNING 2025-07-05 19:58:43,113 log 39001 6135230464 Not Found: /static/css/branding.css
+WARNING 2025-07-05 19:58:43,113 basehttp 39001 6135230464 "GET /static/css/branding.css HTTP/1.1" 404 179
+WARNING 2025-07-05 19:58:43,115 log 39001 6135230464 Not Found: /static/img/logo.svg
+WARNING 2025-07-05 19:58:43,115 basehttp 39001 6135230464 "GET /static/img/logo.svg HTTP/1.1" 404 179
+WARNING 2025-07-05 19:58:43,118 log 39001 6135230464 Not Found: /static/img/favicon.svg
+WARNING 2025-07-05 19:58:43,118 basehttp 39001 6135230464 "GET /static/img/favicon.svg HTTP/1.1" 404 179
+INFO 2025-07-05 19:58:43,121 basehttp 39001 6135230464 "GET /admin/css/base.css HTTP/1.1" 302 0
+INFO 2025-07-05 19:58:43,126 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/css/base.css HTTP/1.1" 200 4240
+INFO 2025-07-05 19:58:43,129 basehttp 39001 6135230464 "GET /admin/js/core.js HTTP/1.1" 302 0
+INFO 2025-07-05 19:58:43,134 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/js/core.js HTTP/1.1" 200 4236
+INFO 2025-07-05 19:58:43,137 basehttp 39001 6135230464 "GET /api/ HTTP/1.1" 200 136
+WARNING 2025-07-05 19:58:43,140 log 39001 6135230464 Forbidden: /api/anlagen/
+WARNING 2025-07-05 19:58:43,140 basehttp 39001 6135230464 "GET /api/anlagen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 19:58:43,142 log 39001 6135230464 Forbidden: /api/listen/
+WARNING 2025-07-05 19:58:43,142 basehttp 39001 6135230464 "GET /api/listen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 19:58:43,144 log 39001 6135230464 Forbidden: /api/users/
+WARNING 2025-07-05 19:58:43,145 basehttp 39001 6135230464 "GET /api/users/ HTTP/1.1" 403 33
+WARNING 2025-07-05 19:58:43,146 log 39001 6135230464 Not Found: /nicht-existierende-seite/
+WARNING 2025-07-05 19:58:43,147 basehttp 39001 6135230464 "GET /nicht-existierende-seite/ HTTP/1.1" 404 179
+INFO 2025-07-05 19:58:43,149 basehttp 39001 6135230464 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 19:58:43,338 basehttp 39001 6135230464 "POST /accounts/login/ HTTP/1.1" 302 0
+ERROR 2025-07-05 19:58:43,393 log 39001 6135230464 Internal Server Error: /data/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py", line 360, in data_view
+    return render(request, "dashboard/data.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 861, in do_for
+    sequence = parser.compile_filter(bits[in_index + 1])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'zip'
+ERROR 2025-07-05 19:58:43,396 basehttp 39001 6135230464 "GET /data/ HTTP/1.1" 500 145
+INFO 2025-07-05 19:58:43,413 basehttp 39001 6135230464 "GET /accounts/register/ HTTP/1.1" 200 39215
+INFO 2025-07-05 19:58:43,487 basehttp 39001 6135230464 "POST /accounts/register/ HTTP/1.1" 200 39809
+INFO 2025-07-05 19:59:18,606 basehttp 39001 6135230464 "GET / HTTP/1.1" 200 55573
+INFO 2025-07-05 19:59:18,612 basehttp 39001 6135230464 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 19:59:18,629 basehttp 39001 6135230464 "GET /accounts/register/ HTTP/1.1" 200 35547
+INFO 2025-07-05 19:59:18,634 basehttp 39001 6135230464 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-05 19:59:18,642 basehttp 39001 6135230464 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40387
+INFO 2025-07-05 19:59:18,645 basehttp 39001 6135230464 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-05 19:59:18,670 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4216
+WARNING 2025-07-05 19:59:18,673 log 39001 6135230464 Not Found: /static/css/branding.css
+WARNING 2025-07-05 19:59:18,673 basehttp 39001 6135230464 "GET /static/css/branding.css HTTP/1.1" 404 179
+WARNING 2025-07-05 19:59:18,676 log 39001 6135230464 Not Found: /static/img/logo.svg
+WARNING 2025-07-05 19:59:18,676 basehttp 39001 6135230464 "GET /static/img/logo.svg HTTP/1.1" 404 179
+WARNING 2025-07-05 19:59:18,679 log 39001 6135230464 Not Found: /static/img/favicon.svg
+WARNING 2025-07-05 19:59:18,679 basehttp 39001 6135230464 "GET /static/img/favicon.svg HTTP/1.1" 404 179
+INFO 2025-07-05 19:59:18,683 basehttp 39001 6135230464 "GET /admin/css/base.css HTTP/1.1" 302 0
+INFO 2025-07-05 19:59:18,690 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/css/base.css HTTP/1.1" 200 4240
+INFO 2025-07-05 19:59:18,693 basehttp 39001 6135230464 "GET /admin/js/core.js HTTP/1.1" 302 0
+INFO 2025-07-05 19:59:18,698 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/js/core.js HTTP/1.1" 200 4236
+INFO 2025-07-05 19:59:18,703 basehttp 39001 6135230464 "GET /api/ HTTP/1.1" 200 136
+WARNING 2025-07-05 19:59:18,706 log 39001 6135230464 Forbidden: /api/anlagen/
+WARNING 2025-07-05 19:59:18,707 basehttp 39001 6135230464 "GET /api/anlagen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 19:59:18,709 log 39001 6135230464 Forbidden: /api/listen/
+WARNING 2025-07-05 19:59:18,709 basehttp 39001 6135230464 "GET /api/listen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 19:59:18,711 log 39001 6135230464 Forbidden: /api/users/
+WARNING 2025-07-05 19:59:18,711 basehttp 39001 6135230464 "GET /api/users/ HTTP/1.1" 403 33
+WARNING 2025-07-05 19:59:18,714 log 39001 6135230464 Not Found: /nicht-existierende-seite/
+WARNING 2025-07-05 19:59:18,714 basehttp 39001 6135230464 "GET /nicht-existierende-seite/ HTTP/1.1" 404 179
+INFO 2025-07-05 19:59:18,718 basehttp 39001 6135230464 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 19:59:18,949 basehttp 39001 6135230464 "POST /accounts/login/ HTTP/1.1" 302 0
+ERROR 2025-07-05 19:59:19,062 log 39001 6135230464 Internal Server Error: /data/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py", line 360, in data_view
+    return render(request, "dashboard/data.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/urls/base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/venv_new/lib/python3.12/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'save_anlage' not found. 'save_anlage' is not a valid view function or pattern name.
+ERROR 2025-07-05 19:59:19,065 basehttp 39001 6135230464 "GET /data/ HTTP/1.1" 500 145
+INFO 2025-07-05 19:59:19,083 basehttp 39001 6135230464 "GET /accounts/register/ HTTP/1.1" 200 38877
+INFO 2025-07-05 19:59:19,113 basehttp 39001 6135230464 "POST /accounts/register/ HTTP/1.1" 200 39809
+INFO 2025-07-05 19:59:52,491 basehttp 39001 6135230464 "GET / HTTP/1.1" 200 55573
+INFO 2025-07-05 19:59:52,498 basehttp 39001 6135230464 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 19:59:52,741 basehttp 39001 6135230464 "GET /accounts/register/ HTTP/1.1" 200 35547
+INFO 2025-07-05 19:59:52,745 basehttp 39001 6135230464 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-05 19:59:52,800 basehttp 39001 6135230464 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40387
+INFO 2025-07-05 19:59:52,808 basehttp 39001 6135230464 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-05 19:59:52,838 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4216
+WARNING 2025-07-05 19:59:52,842 log 39001 6135230464 Not Found: /static/css/branding.css
+WARNING 2025-07-05 19:59:52,842 basehttp 39001 6135230464 "GET /static/css/branding.css HTTP/1.1" 404 179
+WARNING 2025-07-05 19:59:52,846 log 39001 6135230464 Not Found: /static/img/logo.svg
+WARNING 2025-07-05 19:59:52,848 basehttp 39001 6135230464 "GET /static/img/logo.svg HTTP/1.1" 404 179
+WARNING 2025-07-05 19:59:52,855 log 39001 6135230464 Not Found: /static/img/favicon.svg
+WARNING 2025-07-05 19:59:52,855 basehttp 39001 6135230464 "GET /static/img/favicon.svg HTTP/1.1" 404 179
+INFO 2025-07-05 19:59:52,860 basehttp 39001 6135230464 "GET /admin/css/base.css HTTP/1.1" 302 0
+INFO 2025-07-05 19:59:52,871 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/css/base.css HTTP/1.1" 200 4240
+INFO 2025-07-05 19:59:52,886 basehttp 39001 6135230464 "GET /admin/js/core.js HTTP/1.1" 302 0
+INFO 2025-07-05 19:59:52,894 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/js/core.js HTTP/1.1" 200 4236
+INFO 2025-07-05 19:59:52,898 basehttp 39001 6135230464 "GET /api/ HTTP/1.1" 200 136
+WARNING 2025-07-05 19:59:52,911 log 39001 6135230464 Forbidden: /api/anlagen/
+WARNING 2025-07-05 19:59:52,911 basehttp 39001 6135230464 "GET /api/anlagen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 19:59:52,916 log 39001 6135230464 Forbidden: /api/listen/
+WARNING 2025-07-05 19:59:52,917 basehttp 39001 6135230464 "GET /api/listen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 19:59:52,921 log 39001 6135230464 Forbidden: /api/users/
+WARNING 2025-07-05 19:59:52,921 basehttp 39001 6135230464 "GET /api/users/ HTTP/1.1" 403 33
+WARNING 2025-07-05 19:59:52,927 log 39001 6135230464 Not Found: /nicht-existierende-seite/
+WARNING 2025-07-05 19:59:52,928 basehttp 39001 6135230464 "GET /nicht-existierende-seite/ HTTP/1.1" 404 179
+INFO 2025-07-05 19:59:52,933 basehttp 39001 6135230464 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 19:59:53,238 basehttp 39001 6135230464 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-05 19:59:53,393 basehttp 39001 6135230464 "GET /data/ HTTP/1.1" 200 641208
+INFO 2025-07-05 19:59:53,415 basehttp 39001 6135230464 "GET /accounts/register/ HTTP/1.1" 200 38877
+INFO 2025-07-05 19:59:53,451 basehttp 39001 6135230464 "POST /accounts/register/ HTTP/1.1" 200 39809
+INFO 2025-07-05 20:01:05,912 basehttp 39001 6135230464 "GET / HTTP/1.1" 200 55573
+INFO 2025-07-05 20:01:05,916 basehttp 39001 6135230464 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 20:01:05,921 basehttp 39001 6135230464 "GET /accounts/register/ HTTP/1.1" 200 35547
+INFO 2025-07-05 20:01:05,923 basehttp 39001 6135230464 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-05 20:01:05,925 basehttp 39001 6135230464 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40387
+INFO 2025-07-05 20:01:05,927 basehttp 39001 6135230464 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-05 20:01:05,931 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4216
+WARNING 2025-07-05 20:01:05,932 log 39001 6135230464 Not Found: /static/css/branding.css
+WARNING 2025-07-05 20:01:05,933 basehttp 39001 6135230464 "GET /static/css/branding.css HTTP/1.1" 404 179
+WARNING 2025-07-05 20:01:05,934 log 39001 6135230464 Not Found: /static/img/logo.svg
+WARNING 2025-07-05 20:01:05,934 basehttp 39001 6135230464 "GET /static/img/logo.svg HTTP/1.1" 404 179
+WARNING 2025-07-05 20:01:05,936 log 39001 6135230464 Not Found: /static/img/favicon.svg
+WARNING 2025-07-05 20:01:05,936 basehttp 39001 6135230464 "GET /static/img/favicon.svg HTTP/1.1" 404 179
+INFO 2025-07-05 20:01:05,938 basehttp 39001 6135230464 "GET /admin/css/base.css HTTP/1.1" 302 0
+INFO 2025-07-05 20:01:05,942 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/css/base.css HTTP/1.1" 200 4240
+INFO 2025-07-05 20:01:05,943 basehttp 39001 6135230464 "GET /admin/js/core.js HTTP/1.1" 302 0
+INFO 2025-07-05 20:01:05,947 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/js/core.js HTTP/1.1" 200 4236
+INFO 2025-07-05 20:01:05,949 basehttp 39001 6135230464 "GET /api/ HTTP/1.1" 200 136
+WARNING 2025-07-05 20:01:05,950 log 39001 6135230464 Forbidden: /api/anlagen/
+WARNING 2025-07-05 20:01:05,951 basehttp 39001 6135230464 "GET /api/anlagen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 20:01:05,952 log 39001 6135230464 Forbidden: /api/listen/
+WARNING 2025-07-05 20:01:05,952 basehttp 39001 6135230464 "GET /api/listen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 20:01:05,954 log 39001 6135230464 Forbidden: /api/users/
+WARNING 2025-07-05 20:01:05,954 basehttp 39001 6135230464 "GET /api/users/ HTTP/1.1" 403 33
+WARNING 2025-07-05 20:01:05,956 log 39001 6135230464 Not Found: /nicht-existierende-seite/
+WARNING 2025-07-05 20:01:05,956 basehttp 39001 6135230464 "GET /nicht-existierende-seite/ HTTP/1.1" 404 179
+INFO 2025-07-05 20:01:05,958 basehttp 39001 6135230464 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 20:01:06,076 basehttp 39001 6135230464 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-05 20:01:06,172 basehttp 39001 6135230464 "GET /data/ HTTP/1.1" 200 641208
+INFO 2025-07-05 20:01:06,183 basehttp 39001 6135230464 "GET /accounts/register/ HTTP/1.1" 200 38877
+INFO 2025-07-05 20:01:06,204 basehttp 39001 6135230464 "POST /accounts/register/ HTTP/1.1" 200 39809
+INFO 2025-07-05 20:01:14,238 basehttp 39001 6135230464 "GET / HTTP/1.1" 200 55573
+INFO 2025-07-05 20:01:14,246 basehttp 39001 6135230464 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 20:01:14,273 basehttp 39001 6135230464 "GET /accounts/register/ HTTP/1.1" 200 35547
+INFO 2025-07-05 20:01:14,277 basehttp 39001 6135230464 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-05 20:01:14,282 basehttp 39001 6135230464 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40387
+INFO 2025-07-05 20:01:14,286 basehttp 39001 6135230464 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-05 20:01:14,293 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4216
+WARNING 2025-07-05 20:01:14,297 log 39001 6135230464 Not Found: /static/css/branding.css
+WARNING 2025-07-05 20:01:14,297 basehttp 39001 6135230464 "GET /static/css/branding.css HTTP/1.1" 404 179
+WARNING 2025-07-05 20:01:14,300 log 39001 6135230464 Not Found: /static/img/logo.svg
+WARNING 2025-07-05 20:01:14,300 basehttp 39001 6135230464 "GET /static/img/logo.svg HTTP/1.1" 404 179
+WARNING 2025-07-05 20:01:14,304 log 39001 6135230464 Not Found: /static/img/favicon.svg
+WARNING 2025-07-05 20:01:14,304 basehttp 39001 6135230464 "GET /static/img/favicon.svg HTTP/1.1" 404 179
+INFO 2025-07-05 20:01:14,307 basehttp 39001 6135230464 "GET /admin/css/base.css HTTP/1.1" 302 0
+INFO 2025-07-05 20:01:14,312 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/css/base.css HTTP/1.1" 200 4240
+INFO 2025-07-05 20:01:14,315 basehttp 39001 6135230464 "GET /admin/js/core.js HTTP/1.1" 302 0
+INFO 2025-07-05 20:01:14,323 basehttp 39001 6135230464 "GET /admin/login/?next=/admin/js/core.js HTTP/1.1" 200 4236
+INFO 2025-07-05 20:01:14,326 basehttp 39001 6135230464 "GET /api/ HTTP/1.1" 200 136
+WARNING 2025-07-05 20:01:14,328 log 39001 6135230464 Forbidden: /api/anlagen/
+WARNING 2025-07-05 20:01:14,328 basehttp 39001 6135230464 "GET /api/anlagen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 20:01:14,331 log 39001 6135230464 Forbidden: /api/listen/
+WARNING 2025-07-05 20:01:14,331 basehttp 39001 6135230464 "GET /api/listen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 20:01:14,333 log 39001 6135230464 Forbidden: /api/users/
+WARNING 2025-07-05 20:01:14,334 basehttp 39001 6135230464 "GET /api/users/ HTTP/1.1" 403 33
+WARNING 2025-07-05 20:01:14,337 log 39001 6135230464 Not Found: /nicht-existierende-seite/
+WARNING 2025-07-05 20:01:14,338 basehttp 39001 6135230464 "GET /nicht-existierende-seite/ HTTP/1.1" 404 179
+INFO 2025-07-05 20:01:14,341 basehttp 39001 6135230464 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 20:01:14,794 basehttp 39001 6135230464 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-05 20:01:14,977 basehttp 39001 6135230464 "GET /data/ HTTP/1.1" 200 641208
+INFO 2025-07-05 20:01:14,997 basehttp 39001 6135230464 "GET /accounts/register/ HTTP/1.1" 200 38877
+INFO 2025-07-05 20:01:15,026 basehttp 39001 6135230464 "POST /accounts/register/ HTTP/1.1" 200 39809
+INFO 2025-07-05 20:02:44,424 autoreload 39001 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/production_settings.py changed, reloading.
+INFO 2025-07-05 20:02:44,857 autoreload 43307 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 20:02:59,032 autoreload 43847 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 20:03:02,901 basehttp 43847 6205321216 "GET / HTTP/1.1" 200 55573
+INFO 2025-07-05 20:03:02,903 basehttp 43847 6205321216 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 20:03:02,915 basehttp 43847 6205321216 "GET /accounts/register/ HTTP/1.1" 200 35547
+INFO 2025-07-05 20:03:02,917 basehttp 43847 6205321216 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-05 20:03:02,918 basehttp 43847 6205321216 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40387
+INFO 2025-07-05 20:03:02,922 basehttp 43847 6205321216 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-05 20:03:02,929 basehttp 43847 6205321216 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4216
+WARNING 2025-07-05 20:03:02,931 log 43847 6205321216 Not Found: /static/css/branding.css
+WARNING 2025-07-05 20:03:02,931 basehttp 43847 6205321216 "GET /static/css/branding.css HTTP/1.1" 404 179
+WARNING 2025-07-05 20:03:02,932 log 43847 6205321216 Not Found: /static/img/logo.svg
+WARNING 2025-07-05 20:03:02,932 basehttp 43847 6205321216 "GET /static/img/logo.svg HTTP/1.1" 404 179
+WARNING 2025-07-05 20:03:02,933 log 43847 6205321216 Not Found: /static/img/favicon.svg
+WARNING 2025-07-05 20:03:02,933 basehttp 43847 6205321216 "GET /static/img/favicon.svg HTTP/1.1" 404 179
+INFO 2025-07-05 20:03:02,934 basehttp 43847 6205321216 "GET /admin/css/base.css HTTP/1.1" 302 0
+INFO 2025-07-05 20:03:02,936 basehttp 43847 6205321216 "GET /admin/login/?next=/admin/css/base.css HTTP/1.1" 200 4240
+INFO 2025-07-05 20:03:02,938 basehttp 43847 6205321216 "GET /admin/js/core.js HTTP/1.1" 302 0
+INFO 2025-07-05 20:03:02,940 basehttp 43847 6205321216 "GET /admin/login/?next=/admin/js/core.js HTTP/1.1" 200 4236
+INFO 2025-07-05 20:03:02,942 basehttp 43847 6205321216 "GET /api/ HTTP/1.1" 200 136
+WARNING 2025-07-05 20:03:02,943 log 43847 6205321216 Forbidden: /api/anlagen/
+WARNING 2025-07-05 20:03:02,943 basehttp 43847 6205321216 "GET /api/anlagen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 20:03:02,944 log 43847 6205321216 Forbidden: /api/listen/
+WARNING 2025-07-05 20:03:02,944 basehttp 43847 6205321216 "GET /api/listen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 20:03:02,945 log 43847 6205321216 Forbidden: /api/users/
+WARNING 2025-07-05 20:03:02,945 basehttp 43847 6205321216 "GET /api/users/ HTTP/1.1" 403 33
+WARNING 2025-07-05 20:03:02,946 log 43847 6205321216 Not Found: /nicht-existierende-seite/
+WARNING 2025-07-05 20:03:02,946 basehttp 43847 6205321216 "GET /nicht-existierende-seite/ HTTP/1.1" 404 179
+INFO 2025-07-05 20:03:02,947 basehttp 43847 6205321216 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 20:03:03,053 basehttp 43847 6205321216 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-05 20:03:03,101 basehttp 43847 6205321216 "GET /data/ HTTP/1.1" 200 641208
+INFO 2025-07-05 20:03:03,106 basehttp 43847 6205321216 "GET /accounts/register/ HTTP/1.1" 200 38877
+INFO 2025-07-05 20:03:03,135 basehttp 43847 6205321216 "POST /accounts/register/ HTTP/1.1" 200 39809
+INFO 2025-07-05 20:03:16,786 autoreload 43847 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/production_settings.py changed, reloading.
+INFO 2025-07-05 20:03:17,612 autoreload 44026 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 20:03:27,005 basehttp 44026 6197243904 "GET / HTTP/1.1" 200 55573
+INFO 2025-07-05 20:03:27,010 basehttp 44026 6197243904 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 20:03:27,033 basehttp 44026 6197243904 "GET /accounts/register/ HTTP/1.1" 200 35547
+INFO 2025-07-05 20:03:27,036 basehttp 44026 6197243904 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-05 20:03:27,039 basehttp 44026 6197243904 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40387
+INFO 2025-07-05 20:03:27,047 basehttp 44026 6197243904 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-05 20:03:27,058 basehttp 44026 6197243904 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4216
+WARNING 2025-07-05 20:03:27,061 log 44026 6197243904 Not Found: /static/css/branding.css
+WARNING 2025-07-05 20:03:27,062 basehttp 44026 6197243904 "GET /static/css/branding.css HTTP/1.1" 404 179
+WARNING 2025-07-05 20:03:27,063 log 44026 6197243904 Not Found: /static/img/logo.svg
+WARNING 2025-07-05 20:03:27,064 basehttp 44026 6197243904 "GET /static/img/logo.svg HTTP/1.1" 404 179
+WARNING 2025-07-05 20:03:27,066 log 44026 6197243904 Not Found: /static/img/favicon.svg
+WARNING 2025-07-05 20:03:27,066 basehttp 44026 6197243904 "GET /static/img/favicon.svg HTTP/1.1" 404 179
+INFO 2025-07-05 20:03:27,068 basehttp 44026 6197243904 "GET /admin/css/base.css HTTP/1.1" 302 0
+INFO 2025-07-05 20:03:27,073 basehttp 44026 6197243904 "GET /admin/login/?next=/admin/css/base.css HTTP/1.1" 200 4240
+INFO 2025-07-05 20:03:27,076 basehttp 44026 6197243904 "GET /admin/js/core.js HTTP/1.1" 302 0
+INFO 2025-07-05 20:03:27,079 basehttp 44026 6197243904 "GET /admin/login/?next=/admin/js/core.js HTTP/1.1" 200 4236
+INFO 2025-07-05 20:03:27,082 basehttp 44026 6197243904 "GET /api/ HTTP/1.1" 200 136
+WARNING 2025-07-05 20:03:27,084 log 44026 6197243904 Forbidden: /api/anlagen/
+WARNING 2025-07-05 20:03:27,085 basehttp 44026 6197243904 "GET /api/anlagen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 20:03:27,087 log 44026 6197243904 Forbidden: /api/listen/
+WARNING 2025-07-05 20:03:27,087 basehttp 44026 6197243904 "GET /api/listen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 20:03:27,089 log 44026 6197243904 Forbidden: /api/users/
+WARNING 2025-07-05 20:03:27,089 basehttp 44026 6197243904 "GET /api/users/ HTTP/1.1" 403 33
+WARNING 2025-07-05 20:03:27,091 log 44026 6197243904 Not Found: /nicht-existierende-seite/
+WARNING 2025-07-05 20:03:27,091 basehttp 44026 6197243904 "GET /nicht-existierende-seite/ HTTP/1.1" 404 179
+INFO 2025-07-05 20:03:27,094 basehttp 44026 6197243904 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 20:03:27,250 basehttp 44026 6197243904 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-05 20:03:27,354 basehttp 44026 6197243904 "GET /data/ HTTP/1.1" 200 641208
+INFO 2025-07-05 20:03:27,367 basehttp 44026 6197243904 "GET /accounts/register/ HTTP/1.1" 200 38877
+INFO 2025-07-05 20:03:27,432 basehttp 44026 6197243904 "POST /accounts/register/ HTTP/1.1" 200 39809
+WARNING 2025-07-05 22:11:35,150 log 44026 6197243904 Not Found: /static/css/branding.css
+WARNING 2025-07-05 22:11:35,156 basehttp 44026 6197243904 "HEAD /static/css/branding.css HTTP/1.1" 404 0
+INFO 2025-07-05 22:12:02,901 autoreload 47180 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-05 22:12:04,191 basehttp 47180 6204141568 "HEAD /static/css/branding.css HTTP/1.1" 200 0
+INFO 2025-07-05 22:12:07,722 basehttp 47180 6204141568 "HEAD /static/img/logo.svg HTTP/1.1" 200 0
+INFO 2025-07-05 22:12:11,255 basehttp 47180 6204141568 "HEAD /static/img/favicon.svg HTTP/1.1" 200 0
+INFO 2025-07-05 22:12:58,241 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55573
+INFO 2025-07-05 22:12:58,243 basehttp 47180 6204141568 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 22:12:58,256 basehttp 47180 6204141568 "GET /accounts/register/ HTTP/1.1" 200 35547
+INFO 2025-07-05 22:12:58,258 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-05 22:12:58,259 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40387
+INFO 2025-07-05 22:12:58,264 basehttp 47180 6204141568 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-05 22:12:58,273 basehttp 47180 6204141568 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4216
+INFO 2025-07-05 22:12:58,276 basehttp 47180 6204141568 "GET /static/css/branding.css HTTP/1.1" 200 1083
+INFO 2025-07-05 22:12:58,277 basehttp 47180 6204141568 "GET /static/img/logo.svg HTTP/1.1" 200 1
+INFO 2025-07-05 22:12:58,278 basehttp 47180 6204141568 "GET /static/img/favicon.svg HTTP/1.1" 200 1
+INFO 2025-07-05 22:12:58,279 basehttp 47180 6204141568 "GET /admin/css/base.css HTTP/1.1" 302 0
+INFO 2025-07-05 22:12:58,281 basehttp 47180 6204141568 "GET /admin/login/?next=/admin/css/base.css HTTP/1.1" 200 4240
+INFO 2025-07-05 22:12:58,282 basehttp 47180 6204141568 "GET /admin/js/core.js HTTP/1.1" 302 0
+INFO 2025-07-05 22:12:58,284 basehttp 47180 6204141568 "GET /admin/login/?next=/admin/js/core.js HTTP/1.1" 200 4236
+INFO 2025-07-05 22:12:58,285 basehttp 47180 6204141568 "GET /api/ HTTP/1.1" 200 136
+WARNING 2025-07-05 22:12:58,287 log 47180 6204141568 Forbidden: /api/anlagen/
+WARNING 2025-07-05 22:12:58,287 basehttp 47180 6204141568 "GET /api/anlagen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 22:12:58,288 log 47180 6204141568 Forbidden: /api/listen/
+WARNING 2025-07-05 22:12:58,288 basehttp 47180 6204141568 "GET /api/listen/ HTTP/1.1" 403 33
+WARNING 2025-07-05 22:12:58,289 log 47180 6204141568 Forbidden: /api/users/
+WARNING 2025-07-05 22:12:58,289 basehttp 47180 6204141568 "GET /api/users/ HTTP/1.1" 403 33
+WARNING 2025-07-05 22:12:58,293 log 47180 6204141568 Not Found: /nicht-existierende-seite/
+WARNING 2025-07-05 22:12:58,293 basehttp 47180 6204141568 "GET /nicht-existierende-seite/ HTTP/1.1" 404 8657
+INFO 2025-07-05 22:12:58,295 basehttp 47180 6204141568 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-05 22:12:58,396 basehttp 47180 6204141568 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-05 22:12:58,444 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 200 641208
+INFO 2025-07-05 22:12:58,450 basehttp 47180 6204141568 "GET /accounts/register/ HTTP/1.1" 200 38877
+INFO 2025-07-05 22:12:58,482 basehttp 47180 6204141568 "POST /accounts/register/ HTTP/1.1" 200 39809
+INFO 2025-07-06 01:08:22,858 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55914
+INFO 2025-07-06 01:08:22,882 basehttp 47180 6204141568 "GET /static/css/branding.css HTTP/1.1" 200 1083
+INFO 2025-07-06 01:08:22,882 basehttp 47180 6220967936 "GET /static/css/custom.css HTTP/1.1" 200 11432
+INFO 2025-07-06 01:08:22,883 basehttp 47180 6237794304 "GET /static/img/logo.svg HTTP/1.1" 200 1
+INFO 2025-07-06 01:08:22,911 basehttp 47180 6220967936 "GET /static/img/favicon.svg HTTP/1.1" 200 1
+INFO 2025-07-06 01:08:26,783 basehttp 47180 6204141568 "GET /accounts/login/ HTTP/1.1" 200 40387
+INFO 2025-07-06 01:08:28,607 basehttp 47180 6204141568 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:08:28,617 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 200 52529
+INFO 2025-07-06 01:08:31,852 basehttp 47180 6204141568 "GET /data/?energietraeger=&bundesland=&min_leistung=&max_leistung=&status=&plz=&ort= HTTP/1.1" 200 52258
+INFO 2025-07-06 01:08:35,741 basehttp 47180 6204141568 "GET /anlagen-listen/ HTTP/1.1" 200 36733
+INFO 2025-07-06 01:08:38,479 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 200 52258
+INFO 2025-07-06 01:09:00,096 basehttp 47180 6204141568 "GET /analytics/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:09:00,108 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 200 52579
+INFO 2025-07-06 01:09:10,570 basehttp 47180 6204141568 "GET /subscriptions/usage/ HTTP/1.1" 200 44929
+INFO 2025-07-06 01:09:10,625 basehttp 47180 6220967936 "GET /subscriptions/analytics-data/ HTTP/1.1" 200 172
+INFO 2025-07-06 01:11:23,860 basehttp 47180 6204141568 "GET /subscriptions/plans/ HTTP/1.1" 200 47552
+INFO 2025-07-06 01:11:59,198 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 200 52258
+INFO 2025-07-06 01:13:20,911 autoreload 51255 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 01:13:41,893 basehttp 47180 6220967936 "GET / HTTP/1.1" 200 55573
+WARNING 2025-07-06 01:13:41,903 log 47180 6220967936 Not Found: /dashboard/data/
+WARNING 2025-07-06 01:13:41,903 basehttp 47180 6220967936 "GET /dashboard/data/?energietraeger=Solar&bundesland=Bayern HTTP/1.1" 404 8660
+WARNING 2025-07-06 01:13:41,910 log 47180 6237794304 Not Found: /dashboard/data/
+WARNING 2025-07-06 01:13:41,910 basehttp 47180 6237794304 "GET /dashboard/data/?min_leistung=100&max_leistung=1000 HTTP/1.1" 404 8656
+WARNING 2025-07-06 01:13:41,916 log 47180 6220967936 Not Found: /dashboard/data/
+WARNING 2025-07-06 01:13:41,917 basehttp 47180 6220967936 "GET /dashboard/data/?radius_plz=80331&radius_km=50 HTTP/1.1" 404 8651
+WARNING 2025-07-06 01:13:41,923 log 47180 6237794304 Not Found: /dashboard/data/
+WARNING 2025-07-06 01:13:41,923 basehttp 47180 6237794304 "GET /dashboard/data/?freitext=Solar&technologie=Photovoltaik HTTP/1.1" 404 8661
+WARNING 2025-07-06 01:13:41,929 log 47180 6220967936 Not Found: /dashboard/data/
+WARNING 2025-07-06 01:13:41,930 basehttp 47180 6220967936 "GET /dashboard/data/?datum_von=2020-01-01&datum_bis=2023-12-31 HTTP/1.1" 404 8663
+WARNING 2025-07-06 01:13:41,937 log 47180 6220967936 Not Found: /dashboard/data/
+WARNING 2025-07-06 01:13:41,937 basehttp 47180 6220967936 "GET /dashboard/data/ HTTP/1.1" 404 8617
+WARNING 2025-07-06 01:13:41,943 log 47180 6220967936 Not Found: /dashboard/data/
+WARNING 2025-07-06 01:13:41,944 basehttp 47180 6220967936 "GET /dashboard/data/ HTTP/1.1" 404 8617
+INFO 2025-07-06 01:13:46,427 autoreload 51849 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 01:13:50,073 basehttp 47180 6220967936 "GET / HTTP/1.1" 200 55573
+WARNING 2025-07-06 01:13:54,335 log 47180 6220967936 Not Found: /dashboard/data/
+WARNING 2025-07-06 01:13:54,335 basehttp 47180 6220967936 "GET /dashboard/data/ HTTP/1.1" 404 8617
+INFO 2025-07-06 01:13:54,641 basehttp 47180 6220967936 "GET /data/ HTTP/1.1" 200 61423
+INFO 2025-07-06 01:13:59,623 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55573
+INFO 2025-07-06 01:14:25,707 basehttp 47180 6220967936 "GET /anlagen-listen/ HTTP/1.1" 200 36827
+INFO 2025-07-06 01:14:28,277 basehttp 47180 6220967936 "GET /betreiber/ HTTP/1.1" 200 47866
+INFO 2025-07-06 01:14:29,311 basehttp 47180 6220967936 "GET /data/ HTTP/1.1" 200 61423
+INFO 2025-07-06 01:14:34,754 basehttp 47180 6220967936 "GET /anlagen-listen/ HTTP/1.1" 200 36827
+INFO 2025-07-06 01:14:39,236 basehttp 47180 6220967936 "GET /data/ HTTP/1.1" 200 61423
+INFO 2025-07-06 01:14:43,672 basehttp 47180 6220967936 "GET /betreiber/ HTTP/1.1" 200 47866
+INFO 2025-07-06 01:14:46,474 basehttp 47180 6220967936 "GET /anlagen-listen/ HTTP/1.1" 200 36827
+INFO 2025-07-06 01:14:50,988 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55573
+INFO 2025-07-06 01:14:50,992 basehttp 47180 6204141568 "GET /data/?energietraeger=Solar&bundesland=Bayern HTTP/1.1" 302 0
+INFO 2025-07-06 01:14:50,998 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/%3Fenergietraeger%3DSolar%26bundesland%3DBayern HTTP/1.1" 200 40387
+INFO 2025-07-06 01:14:51,001 basehttp 47180 6237794304 "GET /data/?min_leistung=100&max_leistung=1000 HTTP/1.1" 302 0
+INFO 2025-07-06 01:14:51,004 basehttp 47180 6237794304 "GET /accounts/login/?next=/data/%3Fmin_leistung%3D100%26max_leistung%3D1000 HTTP/1.1" 200 40387
+INFO 2025-07-06 01:14:51,008 basehttp 47180 6204141568 "GET /data/?radius_plz=80331&radius_km=50 HTTP/1.1" 302 0
+INFO 2025-07-06 01:14:51,011 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/%3Fradius_plz%3D80331%26radius_km%3D50 HTTP/1.1" 200 40387
+INFO 2025-07-06 01:14:51,014 basehttp 47180 6237794304 "GET /data/?freitext=Solar&technologie=Photovoltaik HTTP/1.1" 302 0
+INFO 2025-07-06 01:14:51,020 basehttp 47180 6237794304 "GET /accounts/login/?next=/data/%3Ffreitext%3DSolar%26technologie%3DPhotovoltaik HTTP/1.1" 200 40387
+INFO 2025-07-06 01:14:51,025 basehttp 47180 6204141568 "GET /data/?datum_von=2020-01-01&datum_bis=2023-12-31 HTTP/1.1" 302 0
+INFO 2025-07-06 01:14:51,031 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/%3Fdatum_von%3D2020-01-01%26datum_bis%3D2023-12-31 HTTP/1.1" 200 40387
+INFO 2025-07-06 01:14:51,036 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:14:51,040 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40387
+INFO 2025-07-06 01:14:51,044 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:14:51,047 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40387
+INFO 2025-07-06 01:14:54,801 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:14:57,671 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:14:59,433 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:15:01,240 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:15:01,241 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40387
+INFO 2025-07-06 01:15:20,195 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55573
+INFO 2025-07-06 01:15:20,200 basehttp 47180 6204141568 "GET /data/?energietraeger=Solar&bundesland=Bayern HTTP/1.1" 302 0
+INFO 2025-07-06 01:15:20,204 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/%3Fenergietraeger%3DSolar%26bundesland%3DBayern HTTP/1.1" 200 40387
+INFO 2025-07-06 01:15:20,208 basehttp 47180 6237794304 "GET /data/?min_leistung=100&max_leistung=1000 HTTP/1.1" 302 0
+INFO 2025-07-06 01:15:20,211 basehttp 47180 6237794304 "GET /accounts/login/?next=/data/%3Fmin_leistung%3D100%26max_leistung%3D1000 HTTP/1.1" 200 40387
+INFO 2025-07-06 01:15:20,215 basehttp 47180 6204141568 "GET /data/?radius_plz=80331&radius_km=50 HTTP/1.1" 302 0
+INFO 2025-07-06 01:15:20,218 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/%3Fradius_plz%3D80331%26radius_km%3D50 HTTP/1.1" 200 40387
+INFO 2025-07-06 01:15:20,221 basehttp 47180 6237794304 "GET /data/?freitext=Solar&technologie=Photovoltaik HTTP/1.1" 302 0
+INFO 2025-07-06 01:15:20,224 basehttp 47180 6237794304 "GET /accounts/login/?next=/data/%3Ffreitext%3DSolar%26technologie%3DPhotovoltaik HTTP/1.1" 200 40387
+INFO 2025-07-06 01:15:20,226 basehttp 47180 6204141568 "GET /data/?datum_von=2020-01-01&datum_bis=2023-12-31 HTTP/1.1" 302 0
+INFO 2025-07-06 01:15:20,231 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/%3Fdatum_von%3D2020-01-01%26datum_bis%3D2023-12-31 HTTP/1.1" 200 40387
+INFO 2025-07-06 01:15:20,235 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:15:20,238 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40387
+INFO 2025-07-06 01:15:20,241 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:15:20,244 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40387
+INFO 2025-07-06 01:15:40,438 basehttp 47180 6220967936 "GET /data/ HTTP/1.1" 200 61423
+INFO 2025-07-06 01:17:09,800 autoreload 53751 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 01:17:13,115 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55329
+INFO 2025-07-06 01:17:32,014 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55329
+INFO 2025-07-06 01:17:32,017 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:17:32,021 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:17:32,028 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55329
+INFO 2025-07-06 01:17:32,034 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55329
+INFO 2025-07-06 01:17:34,924 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55329
+INFO 2025-07-06 01:17:47,870 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:17:59,986 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55329
+INFO 2025-07-06 01:17:59,989 basehttp 47180 6204141568 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:17:59,994 basehttp 47180 6204141568 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:18:00,005 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55329
+INFO 2025-07-06 01:18:00,020 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55329
+INFO 2025-07-06 01:19:10,028 autoreload 54939 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 01:19:13,902 basehttp 47180 6204141568 "GET / HTTP/1.1" 200 55329
+WARNING 2025-07-06 01:19:34,817 log 47180 6204141568 Not Found: /listen/
+WARNING 2025-07-06 01:19:34,818 basehttp 47180 6204141568 "GET /listen/ HTTP/1.1" 404 8585
+INFO 2025-07-06 01:19:34,822 basehttp 47180 6204141568 "GET /betreiber/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:19:34,830 basehttp 47180 6204141568 "GET /accounts/login/?next=/betreiber/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:20:22,528 autoreload 55867 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 01:20:56,011 basehttp 55867 6203207680 "GET / HTTP/1.1" 200 55329
+WARNING 2025-07-06 01:20:56,017 basehttp 55867 6203207680 "GET /static/css/style.css HTTP/1.1" 404 1966
+WARNING 2025-07-06 01:20:56,021 basehttp 55867 6203207680 "GET /static/js/main.js HTTP/1.1" 404 1957
+INFO 2025-07-06 01:20:56,030 basehttp 55867 6203207680 "GET /static/vendor/leaflet/leaflet.css HTTP/1.1" 200 14806
+INFO 2025-07-06 01:20:56,033 basehttp 55867 6220034048 "GET /static/vendor/leaflet/leaflet.js HTTP/1.1" 200 147552
+INFO 2025-07-06 01:20:56,037 basehttp 55867 6203207680 "GET / HTTP/1.1" 200 55329
+INFO 2025-07-06 01:20:56,041 basehttp 55867 6220034048 "GET /accounts/login/ HTTP/1.1" 200 40143
+WARNING 2025-07-06 01:20:56,049 log 55867 6203207680 Not Found: /dashboard/
+WARNING 2025-07-06 01:20:56,049 basehttp 55867 6203207680 "GET /dashboard/ HTTP/1.1" 404 8495
+WARNING 2025-07-06 01:20:56,054 log 55867 6220034048 Not Found: /dashboard/anlagen/
+WARNING 2025-07-06 01:20:56,054 basehttp 55867 6220034048 "GET /dashboard/anlagen/ HTTP/1.1" 404 8629
+WARNING 2025-07-06 01:20:56,059 log 55867 6203207680 Not Found: /dashboard/betreiber/
+WARNING 2025-07-06 01:20:56,060 basehttp 55867 6203207680 "GET /dashboard/betreiber/ HTTP/1.1" 404 8637
+WARNING 2025-07-06 01:20:56,066 log 55867 6220034048 Not Found: /dashboard/listen/
+WARNING 2025-07-06 01:20:56,066 basehttp 55867 6220034048 "GET /dashboard/listen/ HTTP/1.1" 404 8625
+INFO 2025-07-06 01:20:56,068 basehttp 55867 6203207680 "GET /subscriptions/plans/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:20:56,071 basehttp 55867 6203207680 "GET /accounts/login/?next=/subscriptions/plans/ HTTP/1.1" 200 40143
+WARNING 2025-07-06 01:20:56,076 log 55867 6203207680 Not Found: /dashboard/anlagen/
+WARNING 2025-07-06 01:20:56,076 basehttp 55867 6203207680 "GET /dashboard/anlagen/?q=Solar&anlagentyp=Solar&radius=50&lat=52.5200&lng=13.4050 HTTP/1.1" 404 8704
+WARNING 2025-07-06 01:20:56,082 log 55867 6203207680 Not Found: /dashboard/anlagen/
+WARNING 2025-07-06 01:20:56,082 basehttp 55867 6203207680 "GET /dashboard/anlagen/ HTTP/1.1" 404 8629
+WARNING 2025-07-06 01:20:56,087 log 55867 6203207680 Not Found: /dashboard/
+WARNING 2025-07-06 01:20:56,087 basehttp 55867 6203207680 "GET /dashboard/ HTTP/1.1" 404 8495
+WARNING 2025-07-06 01:20:56,095 log 55867 6203207680 Not Found: /dashboard/
+WARNING 2025-07-06 01:20:56,095 basehttp 55867 6203207680 "GET /dashboard/ HTTP/1.1" 404 8495
+WARNING 2025-07-06 01:20:56,101 log 55867 6203207680 Not Found: /dashboard/listen/
+WARNING 2025-07-06 01:20:56,101 basehttp 55867 6203207680 "GET /dashboard/listen/ HTTP/1.1" 404 8625
+WARNING 2025-07-06 01:20:56,106 log 55867 6220034048 Not Found: /dashboard/betreiber/
+WARNING 2025-07-06 01:20:56,107 basehttp 55867 6220034048 "GET /dashboard/betreiber/ HTTP/1.1" 404 8637
+INFO 2025-07-06 01:20:56,109 basehttp 55867 6203207680 "GET /subscriptions/plans/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:20:56,112 basehttp 55867 6203207680 "GET /accounts/login/?next=/subscriptions/plans/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:20:56,114 basehttp 55867 6220034048 "GET /subscriptions/billing/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:20:56,117 basehttp 55867 6220034048 "GET /accounts/login/?next=/subscriptions/billing/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:20:56,119 basehttp 55867 6203207680 "GET /subscriptions/usage/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:20:56,121 basehttp 55867 6203207680 "GET /accounts/login/?next=/subscriptions/usage/ HTTP/1.1" 200 40143
+WARNING 2025-07-06 01:20:56,124 log 55867 6203207680 Forbidden: /api/anlagen/
+WARNING 2025-07-06 01:20:56,124 basehttp 55867 6203207680 "GET /api/anlagen/ HTTP/1.1" 403 33
+WARNING 2025-07-06 01:20:56,131 log 55867 6220034048 Not Found: /api/betreiber/
+WARNING 2025-07-06 01:20:56,131 basehttp 55867 6220034048 "GET /api/betreiber/ HTTP/1.1" 404 13776
+WARNING 2025-07-06 01:20:56,134 log 55867 6203207680 Forbidden: /api/listen/
+WARNING 2025-07-06 01:20:56,134 basehttp 55867 6203207680 "GET /api/listen/ HTTP/1.1" 403 33
+INFO 2025-07-06 01:21:39,556 basehttp 55867 6203207680 "GET / HTTP/1.1" 200 55329
+INFO 2025-07-06 01:21:39,562 basehttp 55867 6203207680 "GET /static/vendor/leaflet/leaflet.css HTTP/1.1" 200 14806
+INFO 2025-07-06 01:21:39,566 basehttp 55867 6220034048 "GET /static/vendor/leaflet/leaflet.js HTTP/1.1" 200 147552
+INFO 2025-07-06 01:21:39,568 basehttp 55867 6203207680 "GET /static/vendor/leaflet.markercluster/leaflet.markercluster.js HTTP/1.1" 200 73
+INFO 2025-07-06 01:21:39,570 basehttp 55867 6220034048 "GET /static/vendor/leaflet.markercluster/MarkerCluster.css HTTP/1.1" 200 66
+INFO 2025-07-06 01:21:39,574 basehttp 55867 6203207680 "GET / HTTP/1.1" 200 55329
+INFO 2025-07-06 01:21:39,578 basehttp 55867 6220034048 "GET /accounts/login/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,580 basehttp 55867 6203207680 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:21:39,583 basehttp 55867 6203207680 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,584 basehttp 55867 6220034048 "GET /anlagen-listen/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:21:39,586 basehttp 55867 6220034048 "GET /accounts/login/?next=/anlagen-listen/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,588 basehttp 55867 6203207680 "GET /betreiber/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:21:39,593 basehttp 55867 6203207680 "GET /accounts/login/?next=/betreiber/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,596 basehttp 55867 6220034048 "GET /subscriptions/plans/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:21:39,599 basehttp 55867 6220034048 "GET /accounts/login/?next=/subscriptions/plans/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,601 basehttp 55867 6203207680 "GET /anlagen-listen/?q=Solar&anlagentyp=Solar&radius=50&lat=52.5200&lng=13.4050 HTTP/1.1" 302 0
+INFO 2025-07-06 01:21:39,603 basehttp 55867 6203207680 "GET /accounts/login/?next=/anlagen-listen/%3Fq%3DSolar%26anlagentyp%3DSolar%26radius%3D50%26lat%3D52.5200%26lng%3D13.4050 HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,606 basehttp 55867 6203207680 "GET /anlagen-listen/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:21:39,608 basehttp 55867 6203207680 "GET /accounts/login/?next=/anlagen-listen/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,613 basehttp 55867 6203207680 "GET / HTTP/1.1" 200 55329
+INFO 2025-07-06 01:21:39,618 basehttp 55867 6203207680 "GET / HTTP/1.1" 200 55329
+INFO 2025-07-06 01:21:39,623 basehttp 55867 6203207680 "GET /anlagen-listen/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:21:39,627 basehttp 55867 6203207680 "GET /accounts/login/?next=/anlagen-listen/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,630 basehttp 55867 6220034048 "GET /betreiber/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:21:39,633 basehttp 55867 6220034048 "GET /accounts/login/?next=/betreiber/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,636 basehttp 55867 6203207680 "GET /subscriptions/plans/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:21:39,638 basehttp 55867 6203207680 "GET /accounts/login/?next=/subscriptions/plans/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,641 basehttp 55867 6220034048 "GET /subscriptions/billing/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:21:39,643 basehttp 55867 6220034048 "GET /accounts/login/?next=/subscriptions/billing/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,646 basehttp 55867 6203207680 "GET /subscriptions/usage/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:21:39,648 basehttp 55867 6203207680 "GET /accounts/login/?next=/subscriptions/usage/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,650 basehttp 55867 6203207680 "GET /api/data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:21:39,652 basehttp 55867 6203207680 "GET /accounts/login/?next=/api/data/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,654 basehttp 55867 6220034048 "GET /api/chart-data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:21:39,657 basehttp 55867 6220034048 "GET /accounts/login/?next=/api/chart-data/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:21:39,661 basehttp 55867 6203207680 "GET /health/ HTTP/1.1" 200 76
+INFO 2025-07-06 01:21:50,416 basehttp 55867 6203207680 "GET /anlagen-listen/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:27:14,143 basehttp 55867 6203207680 "GET /accounts/login/ HTTP/1.1" 200 40143
+WARNING 2025-07-06 01:27:14,147 basehttp 55867 6203207680 "POST /accounts/login/ HTTP/1.1" 403 2503
+INFO 2025-07-06 01:27:54,983 basehttp 55867 6203207680 "GET /accounts/login/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:27:55,073 basehttp 55867 6203207680 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:27:55,081 basehttp 55867 6203207680 "GET /data/ HTTP/1.1" 200 62926
+INFO 2025-07-06 01:27:55,085 basehttp 55867 6203207680 "GET / HTTP/1.1" 302 0
+INFO 2025-07-06 01:27:55,090 basehttp 55867 6203207680 "GET /data/ HTTP/1.1" 200 62634
+INFO 2025-07-06 01:27:55,096 basehttp 55867 6203207680 "GET /anlagen-listen/ HTTP/1.1" 200 35763
+INFO 2025-07-06 01:27:55,100 basehttp 55867 6203207680 "GET /anlagen-listen/?q=Solar&anlagentyp=Solar&radius=50&lat=52.5200&lng=13.4050 HTTP/1.1" 200 35763
+INFO 2025-07-06 01:28:12,623 basehttp 55867 6203207680 "GET /data/ HTTP/1.1" 200 62634
+INFO 2025-07-06 01:28:20,765 basehttp 55867 6203207680 "GET /data/?energietraeger=&bundesland=&min_leistung=&max_leistung=&status=&plz=&ort=&technologie=&art_solar=&betreiber=&datum_von=&datum_bis=&radius_plz=&radius_km=&freitext= HTTP/1.1" 200 62634
+INFO 2025-07-06 01:28:21,994 basehttp 55867 6203207680 "GET /data/?energietraeger=&bundesland=&min_leistung=&max_leistung=&status=&plz=&ort=&technologie=&art_solar=&betreiber=&datum_von=&datum_bis=&radius_plz=&radius_km=&freitext= HTTP/1.1" 200 62634
+INFO 2025-07-06 01:29:04,381 basehttp 55867 6220034048 "GET /accounts/login/ HTTP/1.1" 200 40143
+INFO 2025-07-06 01:29:04,985 basehttp 55867 6220034048 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:29:05,016 basehttp 55867 6220034048 "GET /anlagen-listen/ HTTP/1.1" 200 37412
+INFO 2025-07-06 01:29:25,491 basehttp 55867 6220034048 "GET /accounts/login/ HTTP/1.1" 200 40148
+INFO 2025-07-06 01:29:25,708 basehttp 55867 6220034048 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:29:25,738 basehttp 55867 6220034048 "GET /anlagen-listen/ HTTP/1.1" 200 41772
+INFO 2025-07-06 01:29:25,790 basehttp 55867 6220034048 "GET /liste/1/ HTTP/1.1" 200 42165
+INFO 2025-07-06 01:30:17,435 basehttp 55867 6203207680 "GET /data/?energietraeger=&bundesland=&min_leistung=&max_leistung=&status=&plz=&ort=&technologie=&art_solar=&betreiber=&datum_von=&datum_bis=&radius_plz=&radius_km=&freitext= HTTP/1.1" 200 62639
+WARNING 2025-07-06 01:30:48,991 log 55867 6220034048 Not Found: /dashboard/data/
+WARNING 2025-07-06 01:30:48,991 basehttp 55867 6220034048 "GET /dashboard/data/ HTTP/1.1" 404 8617
+INFO 2025-07-06 01:31:18,781 basehttp 55867 6220034048 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:31:25,512 basehttp 55867 6220034048 "GET /data/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:31:25,520 basehttp 55867 6220034048 "GET /accounts/login/?next=/data/ HTTP/1.1" 200 40148
+INFO 2025-07-06 01:32:35,807 basehttp 55867 6203207680 "GET /accounts/login/ HTTP/1.1" 200 40148
+INFO 2025-07-06 01:32:35,963 basehttp 55867 6203207680 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:32:35,973 basehttp 55867 6203207680 "GET /data/ HTTP/1.1" 200 62931
+INFO 2025-07-06 01:32:35,985 basehttp 55867 6203207680 "GET /data/ HTTP/1.1" 200 62639
+INFO 2025-07-06 01:33:14,346 autoreload 55867 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 01:33:15,152 autoreload 59180 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 01:33:16,740 basehttp 59180 6190608384 "GET /accounts/login/ HTTP/1.1" 200 40148
+INFO 2025-07-06 01:33:16,900 basehttp 59180 6190608384 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-06 01:33:16,922 basehttp 59180 6190608384 "GET /data/ HTTP/1.1" 200 62931
+INFO 2025-07-06 01:33:16,933 basehttp 59180 6190608384 "GET /data/ HTTP/1.1" 200 62639
+INFO 2025-07-06 10:12:46,389 autoreload 64504 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:13:20,830 autoreload 65621 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:14:47,446 autoreload 66998 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:42:19,291 autoreload 70565 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:42:19,291 autoreload 70564 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:43:34,757 autoreload 70780 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:45:45,281 autoreload 71097 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:50:47,120 autoreload 71097 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/settings.py changed, reloading.
+INFO 2025-07-06 10:50:47,602 autoreload 72086 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:51:00,703 autoreload 72086 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/settings.py changed, reloading.
+INFO 2025-07-06 10:51:01,165 autoreload 72094 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:51:07,270 autoreload 72094 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/settings.py changed, reloading.
+INFO 2025-07-06 10:51:07,630 autoreload 72102 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:51:16,563 autoreload 72102 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/settings.py changed, reloading.
+INFO 2025-07-06 10:51:17,004 autoreload 72105 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:51:27,523 autoreload 72624 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:51:37,026 basehttp 72105 6163361792 "GET / HTTP/1.1" 200 55334
+INFO 2025-07-06 10:51:50,066 basehttp 72105 6163361792 "GET /accounts/login/ HTTP/1.1" 200 40148
+INFO 2025-07-06 10:51:53,457 basehttp 72105 6163361792 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-06 10:51:53,500 basehttp 72105 6163361792 "GET /data/ HTTP/1.1" 200 381090
+INFO 2025-07-06 10:51:53,534 basehttp 72105 6163361792 "GET /data/ HTTP/1.1" 200 380728
+INFO 2025-07-06 10:55:36,104 autoreload 73458 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:55:40,510 basehttp 73458 6171799552 "GET / HTTP/1.1" 200 55334
+INFO 2025-07-06 10:56:08,251 autoreload 74075 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 10:56:12,626 basehttp 74075 6201290752 "GET / HTTP/1.1" 200 55334
+INFO 2025-07-06 10:56:38,351 basehttp 74075 6201290752 "GET / HTTP/1.1" 200 55334
+INFO 2025-07-06 10:56:38,380 basehttp 74075 6218117120 "GET /static/css/branding.css HTTP/1.1" 304 0
+INFO 2025-07-06 10:56:38,385 basehttp 74075 6201290752 "GET /static/css/custom.css HTTP/1.1" 200 11432
+INFO 2025-07-06 10:56:38,597 basehttp 74075 6218117120 "GET /static/img/logo.svg HTTP/1.1" 200 650
+INFO 2025-07-06 10:58:06,855 basehttp 74075 6201290752 "GET /accounts/login/ HTTP/1.1" 200 40148
+WARNING 2025-07-06 10:58:27,511 log 74075 6218117120 Not Found: /favicon.ico
+WARNING 2025-07-06 10:58:27,511 basehttp 74075 6218117120 "GET /favicon.ico HTTP/1.1" 404 8602
+INFO 2025-07-06 10:58:27,511 basehttp 74075 6218117120 - Broken pipe from ('127.0.0.1', 52138)
+INFO 2025-07-06 10:58:56,228 basehttp 74075 6201290752 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-06 10:58:56,291 basehttp 74075 6201290752 "GET /data/ HTTP/1.1" 200 381090
+INFO 2025-07-06 11:00:00,459 basehttp 74075 6201290752 "GET /data/?page=2 HTTP/1.1" 200 382122
+INFO 2025-07-06 11:03:03,919 basehttp 74075 6201290752 "GET /anlagen-listen/ HTTP/1.1" 200 41410
+INFO 2025-07-06 11:03:03,943 basehttp 74075 6201290752 "GET /static/vendor/leaflet/leaflet.css HTTP/1.1" 200 14806
+INFO 2025-07-06 11:03:03,944 basehttp 74075 6234943488 "GET /static/vendor/leaflet.markercluster/MarkerCluster.Default.css HTTP/1.1" 200 74
+INFO 2025-07-06 11:03:03,944 basehttp 74075 6218117120 "GET /static/vendor/leaflet.markercluster/MarkerCluster.css HTTP/1.1" 200 66
+INFO 2025-07-06 11:03:03,945 basehttp 74075 6268596224 "GET /static/vendor/leaflet.markercluster/leaflet.markercluster.js HTTP/1.1" 200 73
+INFO 2025-07-06 11:03:03,946 basehttp 74075 6251769856 "GET /static/vendor/leaflet/leaflet.js HTTP/1.1" 200 147552
+INFO 2025-07-06 11:03:03,955 basehttp 74075 6251769856 "GET /static/img/logo.svg HTTP/1.1" 200 650
+INFO 2025-07-06 11:03:03,965 basehttp 74075 6251769856 "GET /static/img/favicon.svg HTTP/1.1" 200 270
+INFO 2025-07-06 11:03:03,965 basehttp 74075 6251769856 - Broken pipe from ('127.0.0.1', 52708)
+INFO 2025-07-06 11:03:27,803 basehttp 74075 6201290752 "GET /betreiber/ HTTP/1.1" 200 46807
+INFO 2025-07-06 11:03:30,919 basehttp 74075 6201290752 "GET /data/ HTTP/1.1" 200 380728
+INFO 2025-07-06 11:04:44,374 autoreload 74075 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:04:44,384 autoreload 73458 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:04:45,189 autoreload 74716 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:04:45,189 autoreload 74717 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:05:28,344 basehttp 74716 6133657600 "GET / HTTP/1.1" 200 53174
+INFO 2025-07-06 11:05:31,143 basehttp 74716 6133657600 "GET / HTTP/1.1" 200 53174
+INFO 2025-07-06 11:05:34,377 basehttp 74716 6133657600 "GET / HTTP/1.1" 200 53174
+INFO 2025-07-06 11:06:16,609 autoreload 75616 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:06:26,836 basehttp 74716 6133657600 "GET / HTTP/1.1" 200 53174
+INFO 2025-07-06 11:06:31,903 basehttp 74716 6133657600 "GET / HTTP/1.1" 302 0
+INFO 2025-07-06 11:06:31,949 basehttp 74716 6133657600 "GET /data/ HTTP/1.1" 200 350829
+INFO 2025-07-06 11:07:09,290 basehttp 74716 6133657600 "GET /betreiber/ HTTP/1.1" 200 46807
+INFO 2025-07-06 11:07:09,352 basehttp 74716 6133657600 "GET /static/img/favicon.svg HTTP/1.1" 200 270
+INFO 2025-07-06 11:07:09,352 basehttp 74716 6150483968 "GET /static/img/favicon.svg HTTP/1.1" 200 270
+INFO 2025-07-06 11:07:09,353 basehttp 74716 6133657600 - Broken pipe from ('127.0.0.1', 52980)
+INFO 2025-07-06 11:07:09,353 basehttp 74716 6150483968 - Broken pipe from ('127.0.0.1', 53001)
+INFO 2025-07-06 11:07:10,437 basehttp 74716 6133657600 "GET /anlagen-listen/ HTTP/1.1" 200 41410
+INFO 2025-07-06 11:07:11,070 basehttp 74716 6133657600 "GET /betreiber/ HTTP/1.1" 200 46807
+INFO 2025-07-06 11:07:12,173 basehttp 74716 6133657600 "GET /betreiber/?name=&bundesland=&anzahl_min=&anzahl_max=&leistung_min=&leistung_max=&energietraeger= HTTP/1.1" 200 46807
+INFO 2025-07-06 11:09:48,689 autoreload 76428 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:15:32,829 autoreload 78093 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:15:42,814 autoreload 74717 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:15:42,815 autoreload 74716 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:15:43,513 autoreload 78195 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:15:43,513 autoreload 78196 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:16:08,557 autoreload 78195 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:16:08,561 autoreload 78196 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:16:09,308 autoreload 78611 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:16:09,308 autoreload 78610 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:16:15,691 autoreload 78610 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:16:15,696 autoreload 78611 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:16:16,207 autoreload 78622 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:16:16,207 autoreload 78623 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:16:20,870 autoreload 78942 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:17:33,317 basehttp 78622 6190624768 "GET / HTTP/1.1" 200 53174
+INFO 2025-07-06 11:17:33,342 basehttp 78622 6190624768 "GET /static/css/branding.css HTTP/1.1" 200 1083
+INFO 2025-07-06 11:17:33,342 basehttp 78622 6207451136 "GET /static/css/custom.css HTTP/1.1" 200 11432
+INFO 2025-07-06 11:17:33,376 basehttp 78622 6207451136 "GET /static/img/logo.svg HTTP/1.1" 200 650
+INFO 2025-07-06 11:17:33,386 basehttp 78622 6207451136 "GET /static/img/favicon.svg HTTP/1.1" 200 270
+INFO 2025-07-06 11:17:35,622 basehttp 78622 6190624768 "GET /accounts/login/ HTTP/1.1" 200 40148
+INFO 2025-07-06 11:17:37,884 basehttp 78622 6190624768 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-07-06 11:17:37,923 basehttp 78622 6190624768 "GET /data/ HTTP/1.1" 200 359754
+INFO 2025-07-06 11:19:57,528 autoreload 78623 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:19:57,537 autoreload 78622 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:19:58,053 autoreload 80411 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:19:58,053 autoreload 80410 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:20:15,132 autoreload 80411 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:20:15,134 autoreload 80410 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:20:15,577 autoreload 80422 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:20:15,577 autoreload 80423 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:21:06,951 autoreload 80752 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:22:47,139 autoreload 80422 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:22:47,140 autoreload 80423 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:22:47,699 autoreload 80861 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:22:47,699 autoreload 80860 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:22:52,184 autoreload 81180 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:24:00,571 basehttp 80860 6201356288 "GET / HTTP/1.1" 302 0
+INFO 2025-07-06 11:24:00,871 basehttp 80860 6201356288 "GET /data/ HTTP/1.1" 200 1881056
+INFO 2025-07-06 11:24:00,966 basehttp 80860 6201356288 "GET /static/img/logo.svg HTTP/1.1" 200 650
+INFO 2025-07-06 11:24:01,003 basehttp 80860 6201356288 "GET /static/img/favicon.svg HTTP/1.1" 200 270

@@ -12,6 +12,16 @@ class UserProfile(models.Model):
     email_verification_token = models.CharField(max_length=100, blank=True, null=True)
     email_verification_sent_at = models.DateTimeField(blank=True, null=True)
     onboarding_completed = models.BooleanField(default=False)
+    
+    # Adressfelder für Rechnungszwecke
+    company_name = models.CharField(max_length=200, blank=True, null=True, verbose_name="Firmenname")
+    street_address = models.CharField(max_length=200, blank=True, null=True, verbose_name="Straße & Hausnummer")
+    postal_code = models.CharField(max_length=10, blank=True, null=True, verbose_name="Postleitzahl")
+    city = models.CharField(max_length=100, blank=True, null=True, verbose_name="Stadt")
+    country = models.CharField(max_length=100, blank=True, null=True, verbose_name="Land")
+    phone = models.CharField(max_length=20, blank=True, null=True, verbose_name="Telefonnummer")
+    tax_id = models.CharField(max_length=50, blank=True, null=True, verbose_name="Steuernummer/USt-IdNr.")
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

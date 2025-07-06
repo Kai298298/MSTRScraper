@@ -4,6 +4,10 @@
 {% block title %}MaStR Lead-Generierung{% endblock %}
 
 {% block extra_css %}
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 <style>
     .anlagen-listen-panel {
         background: #f8f9fa;
@@ -130,6 +134,151 @@
         }
     }
     
+    /* Kartenansicht Styling */
+    .view-toggle {
+        margin-bottom: 20px;
+    }
+    
+    .card-view {
+        display: none;
+    }
+    
+    .card-view.active {
+        display: block;
+    }
+    
+    .table-view {
+        display: none;
+    }
+    
+    .table-view.active {
+        display: block;
+    }
+    
+    .anlage-card {
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .anlage-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        border-color: #007bff;
+    }
+    
+    .anlage-card.selected {
+        border-color: #007bff;
+        background-color: #f8f9ff;
+    }
+    
+    .anlage-header {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .anlage-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #333;
+        margin: 0;
+    }
+    
+    .anlage-status {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+    
+    .status-active {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .status-inactive {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+    
+    .anlage-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .detail-item {
+        display: flex;
+        align-items: center;
+    }
+    
+    .detail-icon {
+        width: 20px;
+        margin-right: 8px;
+        color: #007bff;
+    }
+    
+    .detail-label {
+        font-weight: bold;
+        color: #666;
+        margin-right: 5px;
+    }
+    
+    .detail-value {
+        color: #333;
+    }
+    
+    .anlage-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+    
+    .btn-save-anlage {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-size: 0.9em;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .btn-save-anlage:hover {
+        background: #218838;
+        transform: translateY(-1px);
+    }
+    
+    .btn-save-anlage:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+    }
+    
+    .btn-view-details {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-size: 0.9em;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .btn-view-details:hover {
+        background: #0056b3;
+        transform: translateY(-1px);
+    }
+    
     /* Einfache Karte Styling */
     #anlagen-map {
         height: 80vh;
@@ -198,42 +347,6 @@
         color: #666;
         cursor: pointer;
     }
-    
-    .map-popup-close:hover {
-        color: #333;
-    }
-    
-    .map-info {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background: rgba(255,255,255,0.9);
-        padding: 10px;
-        border-radius: 5px;
-        font-size: 12px;
-        color: #666;
-    }
-    
-    /* Responsive Verbesserungen */
-    @media (max-width: 768px) {
-        .table-responsive {
-            font-size: 0.9em;
-        }
-        
-        .btn {
-            font-size: 0.9em;
-            padding: 0.375rem 0.75rem;
-        }
-        
-        #anlagen-map {
-            height: 70vh;
-        }
-        
-        .map-popup {
-            max-width: 250px;
-            font-size: 14px;
-        }
-    }
 </style>
 {% endblock %}
 
@@ -247,178 +360,139 @@
                     <i class="fas fa-search text-primary"></i>
                     MaStR Lead-Generierung
                 </h1>
-                <div class="d-flex align-items-center">
-                    <span class="badge bg-info me-2">
-                        <i class="fas fa-chart-line"></i>
-                        {{ requests_remaining }} Anfragen verbleibend
-                    </span>
-                    {% if subscription %}
-                        <span class="badge bg-{{ subscription.plan.name|yesno:'success,warning' }}">
-                            {{ subscription.plan.display_name }}
-                        </span>
-                    {% endif %}
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary active" id="btn-table-view">
+                        <i class="fas fa-table"></i> Tabelle
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" id="btn-card-view">
+                        <i class="fas fa-map"></i> Karten
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Tab Navigation -->
-    {% include 'partials/main_tabs.html' %}
-
-    <!-- Filter Section -->
+    <!-- Suchformular -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0">
-                        <i class="fas fa-filter text-primary"></i>
-                        Filter & Suche
+                        <i class="fas fa-filter"></i>
+                        Suchkriterien
                     </h5>
                 </div>
                 <div class="card-body">
-                    <form method="get" id="filterForm" data-filter-form>
+                    <form method="get" id="searchForm">
                         <div class="row">
-                            <!-- Freitextsuche -->
-                            <div class="col-md-12 mb-3">
-                                <label for="freitext" class="form-label">Freitextsuche</label>
-                                <input type="text" class="form-control" id="freitext" name="freitext" 
-                                       value="{{ filter.freitext }}" placeholder="Suchen Sie nach Anlagenname, Ort, Betreiber...">
-                            </div>
-                            
-                            <!-- Erste Zeile -->
                             <div class="col-md-3 mb-3">
                                 <label for="energietraeger" class="form-label">Energieträger</label>
-                                <select class="form-select" id="energietraeger" name="energietraeger">
+                                <select name="energietraeger" id="energietraeger" class="form-select">
                                     <option value="">Alle Energieträger</option>
-                                    {% for energietraeger in energietraeger_list %}
-                                        <option value="{{ energietraeger }}" {% if filter.energietraeger == energietraeger %}selected{% endif %}>
-                                            {{ energietraeger }}
-                                        </option>
-                                    {% endfor %}
+                                    <option value="Solar" {% if request.GET.energietraeger == 'Solar' %}selected{% endif %}>Solar</option>
+                                    <option value="Wind" {% if request.GET.energietraeger == 'Wind' %}selected{% endif %}>Wind</option>
+                                    <option value="Biomasse" {% if request.GET.energietraeger == 'Biomasse' %}selected{% endif %}>Biomasse</option>
+                                    <option value="Wasser" {% if request.GET.energietraeger == 'Wasser' %}selected{% endif %}>Wasser</option>
                                 </select>
                             </div>
-                            
                             <div class="col-md-3 mb-3">
                                 <label for="bundesland" class="form-label">Bundesland</label>
-                                <select class="form-select" id="bundesland" name="bundesland">
+                                <select name="bundesland" id="bundesland" class="form-select">
                                     <option value="">Alle Bundesländer</option>
-                                    {% for bundesland in bundesland_list %}
-                                        <option value="{{ bundesland }}" {% if filter.bundesland == bundesland %}selected{% endif %}>
-                                            {{ bundesland }}
-                                        </option>
-                                    {% endfor %}
+                                    <option value="Bayern" {% if request.GET.bundesland == 'Bayern' %}selected{% endif %}>Bayern</option>
+                                    <option value="Niedersachsen" {% if request.GET.bundesland == 'Niedersachsen' %}selected{% endif %}>Niedersachsen</option>
+                                    <option value="Brandenburg" {% if request.GET.bundesland == 'Brandenburg' %}selected{% endif %}>Brandenburg</option>
+                                    <option value="Sachsen-Anhalt" {% if request.GET.bundesland == 'Sachsen-Anhalt' %}selected{% endif %}>Sachsen-Anhalt</option>
+                                    <option value="Nordrhein-Westfalen" {% if request.GET.bundesland == 'Nordrhein-Westfalen' %}selected{% endif %}>Nordrhein-Westfalen</option>
                                 </select>
                             </div>
-                            
                             <div class="col-md-3 mb-3">
-                                <label for="status" class="form-label">Status</label>
-                                <select class="form-select" id="status" name="status">
-                                    <option value="">Alle Status</option>
-                                    {% for status in status_list %}
-                                        <option value="{{ status }}" {% if filter.status == status %}selected{% endif %}>
-                                            {{ status }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
+                                <label for="min_leistung" class="form-label">Min. Leistung (kW)</label>
+                                <input type="number" name="min_leistung" id="min_leistung" class="form-control" 
+                                       value="{{ request.GET.min_leistung|default:'' }}" placeholder="0">
                             </div>
-                            
                             <div class="col-md-3 mb-3">
-                                <label for="technologie" class="form-label">Technologie</label>
-                                <select class="form-select" id="technologie" name="technologie">
-                                    <option value="">Alle Technologien</option>
-                                    {% for technologie in technologie_list %}
-                                        <option value="{{ technologie }}" {% if filter.technologie == technologie %}selected{% endif %}>
-                                            {{ technologie }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            
-                            <!-- Zweite Zeile -->
-                            <div class="col-md-2 mb-3">
-                                <label for="leistung_min" class="form-label">Leistung min (kW)</label>
-                                <input type="number" class="form-control" id="leistung_min" name="leistung_min" 
-                                       value="{{ filter.leistung_min }}" placeholder="0">
-                            </div>
-                            
-                            <div class="col-md-2 mb-3">
-                                <label for="leistung_max" class="form-label">Leistung max (kW)</label>
-                                <input type="number" class="form-control" id="leistung_max" name="leistung_max" 
-                                       value="{{ filter.leistung_max }}" placeholder="1000">
-                            </div>
-                            
-                            <div class="col-md-2 mb-3">
-                                <label for="ort" class="form-label">Ort</label>
-                                <input type="text" class="form-control" id="ort" name="ort" 
-                                       value="{{ filter.ort }}" placeholder="Stadt">
-                            </div>
-                            
-                            <div class="col-md-2 mb-3">
-                                <label for="plz" class="form-label">PLZ</label>
-                                <input type="text" class="form-control" id="plz" name="plz" 
-                                       value="{{ filter.plz }}" placeholder="12345">
-                            </div>
-                            
-                            <div class="col-md-2 mb-3">
-                                <label for="betreiber" class="form-label">Betreiber</label>
-                                <input type="text" class="form-control" id="betreiber" name="betreiber" 
-                                       value="{{ filter.betreiber }}" placeholder="Firmenname">
-                            </div>
-                            
-                            <div class="col-md-2 mb-3">
-                                <label for="art_solar" class="form-label">Solar-Art</label>
-                                <select class="form-select" id="art_solar" name="art_solar">
-                                    <option value="">Alle Arten</option>
-                                    {% for art in art_solar_list %}
-                                        <option value="{{ art }}" {% if filter.art_solar == art %}selected{% endif %}>
-                                            {{ art }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            
-                            <!-- Dritte Zeile -->
-                            <div class="col-md-3 mb-3">
-                                <label for="datum_von" class="form-label">Inbetriebnahme von</label>
-                                <input type="date" class="form-control" id="datum_von" name="datum_von" 
-                                       value="{{ filter.datum_von }}">
-                            </div>
-                            
-                            <div class="col-md-3 mb-3">
-                                <label for="datum_bis" class="form-label">Inbetriebnahme bis</label>
-                                <input type="date" class="form-control" id="datum_bis" name="datum_bis" 
-                                       value="{{ filter.datum_bis }}">
-                            </div>
-                            
-                            <div class="col-md-3 mb-3">
-                                <label for="radius_plz" class="form-label">Umkreissuche PLZ</label>
-                                <input type="text" class="form-control" id="radius_plz" name="radius_plz" 
-                                       value="{{ filter.radius_plz }}" placeholder="12345">
-                            </div>
-                            
-                            <div class="col-md-3 mb-3">
-                                <label for="radius_km" class="form-label">Radius (km)</label>
-                                <input type="number" class="form-control" id="radius_km" name="radius_km" 
-                                       value="{{ filter.radius_km }}" placeholder="10" min="1" max="100">
+                                <label for="max_leistung" class="form-label">Max. Leistung (kW)</label>
+                                <input type="number" name="max_leistung" id="max_leistung" class="form-control" 
+                                       value="{{ request.GET.max_leistung|default:'' }}" placeholder="1000000">
                             </div>
                         </div>
-                        
                         <div class="row">
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary me-2">
+                            <div class="col-md-3 mb-3">
+                                <label for="status" class="form-label">Status</label>
+                                <select name="status" id="status" class="form-select">
+                                    <option value="">Alle Status</option>
+                                    {% for status in status_list %}
+                                        <option value="{{ status }}" {% if request.GET.status == status %}selected{% endif %}>{{ status }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="plz" class="form-label">PLZ</label>
+                                <input type="text" name="plz" id="plz" class="form-control" 
+                                       value="{{ request.GET.plz|default:'' }}" placeholder="12345">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="ort" class="form-label">Ort</label>
+                                <input type="text" name="ort" id="ort" class="form-control" 
+                                       value="{{ request.GET.ort|default:'' }}" placeholder="Stadtname">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="technologie" class="form-label">Technologie</label>
+                                <select name="technologie" id="technologie" class="form-select">
+                                    <option value="">Alle Technologien</option>
+                                    {% for tech in technologie_list %}
+                                        <option value="{{ tech }}" {% if request.GET.technologie == tech %}selected{% endif %}>{{ tech }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="art_solar" class="form-label">Solaranlagen-Art</label>
+                                <select name="art_solar" id="art_solar" class="form-select">
+                                    <option value="">Alle Solararten</option>
+                                    {% for art in art_solar_list %}
+                                        <option value="{{ art }}" {% if request.GET.art_solar == art %}selected{% endif %}>{{ art }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="betreiber" class="form-label">Betreiber</label>
+                                <input type="text" name="betreiber" id="betreiber" class="form-control" 
+                                       value="{{ request.GET.betreiber|default:'' }}" placeholder="Betreibername">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="datum_von" class="form-label">Inbetriebnahme von</label>
+                                <input type="date" name="datum_von" id="datum_von" class="form-control" 
+                                       value="{{ request.GET.datum_von|default:'' }}">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="datum_bis" class="form-label">Inbetriebnahme bis</label>
+                                <input type="date" name="datum_bis" id="datum_bis" class="form-control" 
+                                       value="{{ request.GET.datum_bis|default:'' }}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="radius_plz" class="form-label">Umkreissuche PLZ</label>
+                                <input type="text" name="radius_plz" id="radius_plz" class="form-control" 
+                                       value="{{ request.GET.radius_plz|default:'' }}" placeholder="Zentrum PLZ">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="radius_km" class="form-label">Radius (km)</label>
+                                <input type="number" name="radius_km" id="radius_km" class="form-control" 
+                                       value="{{ request.GET.radius_km|default:'' }}" placeholder="50" min="1" max="500">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="freitext" class="form-label">Freitextsuche</label>
+                                <input type="text" name="freitext" id="freitext" class="form-control" 
+                                       value="{{ request.GET.freitext|default:'' }}" placeholder="Beliebiger Suchbegriff">
+                            </div>
+                            <div class="col-md-3 mb-3 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary w-100">
                                     <i class="fas fa-search"></i> Suchen
                                 </button>
-                                <button type="button" class="btn btn-secondary me-2" onclick="resetFilters()">
-                                    <i class="fas fa-undo"></i> Filter zurücksetzen
-                                </button>
-                                <a href="{% url 'dashboard:data' %}" class="btn btn-outline-secondary me-2">
-                                    <i class="fas fa-times"></i> Alle zurücksetzen
-                                </a>
-                                {% if can_export %}
-                                    <button type="submit" name="export" value="csv" class="btn btn-success">
-                                        <i class="fas fa-download"></i> CSV Export
-                                    </button>
-                                {% endif %}
                             </div>
                         </div>
                     </form>
@@ -427,117 +501,46 @@
         </div>
     </div>
 
-    <!-- Listen-Speicher Panel -->
-    {% if rows %}
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">
-                            <i class="fas fa-bookmark text-primary"></i>
-                            In Liste speichern
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <!-- Erfolgsmeldung -->
-                        <div id="saveSuccessMessage" class="alert alert-success" style="display: none;">
-                            <i class="fas fa-check-circle"></i>
-                            <span id="successMessageText">Anlagen erfolgreich gespeichert!</span>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label for="selectedListe" class="form-label">Liste auswählen:</label>
-                                <select class="form-select" id="selectedListe">
-                                    <option value="">Neue Liste erstellen...</option>
-                                    {% for liste in anlagen_listen %}
-                                        <option value="{{ liste.id }}">{{ liste.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            
-                            <div class="col-md-3">
-                                <label for="newListeName" class="form-label">Name der neuen Liste:</label>
-                                <input type="text" class="form-control" id="newListeName" placeholder="z.B. Interessante Solaranlagen">
-                            </div>
-                            
-                            <div class="col-md-3">
-                                <label for="anlageNotizen" class="form-label">Notizen (optional):</label>
-                                <input type="text" class="form-control" id="anlageNotizen" placeholder="Notizen zu den Anlagen...">
-                            </div>
-                            
-                            <div class="col-md-3 d-flex align-items-end">
-                                <div class="d-grid gap-2 w-100">
-                                    <button type="button" class="btn btn-primary" onclick="saveSelectedAnlagen()" id="saveButton">
-                                        <i class="fas fa-save"></i> <span id="saveButtonText">Ausgewählte speichern</span>
-                                    </button>
-                                    <a href="{% url 'dashboard:anlagen_listen' %}" class="btn btn-outline-primary btn-sm">
-                                        <i class="fas fa-cog"></i> Listen verwalten
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row mt-2" id="newListeFields" style="display: none;">
-                            <div class="col-md-6">
-                                <label for="newListeBeschreibung" class="form-label">Beschreibung (optional):</label>
-                                <textarea class="form-control" id="newListeBeschreibung" rows="2" placeholder="Beschreibung der Liste..."></textarea>
-                            </div>
-                            <div class="col-md-6 d-flex align-items-end">
-                                <div class="small text-muted">
-                                    <strong>Anleitung:</strong>
-                                    <ol class="mt-1 mb-0">
-                                        <li>Anlagen mit Checkbox auswählen</li>
-                                        <li>Liste auswählen oder neue erstellen</li>
-                                        <li>Optional Notizen hinzufügen</li>
-                                        <li>"Ausgewählte speichern" klicken</li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Auswahl-Status -->
-                        <div class="row mt-3">
-                            <div class="col-12">
-                                <div class="alert alert-info">
-                                    <i class="fas fa-info-circle"></i>
-                                    <span id="selectionStatus">Keine Anlagen ausgewählt</span>
-                                    <button type="button" class="btn btn-sm btn-outline-primary ms-2" onclick="selectAll()">
-                                        <i class="fas fa-check-square"></i> Alle auswählen
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary ms-1" onclick="deselectAll()">
-                                        <i class="fas fa-square"></i> Alle abwählen
-                                    </button>
-                                </div>
-                            </div>
+    <!-- Gespeicherte Listen -->
+    {% if user.is_authenticated %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="anlagen-listen-panel">
+                <h6><i class="fas fa-list"></i> Gespeicherte Listen</h6>
+                <div class="row">
+                    {% for liste in gespeicherte_listen %}
+                    <div class="col-md-4 mb-2">
+                        <div class="liste-item" onclick="loadListe({{ liste.id }})">
+                            <strong>{{ liste.name }}</strong><br>
+                            <small>{{ liste.anlagen.count }} Anlagen</small>
                         </div>
                     </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <p class="text-muted mb-0">Noch keine Listen gespeichert.</p>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
+    </div>
     {% endif %}
 
-    <!-- Karte anzeigen Button -->
-    <div class="d-flex justify-content-end mb-2">
-      <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMap" aria-controls="offcanvasMap">
-        <i class="fas fa-map-marked-alt"></i> Karte anzeigen
-      </button>
-    </div>
-
-    <!-- Results Section -->
+    <!-- Suchergebnisse -->
+    {% if rows %}
     <div class="row">
-        <!-- Main Results -->
         <div class="col-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">
-                        <i class="fas fa-table text-primary"></i>
-                        Suchergebnisse
-                        {% if page_obj %}
-                            <span class="badge bg-secondary ms-2">{{ page_obj.paginator.count }} Ergebnisse</span>
-                        {% endif %}
-                    </h5>
-                    {% if rows %}
+            <!-- Tabellenansicht -->
+            <div class="table-view active" id="table-view">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-table text-primary"></i>
+                            Suchergebnisse
+                            {% if page_obj %}
+                                <span class="badge bg-secondary ms-2">{{ page_obj.paginator.count }} Ergebnisse</span>
+                            {% endif %}
+                        </h5>
                         <div class="d-flex align-items-center">
                             <div class="input-group me-3" style="width: 300px;">
                                 <span class="input-group-text">
@@ -552,15 +555,8 @@
                                 <i class="fas fa-square"></i> Alle abwählen
                             </button>
                         </div>
-                    {% endif %}
-                </div>
-                <div class="card-body">
-                    {% if error %}
-                        <div class="alert alert-danger">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            {{ error }}
-                        </div>
-                    {% elif rows %}
+                    </div>
+                    <div class="card-body">
                         <!-- Verbesserte Legende für Suchergebnisse -->
                         <div class="alert alert-info mb-3">
                             <h6><i class="fas fa-info-circle"></i> Spaltenübersicht - Was bedeuten die Daten?</h6>
@@ -609,7 +605,7 @@
                         
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
-                                <thead class="table-dark align-middle">
+                                <thead class="table-light align-middle">
                                     <tr>
                                         <th width="50" class="text-center">
                                             <input type="checkbox" id="selectAllCheckbox" onchange="toggleAllCheckboxes()" title="Alle auswählen">
@@ -733,583 +729,499 @@
                                 </ul>
                             </nav>
                         {% endif %}
-                    {% else %}
-                        <!-- Tabellen-Header auch bei leeren Ergebnissen anzeigen -->
-                        {% if columns %}
-                            <div class="alert alert-warning mb-3">
-                                <h6><i class="fas fa-exclamation-triangle"></i> Keine Ergebnisse gefunden</h6>
-                                <p class="mb-0">Versuchen Sie andere Suchkriterien oder reduzieren Sie die Anzahl der Filter.</p>
-                            </div>
-                            
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead class="table-dark align-middle">
-                                        <tr>
-                                            <th width="50" class="text-center">
-                                                <input type="checkbox" disabled title="Keine Daten verfügbar">
-                                            </th>
-                                            {% for column in columns %}
-                                                {% if column == 'Anlagenname' %}
-                                                    <th class="text-nowrap" title="Name der Anlage aus dem MaStR">
-                                                        <i class="fas fa-industry text-info me-1"></i>Anlagenname 
-                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Name der Anlage aus dem MaStR"></i>
-                                                    </th>
-                                                {% elif column == 'Energieträger' %}
-                                                    <th class="text-nowrap" title="Energieträger (z.B. Solar, Wind, etc.)">
-                                                        <i class="fas fa-bolt text-warning me-1"></i>Energieträger 
-                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Energieträger (z.B. Solar, Wind, etc.)"></i>
-                                                    </th>
-                                                {% elif column == 'Leistung (kW)' %}
-                                                    <th class="text-nowrap" title="Bruttoleistung der Einheit in kW">
-                                                        <i class="fas fa-tachometer-alt text-success me-1"></i>Leistung (kW) 
-                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Bruttoleistung der Einheit in kW"></i>
-                                                    </th>
-                                                {% elif column == 'Bundesland' %}
-                                                    <th class="text-nowrap" title="Bundesland des Standorts">
-                                                        <i class="fas fa-map-marker-alt text-danger me-1"></i>Bundesland 
-                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Bundesland des Standorts"></i>
-                                                    </th>
-                                                {% elif column == 'Ort' %}
-                                                    <th class="text-nowrap" title="Ort des Standorts">
-                                                        <i class="fas fa-city text-primary me-1"></i>Ort 
-                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Ort des Standorts"></i>
-                                                    </th>
-                                                {% elif column == 'PLZ' %}
-                                                    <th class="text-nowrap" title="Postleitzahl des Standorts">
-                                                        <i class="fas fa-mail-bulk text-info me-1"></i>PLZ 
-                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Postleitzahl des Standorts"></i>
-                                                    </th>
-                                                {% elif column == 'Status' %}
-                                                    <th class="text-nowrap" title="Betriebsstatus der Anlage">
-                                                        <i class="fas fa-toggle-on text-success me-1"></i>Status 
-                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Betriebsstatus der Anlage"></i>
-                                                    </th>
-                                                {% elif column == 'Technologie' %}
-                                                    <th class="text-nowrap" title="Spezifische Technologie">
-                                                        <i class="fas fa-cogs text-warning me-1"></i>Technologie 
-                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Spezifische Technologie"></i>
-                                                    </th>
-                                                {% elif column == 'Betreiber' %}
-                                                    <th class="text-nowrap" title="Name des Anlagenbetreibers">
-                                                        <i class="fas fa-building text-primary me-1"></i>Betreiber 
-                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Name des Anlagenbetreibers"></i>
-                                                    </th>
-                                                {% elif column == 'Betreibernummer' %}
-                                                    <th class="text-nowrap" title="Eindeutige MaStR-Nummer des Betreibers">
-                                                        <i class="fas fa-id-card text-info me-1"></i>Betreibernummer 
-                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Eindeutige MaStR-Nummer des Betreibers"></i>
-                                                    </th>
-                                                {% elif column == 'Inbetriebnahme' %}
-                                                    <th class="text-nowrap" title="Datum der Inbetriebnahme">
-                                                        <i class="fas fa-calendar-alt text-success me-1"></i>Inbetriebnahme 
-                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Datum der Inbetriebnahme"></i>
-                                                    </th>
-                                                {% elif column == 'Art der Solaranlage' %}
-                                                    <th class="text-nowrap" title="Spezifische Art der Solaranlage">
-                                                        <i class="fas fa-solar-panel text-warning me-1"></i>Solar-Art 
-                                                        <i class="fas fa-info-circle text-secondary ms-1" title="Spezifische Art der Solaranlage"></i>
-                                                    </th>
-                                                {% else %}
-                                                    <th class="text-nowrap" title="{{ column }}">
-                                                        {{ column }}
-                                                        <i class="fas fa-info-circle text-secondary ms-1" title="{{ column }}"></i>
-                                                    </th>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="{{ columns|length|add:1 }}" class="text-center text-muted py-4">
-                                                <i class="fas fa-search fa-2x mb-2"></i><br>
-                                                Keine Anlagen gefunden
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% else %}
-                            <div class="text-center py-5">
-                                <i class="fas fa-search fa-3x text-muted mb-3"></i>
-                                <h4 class="text-muted">Keine Ergebnisse gefunden</h4>
-                                <p class="text-muted">Versuchen Sie andere Suchkriterien oder reduzieren Sie die Anzahl der Filter.</p>
-                            </div>
-                        {% endif %}
-                    {% endif %}
+                    </div>
                 </div>
+            </div>
+
+            <!-- Kartenansicht -->
+            <div class="card-view" id="card-view">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-map text-primary"></i>
+                            Kartenansicht
+                            {% if page_obj %}
+                                <span class="badge bg-secondary ms-2">{{ page_obj.paginator.count }} Ergebnisse</span>
+                            {% endif %}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="anlagen-map" style="height: 600px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+    {% elif error %}
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+                {{ error }}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Keine Suchergebnisse</h5>
+                    <p class="text-muted">Geben Sie Suchkriterien ein und klicken Sie auf "Suchen", um Anlagen zu finden.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Anlagen-Details Modal -->
+<div class="modal fade" id="anlageDetailsModal" tabindex="-1" aria-labelledby="anlageDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="anlageDetailsModalLabel">
+                    <i class="fas fa-industry"></i> Anlagen-Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="anlageDetailsContent">
+                <!-- Details werden hier dynamisch eingefügt -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                <button type="button" class="btn btn-primary" id="saveAnlageFromModal">
+                    <i class="fas fa-save"></i> Anlage speichern
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Offcanvas für Karte -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMap" aria-labelledby="offcanvasMapLabel">
-  <div class="offcanvas-header">
-    <h5 id="offcanvasMapLabel"><i class="fas fa-map-marked-alt"></i> Anlagen auf Karte</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Schließen"></button>
-  </div>
-  <div class="offcanvas-body p-0">
-    <div id="anlagen-map">
-      <div class="map-container"></div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal für 'Zu Liste hinzufügen' -->
-<div class="modal fade" id="addToListModal" tabindex="-1" aria-labelledby="addToListModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form method="post" action="{% url 'dashboard:anlage_speichern' %}">
-        {% csrf_token %}
-        <div class="modal-header">
-          <h5 class="modal-title" id="addToListModalLabel">Anlage zu Liste hinzufügen</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
-        </div>
-        <div class="modal-body">
-          <input type="hidden" name="anlage_id" id="modalAnlageId">
-          <div class="mb-3">
-            <label for="listenname" class="form-label">Liste auswählen</label>
-            <select class="form-select" name="listen_id" id="modalListenId" required>
-              {% for liste in listen %}
-                <option value="{{ liste.id }}">{{ liste.name }}</option>
-              {% endfor %}
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="notizen" class="form-label">Notiz (optional)</label>
-            <input type="text" class="form-control" name="notizen" id="modalNotizen">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
-          <button type="submit" class="btn btn-primary">Hinzufügen</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
 {% endblock %}
+
 {% block extra_js %}
+<!-- Leaflet JavaScript -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
 <script>
-// Verbesserte Tooltip-Funktionalität
-document.addEventListener('DOMContentLoaded', function() {
-    // Bootstrap Tooltips initialisieren
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl, {
-            placement: 'top',
-            trigger: 'hover focus'
-        });
-    });
-    
-    // Custom Tooltips für Tabellen-Header
-    const tableHeaders = document.querySelectorAll('.table th[title]');
-    tableHeaders.forEach(header => {
-        header.addEventListener('mouseenter', function(e) {
-            const title = this.getAttribute('title');
-            if (title) {
-                showCustomTooltip(e, title);
-            }
-        });
-        
-        header.addEventListener('mouseleave', function() {
-            hideCustomTooltip();
-        });
-    });
+// View Toggle
+document.getElementById('btn-table-view').addEventListener('click', function() {
+    document.getElementById('table-view').classList.add('active');
+    document.getElementById('card-view').classList.remove('active');
+    this.classList.add('btn-primary');
+    this.classList.remove('btn-outline-primary');
+    document.getElementById('btn-card-view').classList.add('btn-outline-primary');
+    document.getElementById('btn-card-view').classList.remove('btn-primary');
 });
 
-// Custom Tooltip Funktionen
-function showCustomTooltip(event, text) {
-    const tooltip = document.createElement('div');
-    tooltip.className = 'custom-tooltip';
-    tooltip.innerHTML = `
-        <div class="tooltip-content">
-            <i class="fas fa-info-circle"></i>
-            ${text}
-        </div>
-    `;
-    tooltip.style.cssText = `
-        position: absolute;
-        background: rgba(0,0,0,0.9);
-        color: white;
-        padding: 8px 12px;
-        border-radius: 6px;
-        font-size: 12px;
-        z-index: 10000;
-        pointer-events: none;
-        max-width: 250px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    `;
+document.getElementById('btn-card-view').addEventListener('click', function() {
+    document.getElementById('card-view').classList.add('active');
+    document.getElementById('table-view').classList.remove('active');
+    this.classList.add('btn-primary');
+    this.classList.remove('btn-outline-primary');
+    document.getElementById('btn-table-view').classList.add('btn-outline-primary');
+    document.getElementById('btn-table-view').classList.remove('btn-primary');
+});
+
+// Anlagen-Details anzeigen
+function showAnlageDetails(rowIndex) {
+    const rows = {{ rows|safe }};
+    const columns = {{ columns|safe }};
+    const row = rows[rowIndex];
     
-    document.body.appendChild(tooltip);
+    let detailsHtml = '<div class="row">';
+    for (let i = 0; i < columns.length; i++) {
+        detailsHtml += `
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title text-primary">${columns[i]}</h6>
+                        <p class="card-text">${row[i] || '-'}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    detailsHtml += '</div>';
     
-    const rect = event.target.getBoundingClientRect();
-    tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
-    tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
+    document.getElementById('anlageDetailsContent').innerHTML = detailsHtml;
+    document.getElementById('saveAnlageFromModal').onclick = function() {
+        saveAnlage(rowIndex);
+    };
+    
+    const modal = new bootstrap.Modal(document.getElementById('anlageDetailsModal'));
+    modal.show();
 }
 
-function hideCustomTooltip() {
-    const tooltip = document.querySelector('.custom-tooltip');
-    if (tooltip) {
-        tooltip.remove();
+// Anlage speichern
+function saveAnlage(rowIndex) {
+    if (!{{ user.is_authenticated|yesno:"true,false" }}) {
+        alert('Bitte melden Sie sich an, um Anlagen zu speichern.');
+        return;
     }
+    
+    const rows = {{ rows|safe }};
+    const columns = {{ columns|safe }};
+    const row = rows[rowIndex];
+    
+    // Hier würde die AJAX-Anfrage zum Speichern der Anlage erfolgen
+    fetch('{% url "dashboard:anlage_speichern" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: JSON.stringify({
+            row_index: rowIndex,
+            data: row,
+            columns: columns
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Anlage erfolgreich gespeichert!');
+            // Button deaktivieren
+            const buttons = document.querySelectorAll(`[onclick="saveAnlage(${rowIndex})"]`);
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.textContent = 'Gespeichert';
+                btn.classList.remove('btn-save-anlage');
+                btn.classList.add('btn-secondary');
+            });
+        } else {
+            alert('Fehler beim Speichern der Anlage: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Fehler beim Speichern der Anlage.');
+    });
 }
 
-// Checkbox-Funktionalität
-let selectedAnlagen = new Set();
-
-function toggleAnlage(anlageId) {
-    if (selectedAnlagen.has(anlageId)) {
-        selectedAnlagen.delete(anlageId);
-    } else {
-        selectedAnlagen.add(anlageId);
-    }
-    updateSelectionStatus();
-}
-
+// Bestehende Funktionen...
 function selectAll() {
     const checkboxes = document.querySelectorAll('.anlage-checkbox');
     checkboxes.forEach(checkbox => {
         checkbox.checked = true;
-        selectedAnlagen.add(checkbox.value);
     });
-    updateSelectionStatus();
+    document.getElementById('selectAllCheckbox').checked = true;
 }
 
 function deselectAll() {
     const checkboxes = document.querySelectorAll('.anlage-checkbox');
     checkboxes.forEach(checkbox => {
         checkbox.checked = false;
-        selectedAnlagen.delete(checkbox.value);
     });
-    updateSelectionStatus();
+    document.getElementById('selectAllCheckbox').checked = false;
 }
 
-function updateSelectionStatus() {
-    const statusElement = document.getElementById('selectionStatus');
-    const saveButton = document.getElementById('saveButton');
-    const selectedCount = selectedAnlagen.size;
-    
-    if (statusElement) {
-        statusElement.textContent = `${selectedCount} Anlage${selectedCount !== 1 ? 'n' : ''} ausgewählt`;
-    }
-    
-    if (saveButton) {
-        saveButton.disabled = selectedCount === 0;
-    }
-}
-
-// Listen-Panel Funktionalität
-function showNewListeFields() {
-    document.getElementById('newListeFields').style.display = 'block';
-    document.getElementById('existingListeFields').style.display = 'none';
-}
-
-function showExistingListeFields() {
-    document.getElementById('existingListeFields').style.display = 'block';
-    document.getElementById('newListeFields').style.display = 'none';
-}
-
-// Anlage zu Liste hinzufügen
-function addAnlageToListe(anlageId, anlagenName) {
-    document.getElementById('modalAnlageId').value = anlageId;
-    document.getElementById('modalAnlagenName').textContent = anlagenName;
-    const modal = new bootstrap.Modal(document.getElementById('addToListModal'));
-    modal.show();
-}
-
-// Anlagen speichern
-function saveSelectedAnlagen() {
-    if (selectedAnlagen.size === 0) {
-        showAlert('Bitte wählen Sie mindestens eine Anlage aus.', 'warning');
-        return;
-    }
-
-    const selectedListe = document.getElementById('selectedListe');
-    const newListeName = document.getElementById('newListeName');
-    const newListeBeschreibung = document.getElementById('newListeBeschreibung');
-    const anlageNotizen = document.getElementById('anlageNotizen');
-    const successMessage = document.getElementById('saveSuccessMessage');
-    const successMessageText = document.getElementById('successMessageText');
-    const saveButton = document.getElementById('saveButton');
-
-    // Button deaktivieren während des Speicherns
-    saveButton.disabled = true;
-
-    const formData = new FormData();
-    formData.append('anlagen_ids', JSON.stringify(Array.from(selectedAnlagen)));
-    formData.append('notizen', anlageNotizen.value || '');
-
-    if (selectedListe.value) {
-        formData.append('liste_id', selectedListe.value);
-    } else if (newListeName.value.trim()) {
-        formData.append('liste_name', newListeName.value.trim());
-        formData.append('liste_description', newListeBeschreibung.value || '');
-    } else {
-        showAlert('Bitte wählen Sie eine Liste aus oder erstellen Sie eine neue.', 'warning');
-        saveButton.disabled = false;
-        return;
-    }
-
-    fetch('{% url "dashboard:anlage_speichern" %}', {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-        },
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Erfolgsmeldung anzeigen
-            successMessageText.textContent = data.message || `Erfolgreich ${selectedAnlagen.size} Anlage${selectedAnlagen.size > 1 ? 'n' : ''} gespeichert!`;
-            successMessage.style.display = 'block';
-            
-            // Formular zurücksetzen
-            deselectAll();
-            selectedListe.value = '';
-            newListeName.value = '';
-            newListeBeschreibung.value = '';
-            anlageNotizen.value = '';
-            document.getElementById('newListeFields').style.display = 'none';
-            
-            // Erfolgsmeldung nach 5 Sekunden ausblenden
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 5000);
-            
-        } else {
-            showAlert('Fehler beim Speichern: ' + data.error, 'danger');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showAlert('Fehler beim Speichern der Anlagen. Bitte versuchen Sie es erneut.', 'danger');
-    })
-    .finally(() => {
-        // Button-Status zurücksetzen
-        saveButton.disabled = false;
-        updateSelectionStatus();
+function toggleAllCheckboxes() {
+    const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+    const checkboxes = document.querySelectorAll('.anlage-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAllCheckbox.checked;
     });
 }
 
-// Hilfsfunktion für Alerts
-function showAlert(message, type) {
-    const alertDiv = document.createElement('div');
-    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
-    alertDiv.innerHTML = `
-        <i class="fas fa-${type === 'danger' ? 'exclamation-triangle' : 'info-circle'}"></i>
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    `;
-    
-    // Alert am Anfang des Listen-Panels einfügen
-    const cardBody = document.querySelector('.card-body');
-    cardBody.insertBefore(alertDiv, cardBody.firstChild);
-    
-    // Alert nach 5 Sekunden automatisch entfernen
-    setTimeout(() => {
-        if (alertDiv.parentNode) {
-            alertDiv.remove();
-        }
-    }, 5000);
-}
-
-// Einfache Kartenintegration
-function initMap() {
-    const anlagen = JSON.parse('{{ anlagen_json|escapejs }}');
-    const mapContainer = document.querySelector('.map-container');
-    
-    // Bestehende Marker entfernen
-    const existingMarkers = mapContainer.querySelectorAll('.map-marker');
-    existingMarkers.forEach(marker => marker.remove());
-    
-    // Deutschland-Bounds (vereinfacht)
-    const germanyBounds = {
-        minLat: 47.0, maxLat: 55.0,
-        minLon: 5.0, maxLon: 15.0
-    };
-    
-    // Marker hinzufügen
-    anlagen.forEach((anlage, index) => {
-        if (anlage.lat && anlage.lon) {
-            // Koordinaten auf Kartenbereich normalisieren
-            const x = ((anlage.lon - germanyBounds.minLon) / (germanyBounds.maxLon - germanyBounds.minLon)) * 100;
-            const y = ((germanyBounds.maxLat - anlage.lat) / (germanyBounds.maxLat - germanyBounds.minLat)) * 100;
-            
-            const marker = document.createElement('div');
-            marker.className = 'map-marker';
-            marker.style.left = `${x}%`;
-            marker.style.top = `${y}%`;
-            marker.setAttribute('data-anlage', JSON.stringify(anlage));
-            
-            marker.addEventListener('click', function() {
-                showPopup(anlage, this);
-            });
-            
-            mapContainer.appendChild(marker);
-        }
-    });
-}
-
-function showPopup(anlage, marker) {
-    const popup = document.getElementById('mapPopup');
-    const content = document.getElementById('popupContent');
-    
-    content.innerHTML = `
-        <h6 style="margin: 0 0 8px 0; color: #333;">${anlage.name || 'Unbekannt'}</h6>
-        ${anlage.ort ? `<p style="margin: 4px 0; color: #666;"><strong>Ort:</strong> ${anlage.ort}</p>` : ''}
-        ${anlage.plz ? `<p style="margin: 4px 0; color: #666;"><strong>PLZ:</strong> ${anlage.plz}</p>` : ''}
-        ${anlage.energietraeger ? `<p style="margin: 4px 0; color: #666;"><strong>Energieträger:</strong> ${anlage.energietraeger}</p>` : ''}
-        ${anlage.leistung ? `<p style="margin: 4px 0; color: #666;"><strong>Leistung:</strong> ${anlage.leistung} kW</p>` : ''}
-    `;
-    
-    // Popup-Position berechnen
-    const markerRect = marker.getBoundingClientRect();
-    const popupRect = popup.getBoundingClientRect();
-    const mapRect = document.getElementById('anlagen-map').getBoundingClientRect();
-    
-    let left = markerRect.left - mapRect.left + markerRect.width / 2;
-    let top = markerRect.top - mapRect.top - popupRect.height - 10;
-    
-    // Popup im sichtbaren Bereich halten
-    if (left < 10) left = 10;
-    if (left + popupRect.width > mapRect.width - 10) left = mapRect.width - popupRect.width - 10;
-    if (top < 10) top = markerRect.bottom - mapRect.top + 10;
-    
-    popup.style.left = `${left}px`;
-    popup.style.top = `${top}px`;
-    popup.style.display = 'block';
-}
-
-function closePopup() {
-    document.getElementById('mapPopup').style.display = 'none';
-}
-
-// Karte initialisieren wenn Offcanvas geöffnet wird
-document.getElementById('offcanvasMap').addEventListener('shown.bs.offcanvas', function () {
-    setTimeout(initMap, 200);
-});
-
-// Popup schließen wenn außerhalb geklickt wird
-document.addEventListener('click', function(event) {
-    const popup = document.getElementById('mapPopup');
-    if (popup.style.display === 'block' && !popup.contains(event.target) && !event.target.classList.contains('map-marker')) {
-        closePopup();
-    }
-});
-
-// Filter zurücksetzen
-function resetFilters() {
-    const form = document.getElementById('filterForm');
-    const inputs = form.querySelectorAll('input, select, textarea');
-    
-    inputs.forEach(input => {
-        if (input.type === 'text' || input.type === 'number' || input.type === 'date') {
-            input.value = '';
-        } else if (input.type === 'select-one') {
-            input.selectedIndex = 0;
-        }
-    });
-    
-    // Formular automatisch absenden
-    form.submit();
-}
-
-// Filter-Status anzeigen
-function showActiveFilters() {
-    const form = document.getElementById('filterForm');
-    const inputs = form.querySelectorAll('input, select, textarea');
-    const activeFilters = [];
-    
-    inputs.forEach(input => {
-        if (input.value && input.value.trim() !== '') {
-            const label = input.previousElementSibling?.textContent || input.name;
-            activeFilters.push(`${label}: ${input.value}`);
-        }
-    });
-    
-    if (activeFilters.length > 0) {
-        const filterInfo = document.createElement('div');
-        filterInfo.className = 'alert alert-info mt-3';
-        filterInfo.innerHTML = `
-            <i class="fas fa-filter"></i>
-            <strong>Aktive Filter:</strong> ${activeFilters.join(', ')}
-        `;
-        
-        const cardBody = form.closest('.card-body');
-        cardBody.appendChild(filterInfo);
-    }
-}
-
-// Filter-Status beim Laden anzeigen
-document.addEventListener('DOMContentLoaded', function() {
-    showActiveFilters();
-    
-    // Tabellen-Suche
-    const tableSearch = document.getElementById('tableSearch');
-    if (tableSearch) {
-        tableSearch.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const table = document.querySelector('.table tbody');
-            const rows = table.querySelectorAll('tr');
-            
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                if (text.includes(searchTerm)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-            
-            // Auswahl-Status aktualisieren
-            updateSelectionStatus();
-        });
-    }
-});
-
-// Tabellen-Sortierung
-function sortTable(columnIndex) {
+// Tabellensuche
+document.getElementById('tableSearch').addEventListener('keyup', function() {
+    const searchTerm = this.value.toLowerCase();
     const table = document.querySelector('.table tbody');
-    const rows = Array.from(table.querySelectorAll('tr'));
-    const header = document.querySelector(`.table thead th:nth-child(${columnIndex + 2})`);
+    const rows = table.querySelectorAll('tr');
     
-    // Sortier-Richtung umschalten
-    const isAscending = !header.classList.contains('sort-desc');
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        if (text.includes(searchTerm)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
+
+// Sortierung
+function sortTable(columnIndex) {
+    const table = document.querySelector('.table');
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const header = table.querySelector(`th:nth-child(${columnIndex + 2})`); // +2 wegen Checkbox-Spalte
     
-    // Alle Sort-Klassen entfernen
-    document.querySelectorAll('.table thead th').forEach(th => {
+    // Sortierrichtung umschalten
+    const isAscending = !header.classList.contains('sort-asc');
+    
+    // Alle Sortier-Klassen entfernen
+    table.querySelectorAll('th').forEach(th => {
         th.classList.remove('sort-asc', 'sort-desc');
     });
     
-    // Neue Sort-Klasse hinzufügen
+    // Neue Sortier-Klasse hinzufügen
     header.classList.add(isAscending ? 'sort-asc' : 'sort-desc');
     
     // Zeilen sortieren
     rows.sort((a, b) => {
-        const aValue = a.cells[columnIndex + 1]?.textContent || '';
-        const bValue = b.cells[columnIndex + 1]?.textContent || '';
+        const aValue = a.cells[columnIndex + 1].textContent.trim(); // +1 wegen Checkbox-Spalte
+        const bValue = b.cells[columnIndex + 1].textContent.trim();
         
-        // Zahlen korrekt sortieren
-        const aNum = parseFloat(aValue);
-        const bNum = parseFloat(bValue);
-        
-        if (!isNaN(aNum) && !isNaN(bNum)) {
+        // Numerische Sortierung für Leistung
+        if (columns[columnIndex] === 'Leistung (kW)') {
+            const aNum = parseFloat(aValue) || 0;
+            const bNum = parseFloat(bValue) || 0;
             return isAscending ? aNum - bNum : bNum - aNum;
         }
         
-        // Text sortieren
-        return isAscending ? 
-            aValue.localeCompare(bValue, 'de') : 
-            bValue.localeCompare(aValue, 'de');
+        // String-Sortierung
+        if (isAscending) {
+            return aValue.localeCompare(bValue, 'de');
+        } else {
+            return bValue.localeCompare(aValue, 'de');
+        }
     });
     
     // Sortierte Zeilen wieder einfügen
-    rows.forEach(row => table.appendChild(row));
+    rows.forEach(row => tbody.appendChild(row));
 }
+
+// Listen laden
+function loadListe(listeId) {
+    // Hier würde die AJAX-Anfrage zum Laden der Liste erfolgen
+    console.log('Lade Liste:', listeId);
+}
+
+// Leaflet Kartenfunktionalität
+let map = null;
+let markerClusterGroup = null;
+
+// Karte initialisieren
+function initMap() {
+    if (map) {
+        map.remove();
+    }
+    
+    // Deutschland-Zentrum
+    const germanyCenter = [51.1657, 10.4515];
+    
+    map = L.map('anlagen-map').setView(germanyCenter, 6);
+    
+    // OpenStreetMap Tile Layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    
+    // Marker Cluster Group
+    markerClusterGroup = L.markerClusterGroup({
+        chunkedLoading: true,
+        maxClusterRadius: 50,
+        spiderfyOnMaxZoom: true,
+        showCoverageOnHover: false,
+        zoomToBoundsOnClick: true
+    });
+    
+    map.addLayer(markerClusterGroup);
+    
+    // Anlagen-Marker hinzufügen
+    addAnlagenMarkers();
+}
+
+// Anlagen-Marker zur Karte hinzufügen
+function addAnlagenMarkers() {
+    const anlagenListe = JSON.parse('{{ anlagen_liste|escapejs }}');
+    
+    console.log('Anlagen für Karte:', anlagenListe);
+    console.log('Anzahl Anlagen:', anlagenListe.length);
+    
+    anlagenListe.forEach((anlage, index) => {
+        if (anlage.lat && anlage.lon && !isNaN(anlage.lat) && !isNaN(anlage.lon)) {
+            // Marker-Icon basierend auf Energieträger und Koordinaten-Genauigkeit
+            const energietraeger = anlage.energietraeger || 'Unbekannt';
+            const hasPreciseCoords = anlage.has_precise_coords || false;
+            const icon = getMarkerIcon(energietraeger, hasPreciseCoords);
+            
+            // Popup-Inhalt erstellen
+            const popupContent = createAnlagePopupContent(anlage, index);
+            
+            // Marker erstellen und hinzufügen
+            const marker = L.marker([anlage.lat, anlage.lon], { icon: icon })
+                .bindPopup(popupContent, { maxWidth: 300 })
+                .on('click', function() {
+                    // Marker-Klick-Handler
+                    console.log('Anlage geklickt:', index);
+                });
+            
+            markerClusterGroup.addLayer(marker);
+        }
+    });
+}
+
+// Marker-Icon basierend auf Energieträger und Koordinaten-Genauigkeit
+function getMarkerIcon(energietraeger, hasPreciseCoords = false) {
+    const iconSize = [25, 25];
+    const iconAnchor = [12, 12];
+    
+    let iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
+    
+    // Wenn keine präzisen Koordinaten, verwende gestreifte Marker
+    if (!hasPreciseCoords) {
+        switch(energietraeger.toLowerCase()) {
+            case 'solar':
+                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png';
+                break;
+            case 'wind':
+                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-lightgreen.png';
+                break;
+            case 'biomasse':
+                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-pink.png';
+                break;
+            case 'wasser':
+                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-lightblue.png';
+                break;
+            default:
+                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-lightgrey.png';
+        }
+    } else {
+        // Präzise Koordinaten - verwende normale Marker
+        switch(energietraeger.toLowerCase()) {
+            case 'solar':
+                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png';
+                break;
+            case 'wind':
+                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png';
+                break;
+            case 'biomasse':
+                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png';
+                break;
+            case 'wasser':
+                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
+                break;
+            default:
+                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png';
+        }
+    }
+    
+    return L.icon({
+        iconUrl: iconUrl,
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: iconSize,
+        iconAnchor: iconAnchor,
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+}
+
+// Popup-Inhalt für Anlagen erstellen
+function createAnlagePopupContent(anlage, index) {
+    let content = '<div class="anlage-popup">';
+    content += `<h6><i class="fas fa-industry"></i> ${anlage.name || 'Unbekannte Anlage'}</h6>`;
+    
+    // Koordinaten-Genauigkeit anzeigen
+    if (anlage.has_precise_coords) {
+        content += '<span class="badge bg-success mb-2"><i class="fas fa-crosshairs"></i> Präzise Koordinaten</span>';
+    } else {
+        content += '<span class="badge bg-warning mb-2"><i class="fas fa-map-marker-alt"></i> PLZ-Koordinaten</span>';
+    }
+    
+    content += '<div class="popup-details">';
+    
+    // Wichtige Informationen anzeigen
+    if (anlage.energietraeger) {
+        content += `<p><i class="fas fa-bolt"></i> <strong>Energieträger:</strong> ${anlage.energietraeger}</p>`;
+    }
+    if (anlage.leistung) {
+        content += `<p><i class="fas fa-tachometer-alt"></i> <strong>Leistung:</strong> ${anlage.leistung} kW</p>`;
+    }
+    if (anlage.ort) {
+        content += `<p><i class="fas fa-city"></i> <strong>Ort:</strong> ${anlage.ort}</p>`;
+    }
+    if (anlage.plz) {
+        content += `<p><i class="fas fa-mail-bulk"></i> <strong>PLZ:</strong> ${anlage.plz}</p>`;
+    }
+    if (anlage.strasse && anlage.hausnummer) {
+        content += `<p><i class="fas fa-map-pin"></i> <strong>Adresse:</strong> ${anlage.strasse} ${anlage.hausnummer}</p>`;
+    } else if (anlage.strasse) {
+        content += `<p><i class="fas fa-map-pin"></i> <strong>Straße:</strong> ${anlage.strasse}</p>`;
+    }
+    
+    content += '</div>';
+    content += '<div class="popup-actions mt-2">';
+    content += `<button class="btn btn-sm btn-primary me-1" onclick="showAnlageDetails(${index})">`;
+    content += '<i class="fas fa-eye"></i> Details</button>';
+    content += `<button class="btn btn-sm btn-success" onclick="saveAnlage(${index})">`;
+    content += '<i class="fas fa-save"></i> Speichern</button>';
+    content += '</div>';
+    content += '</div>';
+    
+    return content;
+}
+
+// Karte initialisieren wenn Kartenansicht aktiviert wird
+document.getElementById('btn-card-view').addEventListener('click', function() {
+    // Kurze Verzögerung um sicherzustellen, dass das Element sichtbar ist
+    setTimeout(() => {
+        if (!map) {
+            initMap();
+        }
+    }, 100);
+});
+
+// Karte bei Seitenladung initialisieren, falls Kartenansicht aktiv ist
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('card-view').classList.contains('active')) {
+        initMap();
+    }
+    
+    // Button-Umschaltung für Tabellen/Karten-Ansicht
+    const btnTableView = document.getElementById('btn-table-view');
+    const btnCardView = document.getElementById('btn-card-view');
+    const tableView = document.getElementById('table-view');
+    const cardView = document.getElementById('card-view');
+    
+    btnTableView.addEventListener('click', function() {
+        // Buttons aktualisieren
+        btnTableView.classList.remove('btn-outline-primary');
+        btnTableView.classList.add('btn-primary', 'active');
+        btnCardView.classList.remove('btn-primary', 'active');
+        btnCardView.classList.add('btn-outline-primary');
+        
+        // Ansichten umschalten
+        tableView.classList.add('active');
+        cardView.classList.remove('active');
+        
+        // Paginierung in Tabellenansicht anzeigen
+        const pagination = document.querySelector('.pagination');
+        if (pagination) {
+            pagination.style.display = 'flex';
+        }
+    });
+    
+    btnCardView.addEventListener('click', function() {
+        // Buttons aktualisieren
+        btnCardView.classList.remove('btn-outline-primary');
+        btnCardView.classList.add('btn-primary', 'active');
+        btnTableView.classList.remove('btn-primary', 'active');
+        btnTableView.classList.add('btn-outline-primary');
+        
+        // Ansichten umschalten
+        cardView.classList.add('active');
+        tableView.classList.remove('active');
+        
+        // Paginierung in Kartenansicht ausblenden
+        const pagination = document.querySelector('.pagination');
+        if (pagination) {
+            pagination.style.display = 'none';
+        }
+        
+        // Karte initialisieren falls noch nicht geschehen
+        setTimeout(() => {
+            if (!map) {
+                initMap();
+            }
+        }, 100);
+    });
+});
 </script>
 {% endblock %} 

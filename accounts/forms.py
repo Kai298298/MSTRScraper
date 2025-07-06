@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 
 from subscriptions.models import UserSubscription
+from .models import UserProfile
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -48,6 +49,32 @@ class UserProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({"class": "form-control"})
+
+
+class UserProfileAddressForm(forms.ModelForm):
+    """Formular für die Adressfelder des Benutzerprofils"""
+
+    class Meta:
+        model = UserProfile
+        fields = [
+            'company_name', 'street_address', 'postal_code', 
+            'city', 'country', 'phone', 'tax_id'
+        ]
+        widgets = {
+            'company_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Firmenname (optional)'}),
+            'street_address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Straße & Hausnummer'}),
+            'postal_code': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Postleitzahl'}),
+            'city': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Stadt'}),
+            'country': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Land', 'value': 'Deutschland'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefonnummer'}),
+            'tax_id': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Steuernummer oder USt-IdNr.'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Setze Deutschland als Standard-Land
+        if not self.instance.pk or not self.instance.country:
+            self.fields['country'].initial = 'Deutschland'
 
 
 class UserSubscriptionForm(forms.ModelForm):

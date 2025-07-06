@@ -231,6 +231,11 @@ def data_view(request):
             query += " AND date(`Inbetriebnahmedatum der Einheit`) <= date(?)"
             params.append(filter_params["datum_bis"])
 
+        # DEBUG: Query und Filter ausgeben
+        print("[DEBUG] SQL-Query:", query)
+        print("[DEBUG] Query-Parameter:", params)
+        print("[DEBUG] Filter-Parameter:", filter_params)
+
         # Für Filter-Dropdowns: Alle verfügbaren Werte aus der Datenbank holen
         with get_db_connection() as conn:
             c = conn.cursor()
@@ -313,7 +318,7 @@ def data_view(request):
 
         # Paginierung für die Anzeige
         page_number = int(request.GET.get("page", 1))
-        page_size = 30
+        page_size = 100  # Erhöht von 30 auf 100 für bessere Kartenansicht
         start = (page_number - 1) * page_size
         end = start + page_size
         page_rows = rows[start:end]
@@ -344,19 +349,48 @@ def data_view(request):
             "can_save_lists": check_premium_feature(request.user),
         }
 
-        # Annahme: 'anlagen' ist das Queryset der aktuell angezeigten Anlagen
+        # Anlagen-Daten für Karte vorbereiten (ALLE gefilterten Anlagen, nicht nur die der aktuellen Seite)
         anlagen_liste = []
-        for a in page_rows:
-            anlagen_liste.append(
-                {
-                    "lat": float(a[18]) if hasattr(a, "lat") and a[18] else None,
-                    "lon": float(a[19]) if hasattr(a, "lon") and a[19] else None,
-                    "name": getattr(a, "anlagenname", None) or getattr(a, "name", None),
-                    "ort": getattr(a, "ort", None),
-                    "plz": getattr(a, "plz", None),
-                }
-            )
-        context["anlagen_liste"] = anlagen_liste
+        for a in rows:  # Verwende alle gefilterten Anlagen statt nur page_rows
+            try:
+                # Zuerst prüfen, ob präzise Koordinaten vorhanden sind
+                lat = None
+                lon = None
+                has_precise_coords = False
+                
+                if a[18] and a[19] and str(a[18]).strip() and str(a[19]).strip():
+                    try:
+                        lat = float(a[18])
+                        lon = float(a[19])
+                        has_precise_coords = True
+                    except (ValueError, TypeError):
+                        pass
+                
+                # Nur wenn keine präzisen Koordinaten vorhanden sind, PLZ-Koordinaten verwenden
+                if not has_precise_coords and a[9]:  # PLZ in Spalte 9
+                    coords = get_coordinates_for_plz(str(a[9]))
+                    if coords:
+                        lat = coords["lat"]
+                        lon = coords["lon"]
+                
+                if lat and lon:
+                    anlagen_liste.append({
+                        "lat": lat,
+                        "lon": lon,
+                        "name": a[1] if a[1] else "Unbekannte Anlage",  # Anzeige-Name der Einheit in Spalte 1
+                        "ort": a[10] if a[10] else "",  # Ort in Spalte 10
+                        "plz": a[9] if a[9] else "",  # Postleitzahl in Spalte 9
+                        "energietraeger": a[3] if a[3] else "",  # Energieträger in Spalte 3
+                        "leistung": a[4] if a[4] else "",  # Bruttoleistung in Spalte 4
+                        "strasse": a[11] if a[11] else "",  # Straße in Spalte 11
+                        "hausnummer": a[12] if a[12] else "",  # Hausnummer in Spalte 12
+                        "has_precise_coords": has_precise_coords,  # Flag für präzise Koordinaten
+                    })
+            except (ValueError, IndexError, TypeError):
+                # Bei Fehlern überspringen
+                continue
+                
+        context["anlagen_liste"] = json.dumps(anlagen_liste)
         return render(request, "dashboard/data.html", context)
 
     except sqlite3.OperationalError as e:

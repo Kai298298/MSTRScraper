@@ -1,0 +1,825 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaStR Lead Generator - Login</title>
+    <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">
+    <link rel="apple-touch-icon" href="/static/img/favicon.svg">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Branding CSS -->
+    <link href="/static/css/branding.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/static/css/custom.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #0d6efd;
+            --secondary-blue: #0a58ca;
+            --light-gray: #f8f9fa;
+            --white: #ffffff;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        main {
+            flex: 1;
+        }
+        
+        footer {
+            margin-top: auto;
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+        }
+        
+        .card {
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .lead-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .lead-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        /* Einheitliche Tab-Styles für alle Dashboard-Seiten */
+        .tab-container {
+            margin-bottom: 20px;
+        }
+        
+        .nav-tabs {
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .nav-tabs .nav-link {
+            border: none;
+            color: #6c757d;
+            font-weight: 500;
+            padding: 12px 20px;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .nav-tabs .nav-link.active {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            border: none;
+            background-color: #e9ecef;
+        }
+    </style>
+    
+    
+    
+</head>
+<body>
+    <!-- Verbesserte Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="/data/">
+                <img src="/static/img/logo.svg" alt="MaStR Logo"/>
+                MaStR Lead Generator
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/accounts/login/">
+                                <i class="fas fa-sign-in-alt"></i> Anmelden
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/accounts/register/">
+                                <i class="fas fa-user-plus"></i> Registrieren
+                            </a>
+                        </li>
+                    </ul>
+                
+            </div>
+        </div>
+    </nav>
+
+    <!-- Onboarding-Banner für neue Benutzer -->
+    
+
+    <!-- Subscription-Status für Free-User -->
+    
+
+    <!-- Messages -->
+    
+
+    <!-- Main Content -->
+    <main class="py-4">
+        
+<div class="container-fluid">
+    <div class="row">
+        <!-- Linke Seite: Werbung und Tarife -->
+        <div class="col-lg-8 bg-gradient-primary text-white py-5" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);">
+            <div class="container">
+                <div class="row align-items-center min-vh-100">
+                    <div class="col-lg-10 mx-auto text-center">
+                        <!-- Header -->
+                        <div class="mb-5">
+                            <h1 class="display-4 fw-bold mb-3">
+                                <i class="fas fa-search-dollar me-3"></i>
+                                MaStR Lead Generator
+                            </h1>
+                            <p class="lead fs-4 mb-4">
+                                Entdecken Sie profitable Geschäftsmöglichkeiten im Marktstammdatenregister
+                            </p>
+                        </div>
+
+                        <!-- Features -->
+                        <div class="row mb-5">
+                            <div class="col-md-4 mb-4">
+                                <div class="feature-card p-4 h-100">
+                                    <i class="fas fa-filter fa-3x mb-3 text-warning"></i>
+                                    <h5>Intelligente Filter</h5>
+                                    <p class="mb-0">Präzise Suche nach Energieträger, Bundesland, Leistung und mehr</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="feature-card p-4 h-100">
+                                    <i class="fas fa-download fa-3x mb-3 text-success"></i>
+                                    <h5>CSV Export</h5>
+                                    <p class="mb-0">Exportieren Sie gefilterte Leads für Ihre CRM-Systeme</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="feature-card p-4 h-100">
+                                    <i class="fas fa-chart-line fa-3x mb-3 text-info"></i>
+                                    <h5>Echtzeit-Daten</h5>
+                                    <p class="mb-0">Aktuelle Daten aus dem offiziellen Marktstammdatenregister</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarife -->
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <h2 class="fw-bold mb-4">
+                                    <i class="fas fa-crown me-2"></i>
+                                    Wählen Sie Ihren Tarif
+                                </h2>
+                            </div>
+                            
+                            <!-- Free Tarif -->
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-white text-dark h-100 shadow-lg">
+                                    <div class="card-header bg-light text-center py-3">
+                                        <h4 class="mb-0">
+                                            <i class="fas fa-gift text-success me-2"></i>
+                                            Free
+                                        </h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h2 class="text-success mb-3">€0<span class="fs-6">/Monat</span></h2>
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>10 Suchen pro Tag</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>3 gespeicherte Filter</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Basis-Filter</li>
+                                            <li class="mb-2 text-muted"><i class="fas fa-times text-danger me-2"></i>Kein CSV-Export</li>
+                                            <li class="mb-2 text-muted"><i class="fas fa-times text-danger me-2"></i>Keine API</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Basic Tarif -->
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-white text-dark h-100 shadow-lg border-primary">
+                                    <div class="card-header bg-primary text-white text-center py-3">
+                                        <h4 class="mb-0">
+                                            <i class="fas fa-star text-warning me-2"></i>
+                                            Basic
+                                        </h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h2 class="text-primary mb-3">€49<span class="fs-6">/Monat</span></h2>
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>100 Suchen pro Tag</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>10 gespeicherte Filter</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Erweiterte Filter</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>CSV-Export (1000 Zeilen)</li>
+                                            <li class="mb-2 text-muted"><i class="fas fa-times text-danger me-2"></i>Keine API</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Premium Tarif -->
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-white text-dark h-100 shadow-lg border-warning">
+                                    <div class="card-header bg-warning text-dark text-center py-3">
+                                        <h4 class="mb-0">
+                                            <i class="fas fa-crown text-warning me-2"></i>
+                                            Premium
+                                        </h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h2 class="text-warning mb-3">€99<span class="fs-6">/Monat</span></h2>
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unbegrenzte Suchen</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unbegrenzte Filter</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Alle Filter-Optionen</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unbegrenzter CSV-Export</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>API-Zugang</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Call to Action -->
+                        <div class="mt-5">
+                            <p class="fs-5 mb-4">
+                                <strong>Über 2.400 Anlagen</strong> warten darauf, von Ihnen entdeckt zu werden!
+                            </p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="/accounts/register/" class="btn btn-success btn-lg">
+                                    <i class="fas fa-user-plus me-2"></i>Jetzt registrieren
+                                </a>
+                                <a href="#demo" class="btn btn-outline-light btn-lg">
+                                    <i class="fas fa-play me-2"></i>Demo ansehen
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rechte Seite: Login -->
+        <div class="col-lg-4 bg-light py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-primary text-white text-center">
+                                <h4 class="mb-0">
+                                    <i class="fas fa-sign-in-alt me-2"></i>
+                                    Anmelden
+                                </h4>
+                            </div>
+                            <div class="card-body p-4">
+                                
+                                
+                                <form method="post" novalidate>
+                                    <input type="hidden" name="csrfmiddlewaretoken" value="Oz9ZO1h2pHuuxxbNKcFceFTWDu5x63Lmvg1U6qotDCjfJI98DNpf4DsGlYFMApk3">
+                                    <div class="mb-3">
+                                        <label for="id_username" class="form-label fw-bold">
+                                            <i class="fas fa-user me-1"></i>Benutzername
+                                        </label>
+                                        <input type="text" name="username" autofocus required 
+                                               class="form-control form-control-lg" id="id_username" 
+                                               placeholder="Benutzername" value="">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="id_password" class="form-label fw-bold">
+                                            <i class="fas fa-lock me-1"></i>Passwort
+                                        </label>
+                                        <input type="password" name="password" required 
+                                               class="form-control form-control-lg" id="id_password" 
+                                               placeholder="Passwort">
+                                    </div>
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="fas fa-sign-in-alt me-2"></i>Anmelden
+                                        </button>
+                                    </div>
+                                </form>
+                                
+                                <div class="mt-4 text-center">
+                                    <a href="/accounts/password_reset/" class="text-decoration-none">
+                                        <i class="fas fa-key me-1"></i>Passwort vergessen?
+                                    </a>
+                                </div>
+                                
+                                <hr class="my-4">
+                                
+                                <div class="text-center">
+                                    <p class="mb-3">Noch kein Konto?</p>
+                                    <a href="/accounts/register/" class="btn btn-success w-100">
+                                        <i class="fas fa-user-plus me-2"></i>Kostenlos registrieren
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+
+.min-vh-100 {
+    min-height: 100vh;
+}
+</style>
+
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4 mt-5 border-top border-secondary">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="fas fa-solar-panel text-warning"></i> MaStR Lead Generator</h5>
+                    <p class="text-muted">
+                        Professionelle Lead-Generierung basierend auf Daten aus dem Marktstammdatenregister (MaStR).
+                        Finden Sie potenzielle Kunden und Geschäftspartner in der Energiewirtschaft.
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-warning">Nützliche Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/hilfe/" class="text-light text-decoration-none">
+                            <i class="fas fa-question-circle"></i> Hilfe
+                        </a></li>
+                        <li><a href="/impressum/" class="text-light text-decoration-none">
+                            <i class="fas fa-info-circle"></i> Impressum
+                        </a></li>
+                        <li><a href="#" class="text-light text-decoration-none" data-bs-toggle="modal" data-bs-target="#datenschutzModal">
+                            <i class="fas fa-shield-alt"></i> Datenschutz
+                        </a></li>
+                        <li><a href="https://www.marktstammdatenregister.de/" target="_blank" class="text-light text-decoration-none">
+                            <i class="fas fa-external-link-alt"></i> MaStR Portal
+                        </a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-warning">Kontakt</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-envelope text-muted"></i> info@mastr-leads.de</li>
+                        <li><i class="fas fa-phone text-muted"></i> +49 (0) 123 456789</li>
+                        <li><i class="fas fa-map-marker-alt text-muted"></i> Musterstraße 123, 12345 Musterstadt</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-3 border-secondary">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">
+                        &copy; 2025 MaStR Lead Generator. Alle Rechte vorbehalten.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-muted mb-0">
+                        Version 2.0 | Powered by Django & Bootstrap
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Help Modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-question-circle text-primary"></i> Hilfe & Anleitung
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Wie funktioniert die MaStR Lead Generator?</h6>
+                    <p>Die Anwendung ermöglicht es Ihnen, gezielt nach Energieanlagen im Marktstammdatenregister zu suchen und potenzielle Geschäftspartner zu identifizieren.</p>
+                    
+                    <h6>Verfügbare Filter:</h6>
+                    <ul>
+                        <li><strong>Freitextsuche:</strong> Durchsuchen Sie alle Felder nach beliebigen Begriffen</li>
+                        <li><strong>Energieträger:</strong> Filtern Sie nach Solarenergie, Windkraft, Biomasse etc.</li>
+                        <li><strong>Bundesland:</strong> Begrenzen Sie die Suche auf bestimmte Bundesländer</li>
+                        <li><strong>Leistung:</strong> Suchen Sie nach Anlagen mit bestimmten Leistungsbereichen</li>
+                        <li><strong>Umkreissuche:</strong> Finden Sie Anlagen in einem bestimmten Radius um eine PLZ</li>
+                        <li><strong>Betreiber:</strong> Suchen Sie nach spezifischen Anlagenbetreibern</li>
+                    </ul>
+                    
+                    <h6>Ansichten:</h6>
+                    <ul>
+                        <li><strong>Listenansicht:</strong> Tabellarische Darstellung aller gefundenen Anlagen</li>
+                        <li><strong>Kartenansicht:</strong> Geografische Darstellung der Anlagen auf einer interaktiven Karte</li>
+                    </ul>
+                    
+                    <h6>Premium-Features:</h6>
+                    <ul>
+                        <li><strong>CSV-Export:</strong> Laden Sie Ihre Suchergebnisse als CSV-Datei herunter</li>
+                        <li><strong>Anlagen-Listen:</strong> Speichern Sie interessante Anlagen in persönlichen Listen</li>
+                        <li><strong>Erweiterte Filter:</strong> Nutzen Sie mehr Filter gleichzeitig</li>
+                    </ul>
+                    
+                    <h6>Tipps für bessere Ergebnisse:</h6>
+                    <ul>
+                        <li>Beginnen Sie mit wenigen Filtern und verfeinern Sie die Suche schrittweise</li>
+                        <li>Nutzen Sie die Freitextsuche für allgemeine Begriffe</li>
+                        <li>Die Umkreissuche ist besonders nützlich für regionale Geschäfte</li>
+                        <li>Speichern Sie interessante Anlagen in Listen für späteren Zugriff</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Impressum Modal -->
+    <div class="modal fade" id="impressumModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-info-circle text-primary"></i> Impressum
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Angaben gemäß § 5 TMG</h6>
+                    <p><strong>Verantwortlich für den Inhalt:</strong><br>
+                    Musterfirma GmbH<br>
+                    Musterstraße 123<br>
+                    12345 Musterstadt<br>
+                    Deutschland</p>
+                    
+                    <p><strong>Vertreten durch:</strong><br>
+                    Max Mustermann (Geschäftsführer)</p>
+                    
+                    <p><strong>Kontakt:</strong><br>
+                    Telefon: +49 (0) 123 456789<br>
+                    E-Mail: info@mastr-leads.de</p>
+                    
+                    <p><strong>Registereintrag:</strong><br>
+                    Eintragung im Handelsregister<br>
+                    Registergericht: Amtsgericht Musterstadt<br>
+                    Registernummer: HRB 12345</p>
+                    
+                    <p><strong>Umsatzsteuer-ID:</strong><br>
+                    Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br>
+                    DE123456789</p>
+                    
+                    <h6>Haftung für Inhalte</h6>
+                    <p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.</p>
+                    
+                    <h6>Haftung für Links</h6>
+                    <p>Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Datenschutz Modal -->
+    <div class="modal fade" id="datenschutzModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-shield-alt text-primary"></i> Datenschutzerklärung
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>1. Datenschutz auf einen Blick</h6>
+                    <h6>Allgemeine Hinweise</h6>
+                    <p>Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können.</p>
+                    
+                    <h6>Datenerfassung auf dieser Website</h6>
+                    <p>Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. Dessen Kontaktdaten können Sie dem Abschnitt "Hinweis zur Verantwortlichen Stelle" in dieser Datenschutzerklärung entnehmen.</p>
+                    
+                    <h6>Wie erfassen wir Ihre Daten?</h6>
+                    <p>Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen. Hierbei kann es sich z. B. um Daten handeln, die Sie in ein Kontaktformular eingeben.</p>
+                    <p>Andere Daten werden automatisch oder nach Ihrer Einwilligung beim Besuch der Website durch unsere IT-Systeme erfasst. Das sind vor allem technische Daten (z. B. Internetbrowser, Betriebssystem oder Uhrzeit des Seitenaufrufs).</p>
+                    
+                    <h6>Wofür nutzen wir Ihre Daten?</h6>
+                    <p>Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere Daten können zur Analyse Ihres Nutzerverhaltens verwendet werden.</p>
+                    
+                    <h6>Welche Rechte haben Sie bezüglich Ihrer Daten?</h6>
+                    <p>Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten. Sie haben außerdem ein Recht, die Berichtigung oder Löschung dieser Daten zu verlangen. Wenn Sie eine Einwilligung zur Datenverarbeitung erteilt haben, können Sie diese Einwilligung jederzeit für die Zukunft widerrufen. Außerdem haben Sie das Recht, unter bestimmten Umständen die Einschränkung der Verarbeitung Ihrer personenbezogenen Daten zu verlangen.</p>
+                    
+                    <h6>2. Hosting</h6>
+                    <p>Wir hosten die Inhalte unserer Website bei folgendem Anbieter:</p>
+                    <p><strong>Externes Hosting</strong><br>
+                    Diese Website wird extern gehostet. Die personenbezogenen Daten, die auf dieser Website erfasst werden, werden auf den Servern des Hosters / der Hoster gespeichert. Hierbei kann es sich v. a. um IP-Adressen, Kontaktanfragen, Meta- und Kommunikationsdaten, Vertragsdaten, Kontaktdaten, Namen, Websitezugriffe und sonstige Daten, die über eine Website generiert werden, handeln.</p>
+                    
+                    <h6>3. Allgemeine Hinweise und Pflichtinformationen</h6>
+                    <h6>Datenschutz</h6>
+                    <p>Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend den gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie-Banner -->
+    <div id="cookie-banner" class="position-fixed bottom-0 start-0 w-100 bg-light border-top shadow-sm d-none" style="z-index: 2000;">
+        <div class="container py-3 d-flex flex-column flex-md-row align-items-center justify-content-between">
+            <div class="mb-2 mb-md-0">
+                <i class="fas fa-cookie-bite text-primary me-2"></i>
+                Diese Website verwendet Cookies, um die bestmögliche Funktionalität zu gewährleisten. Mehr dazu in der <a href="#" data-bs-toggle="modal" data-bs-target="#datenschutzModal">Datenschutzerklärung</a>.
+            </div>
+            <button id="cookie-accept-btn" class="btn btn-primary btn-sm ms-md-3">
+                Einverstanden
+            </button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Onboarding und Benutzerführung -->
+    <script>
+    // Onboarding-System
+    function startOnboarding() {
+        const steps = [
+            {
+                target: '.navbar-brand',
+                content: 'Willkommen beim MaStR Lead Generator! Hier können Sie nach Anlagen im Marktstammdatenregister suchen.',
+                placement: 'bottom'
+            },
+            {
+                target: 'a[href*="data"]',
+                content: 'Startpunkt: Nutzen Sie die MaStR-Suche um Anlagen nach verschiedenen Kriterien zu filtern.',
+                placement: 'bottom'
+            },
+            {
+                target: '.card-header h5',
+                content: 'Hier können Sie verschiedene Filter kombinieren: Energieträger, Bundesland, Leistung, etc.',
+                placement: 'bottom'
+            },
+            {
+                target: '.table th',
+                content: 'Die Suchergebnisse zeigen alle wichtigen Anlageninformationen. Klicken Sie auf Spaltenüberschriften zum Sortieren.',
+                placement: 'top'
+            },
+            {
+                target: '.anlage-checkbox',
+                content: 'Markieren Sie interessante Anlagen mit den Checkboxen um sie in Listen zu speichern.',
+                placement: 'left'
+            },
+            {
+                target: 'a[href*="anlagen_listen"]',
+                content: 'Verwalten Sie Ihre gespeicherten Anlagen in thematischen Listen.',
+                placement: 'bottom'
+            },
+            {
+                target: 'a[href*="betreiber"]',
+                content: 'Analysieren Sie Anlagenbetreiber und deren Portfolio.',
+                placement: 'bottom'
+            }
+        ];
+        
+        showOnboardingSteps(steps);
+    }
+    
+    function showOnboardingSteps(steps) {
+        let currentStep = 0;
+        
+        function showStep() {
+            if (currentStep >= steps.length) {
+                completeOnboarding();
+                return;
+            }
+            
+            const step = steps[currentStep];
+            const target = document.querySelector(step.target);
+            
+            if (target) {
+                // Highlight-Element erstellen
+                const highlight = document.createElement('div');
+                highlight.className = 'onboarding-highlight';
+                highlight.style.cssText = `
+                    position: absolute;
+                    border: 3px solid #007bff;
+                    border-radius: 8px;
+                    box-shadow: 0 0 20px rgba(0,123,255,0.5);
+                    z-index: 9999;
+                    pointer-events: none;
+                    transition: all 0.3s ease;
+                `;
+                
+                // Tooltip erstellen
+                const tooltip = document.createElement('div');
+                tooltip.className = 'onboarding-tooltip';
+                tooltip.innerHTML = `
+                    <div class="tooltip-content">
+                        <p>${step.content}</p>
+                        <div class="tooltip-actions">
+                            <button class="btn btn-sm btn-primary" onclick="nextStep()">Weiter</button>
+                            <button class="btn btn-sm btn-secondary" onclick="skipOnboarding()">Überspringen</button>
+                        </div>
+                    </div>
+                `;
+                tooltip.style.cssText = `
+                    position: absolute;
+                    background: white;
+                    border: 1px solid #dee2e6;
+                    border-radius: 8px;
+                    padding: 15px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    z-index: 10000;
+                    max-width: 300px;
+                `;
+                
+                document.body.appendChild(highlight);
+                document.body.appendChild(tooltip);
+                
+                // Position berechnen
+                const rect = target.getBoundingClientRect();
+                highlight.style.left = rect.left - 5 + 'px';
+                highlight.style.top = rect.top - 5 + 'px';
+                highlight.style.width = rect.width + 10 + 'px';
+                highlight.style.height = rect.height + 10 + 'px';
+                
+                // Tooltip positionieren
+                if (step.placement === 'top') {
+                    tooltip.style.left = rect.left + 'px';
+                    tooltip.style.top = rect.top - tooltip.offsetHeight - 20 + 'px';
+                } else if (step.placement === 'bottom') {
+                    tooltip.style.left = rect.left + 'px';
+                    tooltip.style.top = rect.bottom + 20 + 'px';
+                } else if (step.placement === 'left') {
+                    tooltip.style.left = rect.left - tooltip.offsetWidth - 20 + 'px';
+                    tooltip.style.top = rect.top + 'px';
+                } else {
+                    tooltip.style.left = rect.right + 20 + 'px';
+                    tooltip.style.top = rect.top + 'px';
+                }
+                
+                // Scroll zu Element
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                currentStep++;
+                showStep();
+            }
+        }
+        
+        window.nextStep = function() {
+            // Aktuelle Elemente entfernen
+            const highlight = document.querySelector('.onboarding-highlight');
+            const tooltip = document.querySelector('.onboarding-tooltip');
+            if (highlight) highlight.remove();
+            if (tooltip) tooltip.remove();
+            
+            currentStep++;
+            setTimeout(showStep, 300);
+        };
+        
+        showStep();
+    }
+    
+    function skipOnboarding() {
+        // Alle Onboarding-Elemente entfernen
+        const elements = document.querySelectorAll('.onboarding-highlight, .onboarding-tooltip');
+        elements.forEach(el => el.remove());
+        
+        // Banner ausblenden
+        const banner = document.getElementById('onboardingBanner');
+        if (banner) {
+            banner.style.display = 'none';
+        }
+        
+        completeOnboarding();
+    }
+    
+    function completeOnboarding() {
+        // AJAX-Request um Onboarding als abgeschlossen zu markieren
+        fetch('/accounts/complete-onboarding/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        }).then(() => {
+            const banner = document.getElementById('onboardingBanner');
+            if (banner) {
+                banner.style.display = 'none';
+            }
+        });
+    }
+    
+    // Verbesserte Benutzerführung
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tooltips für alle Elemente mit title-Attribut
+        const tooltipElements = document.querySelectorAll('[title]');
+        tooltipElements.forEach(element => {
+            if (!element.hasAttribute('data-bs-toggle')) {
+                element.setAttribute('data-bs-toggle', 'tooltip');
+                element.setAttribute('data-bs-placement', 'top');
+            }
+        });
+        
+        // Bootstrap Tooltips initialisieren
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        
+        // Keyboard-Navigation verbessern
+        document.addEventListener('keydown', function(e) {
+            // ESC-Taste schließt Modals und Dropdowns
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal.show');
+                modals.forEach(modal => {
+                    const modalInstance = bootstrap.Modal.getInstance(modal);
+                    if (modalInstance) modalInstance.hide();
+                });
+                
+                const dropdowns = document.querySelectorAll('.dropdown-menu.show');
+                dropdowns.forEach(dropdown => {
+                    const dropdownInstance = bootstrap.Dropdown.getInstance(dropdown);
+                    if (dropdownInstance) dropdownInstance.hide();
+                });
+            }
+        });
+        
+        // Verbesserte Formulare
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function() {
+                const submitButton = form.querySelector('button[type="submit"]');
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Wird verarbeitet...';
+                }
+            });
+        });
+        
+        // Auto-Hide für Alerts
+        const alerts = document.querySelectorAll('.alert:not(.alert-dismissible)');
+        alerts.forEach(alert => {
+            if (alert.classList.contains('alert-success') || alert.classList.contains('alert-info')) {
+                setTimeout(() => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }, 5000);
+            }
+        });
+    });
+    
+    // Verbesserte Fehlerbehandlung
+    window.addEventListener('error', function(e) {
+        console.error('JavaScript Error:', e.error);
+        // Hier könnte ein Error-Tracking-Service eingebunden werden
+    });
+    
+    // Performance-Monitoring
+    window.addEventListener('load', function() {
+        if ('performance' in window) {
+            const perfData = performance.getEntriesByType('navigation')[0];
+            if (perfData.loadEventEnd - perfData.loadEventStart > 3000) {
+                console.warn('Page load time is slow:', perfData.loadEventEnd - perfData.loadEventStart + 'ms');
+            }
+        }
+    });
+    </script>
+    
+    
+</body>
+</html> 

@@ -18,34 +18,28 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-your-secret-key-here')
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-local-development-key-change-in-production-2024')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)  # Für Produktion auf False
+DEBUG = config('DEBUG', default=True, cast=bool)  # Für lokale Entwicklung auf True
 
-# Production Security Settings
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='hsgkccss4w88s4k0cocwgwoo.5.181.48.221.sslip.io,localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
+# Local Development Security Settings
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
 
-# HTTPS Settings für Produktion
-SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=bool)
-SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=31536000, cast=int)  # 1 Jahr
-SECURE_HSTS_INCLUDE_SUBDOMAINS = config('SECURE_HSTS_INCLUDE_SUBDOMAINS', default=True, cast=bool)
-SECURE_HSTS_PRELOAD = config('SECURE_HSTS_PRELOAD', default=True, cast=bool)
-SECURE_BROWSER_XSS_FILTER = config('SECURE_BROWSER_XSS_FILTER', default=True, cast=bool)
-SECURE_CONTENT_TYPE_NOSNIFF = config('SECURE_CONTENT_TYPE_NOSNIFF', default=True, cast=bool)
-SECURE_FRAME_DENY = config('SECURE_FRAME_DENY', default=True, cast=bool)
-X_FRAME_OPTIONS = config('X_FRAME_OPTIONS', default='DENY')
+# HTTPS Settings für lokale Entwicklung (deaktiviert)
+SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
+SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=0, cast=int)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = config('SECURE_HSTS_INCLUDE_SUBDOMAINS', default=False, cast=bool)
+SECURE_HSTS_PRELOAD = config('SECURE_HSTS_PRELOAD', default=False, cast=bool)
+SECURE_BROWSER_XSS_FILTER = config('SECURE_BROWSER_XSS_FILTER', default=False, cast=bool)
+SECURE_CONTENT_TYPE_NOSNIFF = config('SECURE_CONTENT_TYPE_NOSNIFF', default=False, cast=bool)
+SECURE_FRAME_DENY = config('SECURE_FRAME_DENY', default=False, cast=bool)
+X_FRAME_OPTIONS = config('X_FRAME_OPTIONS', default='SAMEORIGIN')
 
-# SSL deaktiviert für Coolify-Kompatibilität
-SECURE_SSL_REDIRECT = False
-SECURE_HSTS_SECONDS = 0
-SECURE_HSTS_INCLUDE_SUBDOMAINS = False
-SECURE_HSTS_PRELOAD = False
-
-# Moderne Browser-Sicherheit (2024/2025)
-SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = config('SECURE_CROSS_ORIGIN_EMBEDDER_POLICY', default='require-corp')
-SECURE_CROSS_ORIGIN_OPENER_POLICY = config('SECURE_CROSS_ORIGIN_OPENER_POLICY', default='same-origin')
-SECURE_REFERRER_POLICY = config('SECURE_REFERRER_POLICY', default='strict-origin-when-cross-origin')
+# Moderne Browser-Sicherheit (entspannt für lokale Entwicklung)
+SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = config('SECURE_CROSS_ORIGIN_EMBEDDER_POLICY', default='unsafe-none')
+SECURE_CROSS_ORIGIN_OPENER_POLICY = config('SECURE_CROSS_ORIGIN_OPENER_POLICY', default='unsafe-none')
+SECURE_REFERRER_POLICY = config('SECURE_REFERRER_POLICY', default='no-referrer-when-downgrade')
 
 # CORS Configuration
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
@@ -79,19 +73,19 @@ PERMISSIONS_POLICY = {
     'xr-spatial-tracking': [],
 }
 
-# Session Security (SSL deaktiviert für Coolify)
-SESSION_COOKIE_SECURE = False  # Coolify übernimmt HTTPS
-SESSION_COOKIE_HTTPONLY = True  # Immer True für Sicherheit
+# Session Security (für lokale Entwicklung)
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)  # False für HTTP
+SESSION_COOKIE_HTTPONLY = config('SESSION_COOKIE_HTTPONLY', default=True, cast=bool)  # Immer True für Sicherheit
 SESSION_COOKIE_SAMESITE = config('SESSION_COOKIE_SAMESITE', default='Lax')
-SESSION_EXPIRE_AT_BROWSER_CLOSE = config('SESSION_EXPIRE_AT_BROWSER_CLOSE', default=True, cast=bool)
-SESSION_COOKIE_AGE = config('SESSION_COOKIE_AGE', default=3600, cast=int)  # 1 Stunde
-SESSION_SAVE_EVERY_REQUEST = config('SESSION_SAVE_EVERY_REQUEST', default=True, cast=bool)  # Session-Rotation
+SESSION_EXPIRE_AT_BROWSER_CLOSE = config('SESSION_EXPIRE_AT_BROWSER_CLOSE', default=False, cast=bool)  # False für Entwicklung
+SESSION_COOKIE_AGE = config('SESSION_COOKIE_AGE', default=86400, cast=int)  # 24 Stunden für Entwicklung
+SESSION_SAVE_EVERY_REQUEST = config('SESSION_SAVE_EVERY_REQUEST', default=False, cast=bool)  # False für Entwicklung
 
-# CSRF Protection (SSL deaktiviert für Coolify)
-CSRF_COOKIE_SECURE = False  # Coolify übernimmt HTTPS
-CSRF_COOKIE_HTTPONLY = True  # Immer True für Sicherheit
+# CSRF Protection (für lokale Entwicklung)
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)  # False für HTTP
+CSRF_COOKIE_HTTPONLY = config('CSRF_COOKIE_HTTPONLY', default=True, cast=bool)  # Immer True für Sicherheit
 CSRF_COOKIE_SAMESITE = config('CSRF_COOKIE_SAMESITE', default='Lax')
-CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://hsgkccss4w88s4k0cocwgwoo.5.181.48.221.sslip.io', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://localhost:8000,http://127.0.0.1:8000', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
 
 # Password Security
 PASSWORD_HASHERS = [
@@ -123,10 +117,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Login Security
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/data/'
-LOGOUT_REDIRECT_URL = '/accounts/login/'
+LOGOUT_REDIRECT_URL = '/'
 
-# Rate Limiting
-RATELIMIT_ENABLE = config('RATELIMIT_ENABLE', default=True, cast=bool)
+# Rate Limiting (deaktiviert für lokale Entwicklung)
+RATELIMIT_ENABLE = config('RATELIMIT_ENABLE', default=False, cast=bool)
 RATELIMIT_USE_CACHE = config('RATELIMIT_USE_CACHE', default='default')
 
 # Application definition
@@ -153,9 +147,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'dashboard.middleware.RateLimitMiddleware',
-    'dashboard.middleware.SecurityHeadersMiddleware',
-    'dashboard.middleware.RequestLoggingMiddleware',
 ]
 
 ROOT_URLCONF = 'data_visualizer.urls'

@@ -15,6 +15,7 @@
     </div>
 
     <div class="row">
+        <!-- Benutzerinformationen -->
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
@@ -26,48 +27,47 @@
                 <div class="card-body">
                     <form method="post" novalidate>
                         {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-primary mt-2">
-                            <i class="fas fa-save"></i> Profil speichern
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ user_form.username.id_for_label }}" class="form-label">Benutzername</label>
+                                {{ user_form.username }}
+                                {% if user_form.username.errors %}
+                                    <div class="text-danger small">{{ user_form.username.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ user_form.email.id_for_label }}" class="form-label">E-Mail</label>
+                                {{ user_form.email }}
+                                {% if user_form.email.errors %}
+                                    <div class="text-danger small">{{ user_form.email.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ user_form.first_name.id_for_label }}" class="form-label">Vorname</label>
+                                {{ user_form.first_name }}
+                                {% if user_form.first_name.errors %}
+                                    <div class="text-danger small">{{ user_form.first_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ user_form.last_name.id_for_label }}" class="form-label">Nachname</label>
+                                {{ user_form.last_name }}
+                                {% if user_form.last_name.errors %}
+                                    <div class="text-danger small">{{ user_form.last_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Benutzerinformationen speichern
                         </button>
                     </form>
-                    <hr>
-                    <div class="row mb-3">
-                        <div class="col-sm-4">
-                            <strong>Benutzername:</strong>
-                        </div>
-                        <div class="col-sm-8">
-                            {{ user.username }}
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-4">
-                            <strong>E-Mail:</strong>
-                        </div>
-                        <div class="col-sm-8">
-                            {{ user.email|default:"Nicht angegeben" }}
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-4">
-                            <strong>Registriert seit:</strong>
-                        </div>
-                        <div class="col-sm-8">
-                            {{ user.date_joined|date:"d.m.Y H:i" }}
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-4">
-                            <strong>Letzter Login:</strong>
-                        </div>
-                        <div class="col-sm-8">
-                            {{ user.last_login|date:"d.m.Y H:i"|default:"Noch nie" }}
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Abonnement -->
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
@@ -149,6 +149,86 @@
         </div>
     </div>
 
+    <!-- Adressfelder -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Rechnungsadresse
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ address_form.company_name.id_for_label }}" class="form-label">Firmenname (optional)</label>
+                                {{ address_form.company_name }}
+                                {% if address_form.company_name.errors %}
+                                    <div class="text-danger small">{{ address_form.company_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ address_form.phone.id_for_label }}" class="form-label">Telefonnummer</label>
+                                {{ address_form.phone }}
+                                {% if address_form.phone.errors %}
+                                    <div class="text-danger small">{{ address_form.phone.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="{{ address_form.street_address.id_for_label }}" class="form-label">Straße & Hausnummer</label>
+                                {{ address_form.street_address }}
+                                {% if address_form.street_address.errors %}
+                                    <div class="text-danger small">{{ address_form.street_address.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ address_form.postal_code.id_for_label }}" class="form-label">Postleitzahl</label>
+                                {{ address_form.postal_code }}
+                                {% if address_form.postal_code.errors %}
+                                    <div class="text-danger small">{{ address_form.postal_code.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ address_form.city.id_for_label }}" class="form-label">Stadt</label>
+                                {{ address_form.city }}
+                                {% if address_form.city.errors %}
+                                    <div class="text-danger small">{{ address_form.city.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ address_form.country.id_for_label }}" class="form-label">Land</label>
+                                {{ address_form.country }}
+                                {% if address_form.country.errors %}
+                                    <div class="text-danger small">{{ address_form.country.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ address_form.tax_id.id_for_label }}" class="form-label">Steuernummer / USt-IdNr.</label>
+                                {{ address_form.tax_id }}
+                                {% if address_form.tax_id.errors %}
+                                    <div class="text-danger small">{{ address_form.tax_id.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Adressdaten speichern
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aktionen -->
     <div class="row mt-4">
         <div class="col-12">
             <div class="card">
