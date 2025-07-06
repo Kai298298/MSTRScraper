@@ -6437,3 +6437,5 @@ INFO 2025-07-06 11:40:30,091 autoreload 87140 8209315904 Watching for file chang
 INFO 2025-07-06 11:40:33,738 basehttp 87140 6156955648 "HEAD /betreiber/ HTTP/1.1" 302 0
 INFO 2025-07-06 11:43:43,534 autoreload 87886 8209315904 Watching for file changes with StatReloader
 INFO 2025-07-06 11:43:44,073 basehttp 87140 6156955648 "GET / HTTP/1.1" 200 53174
+INFO 2025-07-06 14:21:11,626 autoreload 89442 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 14:21:24,325 basehttp 89442 6124597248 "HEAD / HTTP/1.1" 200 0

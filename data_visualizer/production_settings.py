@@ -17,15 +17,23 @@ DEBUG = False
 # Sichere SECRET_KEY (in Produktion über Umgebungsvariable setzen)
 SECRET_KEY = os.environ.get('SECRET_KEY', '@*q(-up3f(d&rvc4s4it3%l04rnm@05b_^6n@3=kf4@&d-#vf2')
 
-# Host-Konfiguration
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# Host-Konfiguration (Coolify-kompatibel)
+# Akzeptiert alle Coolify-Domains automatisch
+DEFAULT_ALLOWED_HOSTS = 'localhost,127.0.0.1'
+allowed_hosts_env = os.environ.get('ALLOWED_HOSTS')
+if allowed_hosts_env:
+    ALLOWED_HOSTS = allowed_hosts_env.split(',')
+else:
+    # Fallback für Coolify: Akzeptiere alle Hosts
+    ALLOWED_HOSTS = ['*']
 
 # CSRF-Schutz
 CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost').split(',')
 
-# SSL/HTTPS-Einstellungen (deaktiviert für Coolify-Kompatibilität)
-SECURE_SSL_REDIRECT = False  # Coolify übernimmt SSL
-SECURE_HSTS_SECONDS = 0  # Deaktiviert
+# SSL/HTTPS-Einstellungen (Coolify-kompatibel)
+# Coolify übernimmt SSL automatisch, Django-Einstellungen sind deaktiviert
+SECURE_SSL_REDIRECT = False  # Coolify übernimmt HTTPS-Redirect
+SECURE_HSTS_SECONDS = 0  # Coolify übernimmt HSTS
 SECURE_HSTS_INCLUDE_SUBDOMAINS = False
 SECURE_HSTS_PRELOAD = False
 SECURE_BROWSER_XSS_FILTER = True
@@ -33,7 +41,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_FRAME_DENY = True
 X_FRAME_OPTIONS = 'DENY'
 
-# Cookie-Sicherheit (angepasst für Coolify)
+# Cookie-Sicherheit (Coolify-kompatibel)
+# Coolify übernimmt HTTPS, daher sind Secure-Cookies deaktiviert
 SESSION_COOKIE_SECURE = False  # Coolify übernimmt HTTPS
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'

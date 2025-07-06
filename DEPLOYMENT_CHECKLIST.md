@@ -49,8 +49,10 @@ python manage.py collectstatic --noinput --settings=data_visualizer.production_s
 DJANGO_SETTINGS_MODULE=data_visualizer.production_settings
 DEBUG=False
 SECRET_KEY=dein-super-geheimer-schluessel-hier
+
+# HTTPS-Konfiguration (WICHTIG für SSL)
 ALLOWED_HOSTS=deine-domain.com,www.deine-domain.com
-CSRF_TRUSTED_ORIGINS=https://deine-domain.com
+CSRF_TRUSTED_ORIGINS=https://deine-domain.com,https://www.deine-domain.com
 SITE_URL=https://deine-domain.com
 
 # Datenbank (Coolify PostgreSQL)
@@ -65,10 +67,12 @@ EMAIL_HOST_PASSWORD=dein-app-passwort
 DEFAULT_FROM_EMAIL=deine-email@gmail.com
 ```
 
-### 4. Domain konfigurieren
+### 4. Domain und SSL konfigurieren
 - [ ] Custom Domain in Coolify hinzufügen
-- [ ] DNS-Records setzen
-- [ ] SSL wird automatisch von Coolify verwaltet
+- [ ] DNS-Records setzen (A-Record auf Coolify-IP)
+- [ ] SSL aktivieren (Let's Encrypt automatisch)
+- [ ] "Force HTTPS" in Coolify aktivieren
+- [ ] 5-10 Minuten warten für SSL-Zertifikat
 
 ### 5. Deploy starten
 - [ ] "Deploy" Button klicken
@@ -85,8 +89,11 @@ DEFAULT_FROM_EMAIL=deine-email@gmail.com
 - [ ] Anlagen-Listen: `https://deine-domain.com/anlagen-listen/`
 
 ### 🔒 Sicherheit prüfen
-- [ ] HTTPS aktiviert
-- [ ] HTTP → HTTPS Redirect
+- [ ] HTTPS aktiviert (grünes Schloss im Browser)
+- [ ] HTTP → HTTPS Redirect funktioniert
+- [ ] SSL-Zertifikat gültig (Let's Encrypt)
+- [ ] Keine Mixed Content Warnungen
+- [ ] CSRF-Fehler sind weg
 - [ ] Security Headers gesetzt
 - [ ] Keine Debug-Informationen sichtbar
 
@@ -105,6 +112,14 @@ DEFAULT_FROM_EMAIL=deine-email@gmail.com
 git add requirements_deployment.txt
 git commit -m "Add requirements_deployment.txt"
 git push origin main
+```
+
+### DisallowedHost-Fehler
+```bash
+# Problem: Invalid HTTP_HOST header
+# Lösung: ALLOWED_HOSTS in Coolify erweitern
+# Value: hsgkccss4w88s4k0cocwgwoo.5.181.48.221.sslip.io,deine-domain.com
+# Dann: Redeploy in Coolify
 ```
 
 ### Runtime-Fehler
@@ -136,10 +151,11 @@ git push origin main
 - **Build-Logs**: In Coolify unter "Builds"
 
 ### Häufige Probleme
-1. **Umgebungsvariablen** nicht gesetzt
-2. **SECRET_KEY** nicht generiert
-3. **ALLOWED_HOSTS** nicht angepasst
-4. **DATABASE_URL** falsch konfiguriert
+1. **DisallowedHost-Fehler** - ALLOWED_HOSTS erweitern
+2. **Umgebungsvariablen** nicht gesetzt
+3. **SECRET_KEY** nicht generiert
+4. **ALLOWED_HOSTS** nicht angepasst
+5. **DATABASE_URL** falsch konfiguriert
 
 ## 🎉 Erfolg!
 
