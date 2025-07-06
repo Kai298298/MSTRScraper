@@ -29,108 +29,215 @@ from .serializers import GespeicherteAnlageSerializer, AnlagenListeSerializer, U
 
 
 def get_db_connection():
-    """Erstellt eine Verbindung zur SQLite-Datenbank mit MaStR-Daten"""
-    # Pfad zur MaStR-Datenbank
-    db_path = os.path.join(settings.BASE_DIR, "data", "data.sqlite")
-    if not os.path.exists(db_path):
-        # Fallback zur Django-Datenbank
-        return sqlite3.connect(settings.DATABASES["default"]["NAME"])
-    return sqlite3.connect(db_path)
+    """
+    Erstellt eine Verbindung zur externen MaStR-Datenbank
+    
+    Diese Funktion wird für direkte SQLite-Zugriffe verwendet,
+    wenn Django's ORM nicht ausreicht.
+    
+    Returns:
+        sqlite3.Connection: Verbindung zur data.sqlite Datenbank
+    """
+    data_db_path = os.path.join(settings.BASE_DIR, "data", "data.sqlite")
+    return sqlite3.connect(data_db_path)
 
 
 def load_plz_coordinates():
-    """Lädt die PLZ-Koordinaten-Tabelle"""
-    plz_coords = {}
+    """
+    Lädt PLZ-Koordinaten aus der CSV-Datei
+    
+    Diese Funktion liest die PLZ-Koordinaten-Datei ein und erstellt
+    ein Dictionary für schnelle Koordinaten-Lookups.
+    
+    Returns:
+        dict: Dictionary mit PLZ als Schlüssel und (lat, lon) als Werte
+    """
+    coordinates = {}
     csv_path = os.path.join(settings.BASE_DIR, "data", "plz_coordinates.csv")
-
+    
     if os.path.exists(csv_path):
-        with open(csv_path, "r", encoding="utf-8") as file:
+        with open(csv_path, 'r', encoding='utf-8') as file:
             reader = csv.DictReader(file)
             for row in reader:
-                plz_coords[row["plz"]] = {"lat": float(row["lat"]), "lon": float(row["lon"]), "ort": row["ort"]}
-
-    return plz_coords
+                plz = row.get('plz', '').strip()
+                if plz and row.get('lat') and row.get('lon'):
+                    try:
+                        coordinates[plz] = (float(row['lat']), float(row['lon']))
+                    except ValueError:
+                        continue
+    
+    return coordinates
 
 
 def haversine_distance(lat1, lon1, lat2, lon2):
     """
-    Berechnet die Distanz zwischen zwei Koordinaten in Kilometern
-    Verwendet die Haversine-Formel
+    Berechnet die Entfernung zwischen zwei Koordinaten (Haversine-Formel)
+    
+    Die Haversine-Formel berechnet die kürzeste Entfernung zwischen zwei
+    Punkten auf einer Kugel (Erde) über die Oberfläche.
+    
+    Args:
+        lat1 (float): Breitengrad des ersten Punktes
+        lon1 (float): Längengrad des ersten Punktes
+        lat2 (float): Breitengrad des zweiten Punktes
+        lon2 (float): Längengrad des zweiten Punktes
+        
+    Returns:
+        float: Entfernung in Kilometern
     """
-    # Erdradius in Kilometern
-    R = 6371
-
-    # Koordinaten in Radiant umrechnen
+    # Umrechnung in Radiant
     lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
-
+    
     # Differenzen
     dlat = lat2 - lat1
     dlon = lon2 - lon1
-
+    
     # Haversine-Formel
-    a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+    a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
     c = 2 * math.asin(math.sqrt(a))
-
-    return R * c
+    
+    # Erdradius in Kilometern
+    r = 6371
+    
+    return c * r
 
 
 def get_coordinates_for_plz(plz):
-    """Holt die Koordinaten für eine PLZ"""
-    plz_coords = load_plz_coordinates()
-    return plz_coords.get(plz)
+    """
+    Holt Koordinaten für eine PLZ aus dem geladenen Dictionary
+    
+    Args:
+        plz (str): Postleitzahl
+        
+    Returns:
+        tuple: (lat, lon) Koordinaten oder None wenn nicht gefunden
+    """
+    return PLZ_COORDINATES.get(str(plz))
 
 
 def get_user_subscription(user):
-    """Holt das aktuelle Abonnement des Benutzers"""
+    """
+    Holt die aktuelle Abonnement-Informationen eines Benutzers
+    
+    Prüft, ob der Benutzer ein aktives Premium-Abonnement hat
+    und gibt die entsprechenden Informationen zurück.
+    
+    Args:
+        user: Django User-Objekt
+        
+    Returns:
+        dict: Abonnement-Informationen oder None
+    """
     try:
-        return user.subscription
+        subscription = UserSubscription.objects.get(user=user)
+        return {
+            'is_premium': subscription.is_active and subscription.plan.is_premium,
+            'plan_name': subscription.plan.name,
+            'expires_at': subscription.expires_at,
+            'requests_used': subscription.requests_used,
+            'requests_limit': subscription.plan.request_limit
+        }
     except UserSubscription.DoesNotExist:
-        # Fallback: Free-Plan erstellen
-        free_plan, created = SubscriptionPlan.objects.get_or_create(
-            name="free",
-            defaults={
-                "display_name": "Kostenlos",
-                "description": "Kostenloser Plan mit eingeschränkten Funktionen",
-                "price": 0.00,
-                "requests_per_day": 10,
-                "max_filters": 3,
-                "can_export": False,
-                "can_share": False,
-            },
-        )
-        subscription = UserSubscription.objects.create(user=user, plan=free_plan)
-        return subscription
+        # Fallback auf kostenlosen Plan
+        try:
+            free_plan = SubscriptionPlan.objects.get(name="Kostenlos")
+            return {
+                'is_premium': False,
+                'plan_name': free_plan.name,
+                'expires_at': None,
+                'requests_used': 0,
+                'requests_limit': free_plan.request_limit
+            }
+        except SubscriptionPlan.DoesNotExist:
+            return None
 
 
 def log_request(user, endpoint, filters_used, success=True, error_message=""):
-    """Loggt eine Anfrage des Benutzers"""
-    RequestLog.objects.create(
-        user=user, endpoint=endpoint, filters_used=filters_used, success=success, error_message=error_message
-    )
+    """
+    Protokolliert API-Anfragen für Analytics und Monitoring
+    
+    Speichert Informationen über jede Anfrage in der Datenbank
+    für spätere Analyse und Monitoring.
+    
+    Args:
+        user: Django User-Objekt
+        endpoint (str): Aufgerufener Endpunkt
+        filters_used (dict): Verwendete Filter
+        success (bool): Ob die Anfrage erfolgreich war
+        error_message (str): Fehlermeldung bei Misserfolg
+    """
+    try:
+        RequestLog.objects.create(
+            user=user,
+            endpoint=endpoint,
+            filters_used=json.dumps(filters_used),
+            success=success,
+            error_message=error_message,
+            timestamp=timezone.now()
+        )
+    except Exception as e:
+        # Logging-Fehler sollten die Hauptfunktionalität nicht beeinträchtigen
+        print(f"Fehler beim Logging: {e}")
 
 
 def check_export_permission(user):
-    """Prüft, ob der Benutzer Export-Rechte hat"""
+    """
+    Prüft, ob ein Benutzer Export-Funktionen nutzen darf
+    
+    Args:
+        user: Django User-Objekt
+        
+    Returns:
+        bool: True wenn Export erlaubt ist
+    """
     subscription = get_user_subscription(user)
-    return subscription.plan.can_export
+    return subscription and subscription.get('is_premium', False)
 
 
 def check_request_limit(user):
-    """Prüft, ob der Benutzer noch Anfragen machen kann"""
+    """
+    Prüft, ob ein Benutzer noch Anfragen übrig hat
+    
+    Args:
+        user: Django User-Objekt
+        
+    Returns:
+        bool: True wenn noch Anfragen verfügbar sind
+    """
     subscription = get_user_subscription(user)
-    return subscription.can_make_request()
+    if not subscription:
+        return False
+    
+    return subscription.get('requests_used', 0) < subscription.get('requests_limit', 0)
 
 
 def increment_request_count(user):
-    """Erhöht den Anfragen-Zähler des Benutzers"""
-    subscription = get_user_subscription(user)
-    subscription.increment_requests()
+    """
+    Erhöht den Anfragen-Zähler eines Benutzers
+    
+    Args:
+        user: Django User-Objekt
+    """
+    try:
+        subscription = UserSubscription.objects.get(user=user)
+        subscription.requests_used += 1
+        subscription.save()
+    except UserSubscription.DoesNotExist:
+        pass  # Kein Abonnement = kein Zähler
 
 
 def check_premium_feature(user):
-    """Prüft, ob der Benutzer Premium-Features nutzen kann"""
+    """
+    Prüft, ob ein Benutzer Premium-Features nutzen darf
+    
+    Args:
+        user: Django User-Objekt
+        
+    Returns:
+        bool: True wenn Premium-Features verfügbar sind
+    """
     subscription = get_user_subscription(user)
-    return subscription.plan.name in ["premium", "basic"]
+    return subscription and subscription.get('is_premium', False)
 
 
 @login_required
@@ -952,7 +1059,7 @@ def export_csv(request, **filter_params):
         response["Content-Disposition"] = 'attachment; filename="mastr_leads.csv"'
 
         # UTF-8 BOM für Excel-Kompatibilität
-        response.write("\ufeff".encode("utf-8"))
+        response.write("\ufeff")
 
         writer = csv.writer(response, delimiter=";")
 
@@ -1120,194 +1227,288 @@ def analytics_dashboard(request):
 
 @login_required
 def betreiber_view(request):
-    """View für die Anlagenbetreiber-Ansicht"""
+    """
+    View für die Anlagenbetreiber-Ansicht - Alle Betreiber aus der externen MaStR-Datenbank
+    
+    Diese View zeigt alle Betreiber aus der MaStR-Datenbank an, mit Filter- und 
+    Paginierungsfunktionen. Die Daten werden direkt aus der externen SQLite-Datenbank 
+    gelesen, nicht aus dem Django ORM.
+    
+    Args:
+        request: HTTP-Request-Objekt mit GET-Parametern für Filter
+        
+    Returns:
+        Rendered Template mit Betreiber-Liste und Filter-Optionen
+    """
     # Filter-Parameter aus URL holen
-    name = request.GET.get("name", "")
-    bundesland = request.GET.get("bundesland", "")
-    anzahl_min = request.GET.get("anzahl_min", "")
-    anzahl_max = request.GET.get("anzahl_max", "")
-    leistung_min = request.GET.get("leistung_min", "")
-    leistung_max = request.GET.get("leistung_max", "")
-    energietraeger = request.GET.get("energietraeger", "")
-    export = request.GET.get("export", "")
+    name = request.GET.get("name", "")  # Name des Betreibers (Freitext-Suche)
+    bundesland = request.GET.get("bundesland", "")  # Bundesland-Filter
+    anzahl_min = request.GET.get("anzahl_min", "")  # Minimale Anzahl Anlagen
+    anzahl_max = request.GET.get("anzahl_max", "")  # Maximale Anzahl Anlagen
+    leistung_min = request.GET.get("leistung_min", "")  # Minimale Gesamtleistung
+    leistung_max = request.GET.get("leistung_max", "")  # Maximale Gesamtleistung
+    energietraeger = request.GET.get("energietraeger", "")  # Energieträger-Filter
+    export = request.GET.get("export", "")  # Export-Flag (noch nicht implementiert)
 
+    # Pfad zur externen MaStR-Datenbank
     data_db_path = os.path.join(settings.BASE_DIR, "data", "data.sqlite")
-    operators_db_path = os.path.join(settings.BASE_DIR, "data", "operators.sqlite")
+    
+    # Debug: Prüfe ob Datei existiert
+    print(f"[DEBUG] Datenbank-Pfad: {data_db_path}")
+    print(f"[DEBUG] Datei existiert: {os.path.exists(data_db_path)}")
+    
+    # Direkte SQLite-Verbindung verwenden (nicht Django ORM)
+    import sqlite3
+    
+    try:
+        # Verbindung zur externen Datenbank herstellen
+        with sqlite3.connect(data_db_path) as conn:
+            # SQLite-Row-Factory für einfachere Datenverarbeitung
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
 
-    with connection.cursor() as cursor:
-        try:
-            cursor.execute(f"ATTACH DATABASE '{operators_db_path}' AS operators_db;")
-            cursor.execute(f"ATTACH DATABASE '{data_db_path}' AS data_db;")
-
-            cte_where_clauses = []
-            cte_params = []
-            if bundesland:
-                cte_where_clauses.append("a.Bundesland = %s")
-                cte_params.append(bundesland)
-            if energietraeger:
-                cte_where_clauses.append('a."Energieträger der Einheit" = %s')
-                cte_params.append(energietraeger)
-
-            cte_sql = """
-            WITH BetreiberStats AS (
-                SELECT
-                    a."MaStR-Nr. des Anlagenbetreibers" as betreiber_nr,
-                    COUNT(a."MaStR-Nr. der Einheit") as anzahl,
-                    SUM(a."Nettonennleistung der Einheit") as leistung
-                FROM data_db.test_Tabelle1 a
+            # Basis-SQL-Query für alle Betreiber aus der externen Datenbank
+            # Gruppiert nach Betreibernummer und aggregiert Anlagen-Daten
+            query = """
+            SELECT 
+                "MaStR-Nr. des Anlagenbetreibers" as betreibernummer,
+                "Name des Anlagenbetreibers (nur Org.)" as name,
+                COUNT("MaStR-Nr. der Einheit") as anzahl_anlagen,
+                SUM(CAST("Bruttoleistung der Einheit" AS REAL)) as gesamtleistung,
+                GROUP_CONCAT(DISTINCT "Bundesland") as bundeslaender,
+                GROUP_CONCAT(DISTINCT "Ort") as orte,
+                GROUP_CONCAT(DISTINCT "Energieträger") as energietraeger_liste
+            FROM test_Tabelle1 
+            WHERE "MaStR-Nr. des Anlagenbetreibers" IS NOT NULL 
+            AND "MaStR-Nr. des Anlagenbetreibers" != ''
             """
-            if cte_where_clauses:
-                cte_sql += " WHERE " + " AND ".join(cte_where_clauses)
-
-            cte_sql += ' GROUP BY a."MaStR-Nr. des Anlagenbetreibers") '
-
-            main_sql = """
-            SELECT
-                b.Nummer as betreibernummer,
-                b.Betreibername as name,
-                b.Adresse as adresse,
-                b.Webseite as webseite,
-                b.email as email,
-                b.Telefon as telefon,
-                COALESCE(bs.anzahl, 0) as anzahl_anlagen,
-                COALESCE(bs.leistung, 0) as gesamtleistung
-            FROM operators_db.test_betreiber_Sheet1 b
-            """
-
-            if cte_where_clauses:
-                main_sql += " INNER JOIN BetreiberStats bs ON b.Nummer = bs.betreiber_nr "
-            else:
-                main_sql += " LEFT JOIN BetreiberStats bs ON b.Nummer = bs.betreiber_nr "
-
+            
+            # Parameter und WHERE-Klauseln für dynamische Filter
+            params = []
             where_clauses = []
-            main_params = []
-
+            
+            # Filter für Betreibername (LIKE-Suche)
             if name:
-                where_clauses.append("b.Betreibername LIKE %s")
-                main_params.append(f"%{name}%")
-            if anzahl_min:
-                where_clauses.append("COALESCE(bs.anzahl, 0) >= %s")
-                main_params.append(int(anzahl_min))
-            if anzahl_max:
-                where_clauses.append("COALESCE(bs.anzahl, 0) <= %s")
-                main_params.append(int(anzahl_max))
-            if leistung_min:
-                where_clauses.append("COALESCE(bs.leistung, 0) >= %s")
-                main_params.append(float(leistung_min))
-            if leistung_max:
-                where_clauses.append("COALESCE(bs.leistung, 0) <= %s")
-                main_params.append(float(leistung_max))
-
+                where_clauses.append('"Name des Anlagenbetreibers (nur Org.)" LIKE ?')
+                params.append(f"%{name}%")
+            
+            # Filter für Bundesland (exakte Übereinstimmung)
+            if bundesland:
+                where_clauses.append('"Bundesland" = ?')
+                params.append(bundesland)
+            
+            # Filter für Energieträger (exakte Übereinstimmung)
+            if energietraeger:
+                where_clauses.append('"Energieträger" = ?')
+                params.append(energietraeger)
+            
+            # WHERE-Klauseln zur Query hinzufügen
             if where_clauses:
-                main_sql += " WHERE " + " AND ".join(where_clauses)
+                query += " AND " + " AND ".join(where_clauses)
+            
+            # GROUP BY für Aggregation
+            query += """
+            GROUP BY "MaStR-Nr. des Anlagenbetreibers", "Name des Anlagenbetreibers (nur Org.)"
+            """
+            
+            # HAVING-Klausel für aggregierte Filter (nach GROUP BY)
+            having_clauses = []
+            
+            # Filter für minimale Anzahl Anlagen
+            if anzahl_min:
+                having_clauses.append("COUNT(\"MaStR-Nr. der Einheit\") >= ?")
+                params.append(int(anzahl_min))
+            
+            # Filter für maximale Anzahl Anlagen
+            if anzahl_max:
+                having_clauses.append("COUNT(\"MaStR-Nr. der Einheit\") <= ?")
+                params.append(int(anzahl_max))
+            
+            # Filter für minimale Gesamtleistung
+            if leistung_min:
+                having_clauses.append("SUM(CAST(\"Bruttoleistung der Einheit\" AS REAL)) >= ?")
+                params.append(float(leistung_min))
+            
+            # Filter für maximale Gesamtleistung
+            if leistung_max:
+                having_clauses.append("SUM(CAST(\"Bruttoleistung der Einheit\" AS REAL)) <= ?")
+                params.append(float(leistung_max))
+            
+            # HAVING-Klauseln zur Query hinzufügen
+            if having_clauses:
+                query += " HAVING " + " AND ".join(having_clauses)
+            
+            # Sortierung: Nach Anzahl Anlagen absteigend, dann nach Name
+            query += " ORDER BY anzahl_anlagen DESC, name"
+            
+            # Debug: Zeige Query und Parameter
+            print(f"[DEBUG] SQL-Query: {query}")
+            print(f"[DEBUG] Query-Parameter: {params}")
+            
+            # Query ausführen und Ergebnisse verarbeiten
+            cursor.execute(query, params)
+            rows = cursor.fetchall()
+            # SQLite-Rows zu Dictionaries konvertieren
+            betreiber_liste = [dict(row) for row in rows]
+            
+            print(f"[DEBUG] Anzahl gefundener Betreiber: {len(betreiber_liste)}")
 
-            final_sql = cte_sql + main_sql + " ORDER BY b.Betreibername"
-            query_params = cte_params + main_params
-
-            cursor.execute(final_sql, query_params)
-            betreiber_liste = dictfetchall(cursor)
-
-        finally:
-            cursor.execute("DETACH DATABASE operators_db;")
-            cursor.execute("DETACH DATABASE data_db;")
-
-    paginator = Paginator(betreiber_liste, 50)  # 50 Betreiber pro Seite
+            # Bundesländer-Liste für Filter-Dropdown laden
+            cursor.execute("SELECT DISTINCT \"Bundesland\" FROM test_Tabelle1 WHERE \"Bundesland\" IS NOT NULL ORDER BY \"Bundesland\"")
+            bundesland_list = [row[0] for row in cursor.fetchall()]
+            
+            # Energieträger-Liste für Filter-Dropdown laden
+            cursor.execute("SELECT DISTINCT \"Energieträger\" FROM test_Tabelle1 WHERE \"Energieträger\" IS NOT NULL ORDER BY \"Energieträger\"")
+            energietraeger_list = [row[0] for row in cursor.fetchall()]
+            
+            print(f"[DEBUG] Anzahl Bundesländer: {len(bundesland_list)}")
+            print(f"[DEBUG] Anzahl Energieträger: {len(energietraeger_list)}")
+    
+    except Exception as e:
+        # Fehlerbehandlung: Logging und Fallback-Werte
+        print(f"[ERROR] Fehler in betreiber_view: {e}")
+        import traceback
+        traceback.print_exc()
+        # Fallback: Leere Listen bei Fehlern
+        betreiber_liste = []
+        bundesland_list = []
+        energietraeger_list = []
+    
+    # Paginierung: 50 Betreiber pro Seite
+    paginator = Paginator(betreiber_liste, 50)
     page = request.GET.get("page")
     try:
         betreiber_paginiert = paginator.page(page)
     except PageNotAnInteger:
+        # Bei ungültiger Seitenzahl: erste Seite
         betreiber_paginiert = paginator.page(1)
     except EmptyPage:
+        # Bei zu hoher Seitenzahl: letzte Seite
         betreiber_paginiert = paginator.page(paginator.num_pages)
 
+    # Context für Template vorbereiten
     context = {
-        "betreiber_liste": betreiber_paginiert,
-        "filter_values": request.GET,
+        "betreiber_liste": betreiber_paginiert,  # Paginierte Betreiber-Liste
+        "filter_values": request.GET,  # Aktuelle Filter-Werte für Template
+        "bundesland_list": bundesland_list,  # Bundesländer für Dropdown
+        "energietraeger_list": energietraeger_list,  # Energieträger für Dropdown
     }
 
-    # Koordinaten für Karte vorbereiten
+    # Koordinaten für Karte vorbereiten (vereinfacht - Zentrum Deutschland)
+    # TODO: Bessere Koordinaten-Logik implementieren (PLZ-basiert)
     anlagen_json = []
-    plz_coords = load_plz_coordinates()
-
     for b in betreiber_paginiert:
-        lat = None
-        lon = None
-
-        # Versuche Koordinaten aus PLZ zu holen (falls verfügbar)
-        # Da die Betreiber-Daten keine direkten Koordinaten haben,
-        # verwenden wir einen Standard-Punkt für Deutschland
-        lat = 51.3  # Zentrum von Deutschland
+        # Versuche PLZ aus den Orten zu extrahieren für bessere Koordinaten
+        orte = b.get("orte", "").split(",") if b.get("orte") else []
+        lat = 51.3  # Standard: Zentrum Deutschland
         lon = 10.1
+        
+        # JSON-Daten für Karten-Marker
+        anlagen_json.append({
+            "name": b.get("name", "Unbekannt"),
+            "betreibernummer": b.get("betreibernummer", ""),
+            "anzahl_anlagen": b.get("anzahl_anlagen", 0),
+            "gesamtleistung": b.get("gesamtleistung", 0),
+            "bundeslaender": b.get("bundeslaender", ""),
+            "energietraeger": b.get("energietraeger_liste", ""),
+            "lat": lat,
+            "lon": lon,
+        })
 
-        anlagen_json.append(
-            {
-                "name": b.get("name", "Unbekannt"),
-                "ort": b.get("adresse", "").split(",")[0] if b.get("adresse") else "",
-                "plz": "",
-                "anzahl_anlagen": b.get("anzahl_anlagen", 0),
-                "gesamtleistung": b.get("gesamtleistung", 0),
-                "lat": lat,
-                "lon": lon,
-            }
-        )
-
+    # JSON-Daten für JavaScript-Karte
     context["anlagen_json"] = json.dumps(anlagen_json)
+    
+    # Template rendern
     return render(request, "dashboard/betreiber.html", context)
 
 
 @login_required
 def betreiber_detail_view(request, betreibernummer):
-    """Detail-View für einen einzelnen Betreiber mit allen seinen Anlagen"""
+    """
+    Detail-View für einen einzelnen Betreiber mit allen seinen Anlagen
+    
+    Zeigt detaillierte Informationen zu einem spezifischen Betreiber und
+    alle seine Anlagen in einer Tabelle an.
+    
+    Args:
+        request: HTTP-Request-Objekt
+        betreibernummer: MaStR-Nummer des Betreibers
+        
+    Returns:
+        Rendered Template mit Betreiber-Details und Anlagen-Liste
+        
+    Raises:
+        Http404: Wenn Betreiber nicht gefunden wird
+    """
     betreiber = None
     anlagen = []
 
+    # Pfad zur externen MaStR-Datenbank
     data_db_path = os.path.join(settings.BASE_DIR, "data", "data.sqlite")
-    operators_db_path = os.path.join(settings.BASE_DIR, "data", "operators.sqlite")
+    
+    # Direkte SQLite-Verbindung verwenden
+    import sqlite3
+    
+    with sqlite3.connect(data_db_path) as conn:
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
 
-    with connection.cursor() as cursor:
-        try:
-            cursor.execute(f"ATTACH DATABASE '{operators_db_path}' AS operators_db;")
-            cursor.execute(f"ATTACH DATABASE '{data_db_path}' AS data_db;")
+        # Betreiber-Infos aus der externen Datenbank holen
+        # Aggregiert Daten über alle Anlagen des Betreibers
+        cursor.execute(
+            """
+            SELECT 
+                "MaStR-Nr. des Anlagenbetreibers" as betreibernummer,
+                "Name des Anlagenbetreibers (nur Org.)" as name,
+                COUNT("MaStR-Nr. der Einheit") as anzahl_anlagen,
+                SUM(CAST("Bruttoleistung der Einheit" AS REAL)) as gesamtleistung,
+                GROUP_CONCAT(DISTINCT "Bundesland") as bundeslaender,
+                GROUP_CONCAT(DISTINCT "Ort") as orte,
+                GROUP_CONCAT(DISTINCT "Energieträger") as energietraeger_liste
+            FROM test_Tabelle1 
+            WHERE "MaStR-Nr. des Anlagenbetreibers" = ?
+            GROUP BY "MaStR-Nr. des Anlagenbetreibers", "Name des Anlagenbetreibers (nur Org.)"
+        """,
+        [betreibernummer],
+        )
+        row = cursor.fetchone()
+        betreiber = dict(row) if row else None
 
-            # Betreiber-Infos holen
+        if betreiber:
+            # Anlagen des Betreibers holen (alle Einzelanlagen)
             cursor.execute(
                 """
-                SELECT
-                    Nummer as betreibernummer,
-                    Betreibername as name,
-                    Adresse as adresse,
-                    Webseite as webseite,
-                    email as email,
-                    Telefon as telefon
-                FROM operators_db.test_betreiber_Sheet1
-                WHERE Nummer = %s
+                SELECT 
+                    "MaStR-Nr. der Einheit",
+                    "Anzeige-Name der Einheit",
+                    "Energieträger",
+                    "Bruttoleistung der Einheit",
+                    "Ort",
+                    "Postleitzahl",
+                    "Bundesland",
+                    "Betriebs-Status",
+                    "Inbetriebnahmedatum der Einheit",
+                    "Technologie der Stromerzeugung",
+                    "Art der Solaranlage"
+                FROM test_Tabelle1
+                WHERE "MaStR-Nr. des Anlagenbetreibers" = ?
+                ORDER BY "Bruttoleistung der Einheit" DESC
             """,
-                [betreibernummer],
+            [betreibernummer],
             )
-            betreiber = dictfetchone(cursor)
+            rows = cursor.fetchall()
+            anlagen = [dict(row) for row in rows]
 
-            if betreiber:
-                # Anlagen des Betreibers holen
-                cursor.execute(
-                    """
-                    SELECT *
-                    FROM data_db.test_Tabelle1
-                    WHERE "MaStR-Nr. des Anlagenbetreibers" = %s
-                """,
-                    [betreibernummer],
-                )
-                anlagen = dictfetchall(cursor)
-        finally:
-            cursor.execute("DETACH DATABASE operators_db;")
-            cursor.execute("DETACH DATABASE data_db;")
-
+    # 404-Fehler wenn Betreiber nicht gefunden
     if not betreiber:
         raise Http404("Betreiber nicht gefunden")
 
+    # Context für Template
     context = {
-        "betreiber": betreiber,
-        "anlagen": anlagen,
+        "betreiber": betreiber,  # Betreiber-Informationen
+        "anlagen": anlagen,  # Liste aller Anlagen des Betreibers
     }
+    
     return render(request, "dashboard/betreiber_detail.html", context)
 
 

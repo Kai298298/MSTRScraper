@@ -6212,3 +6212,226 @@ INFO 2025-07-06 11:24:00,571 basehttp 80860 6201356288 "GET / HTTP/1.1" 302 0
 INFO 2025-07-06 11:24:00,871 basehttp 80860 6201356288 "GET /data/ HTTP/1.1" 200 1881056
 INFO 2025-07-06 11:24:00,966 basehttp 80860 6201356288 "GET /static/img/logo.svg HTTP/1.1" 200 650
 INFO 2025-07-06 11:24:01,003 basehttp 80860 6201356288 "GET /static/img/favicon.svg HTTP/1.1" 200 270
+INFO 2025-07-06 11:27:54,687 autoreload 80861 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:27:54,694 autoreload 80860 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:27:55,616 autoreload 82871 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:27:55,616 autoreload 82870 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:28:07,572 autoreload 82871 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:28:07,575 autoreload 82870 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:28:08,347 autoreload 82881 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:28:08,348 autoreload 82882 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:29:16,812 autoreload 83212 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:30:48,728 basehttp 82881 6193197056 "GET / HTTP/1.1" 302 0
+INFO 2025-07-06 11:30:49,153 basehttp 82881 6193197056 "GET /data/ HTTP/1.1" 200 1881056
+INFO 2025-07-06 11:30:49,263 basehttp 82881 6193197056 "GET /static/img/logo.svg HTTP/1.1" 200 650
+INFO 2025-07-06 11:30:49,275 basehttp 82881 6193197056 "GET /static/img/favicon.svg HTTP/1.1" 200 270
+INFO 2025-07-06 11:30:59,440 basehttp 82881 6226849792 "GET /anlagen-listen/ HTTP/1.1" 200 41410
+INFO 2025-07-06 11:30:59,463 basehttp 82881 6226849792 "GET /static/vendor/leaflet/leaflet.css HTTP/1.1" 200 14806
+INFO 2025-07-06 11:30:59,465 basehttp 82881 6243676160 "GET /static/vendor/leaflet.markercluster/MarkerCluster.css HTTP/1.1" 200 66
+INFO 2025-07-06 11:30:59,465 basehttp 82881 6260502528 "GET /static/vendor/leaflet.markercluster/MarkerCluster.Default.css HTTP/1.1" 200 74
+INFO 2025-07-06 11:30:59,466 basehttp 82881 6294155264 "GET /static/vendor/leaflet.markercluster/leaflet.markercluster.js HTTP/1.1" 200 73
+INFO 2025-07-06 11:30:59,467 basehttp 82881 6277328896 "GET /static/vendor/leaflet/leaflet.js HTTP/1.1" 200 147552
+INFO 2025-07-06 11:31:00,795 basehttp 82881 6277328896 "GET /data/ HTTP/1.1" 200 1881056
+INFO 2025-07-06 11:31:01,901 basehttp 82881 6277328896 "GET /anlagen-listen/ HTTP/1.1" 200 41410
+INFO 2025-07-06 11:31:06,011 basehttp 82881 6277328896 "GET /data/ HTTP/1.1" 200 1881056
+ERROR 2025-07-06 11:31:10,380 log 82881 6193197056 Internal Server Error: /betreiber/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: test_Tabelle1
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py", line 1198, in betreiber_view
+    cursor.execute(query, params)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: test_Tabelle1
+ERROR 2025-07-06 11:31:10,384 basehttp 82881 6193197056 "GET /betreiber/ HTTP/1.1" 500 129464
+INFO 2025-07-06 11:31:10,385 basehttp 82881 6193197056 - Broken pipe from ('127.0.0.1', 54442)
+ERROR 2025-07-06 11:31:10,692 log 82881 6210023424 Internal Server Error: /betreiber/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: test_Tabelle1
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py", line 1198, in betreiber_view
+    cursor.execute(query, params)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: test_Tabelle1
+ERROR 2025-07-06 11:31:10,693 basehttp 82881 6210023424 "GET /betreiber/ HTTP/1.1" 500 129464
+INFO 2025-07-06 11:31:10,693 basehttp 82881 6210023424 - Broken pipe from ('127.0.0.1', 54461)
+ERROR 2025-07-06 11:31:16,658 log 82881 6277328896 Internal Server Error: /betreiber/
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: test_Tabelle1
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py", line 1198, in betreiber_view
+    cursor.execute(query, params)
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/version2/venv/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: test_Tabelle1
+ERROR 2025-07-06 11:31:16,659 basehttp 82881 6277328896 "GET /betreiber/ HTTP/1.1" 500 129464
+WARNING 2025-07-06 11:31:16,681 log 82881 6277328896 Not Found: /favicon.ico
+WARNING 2025-07-06 11:31:16,682 basehttp 82881 6277328896 "GET /favicon.ico HTTP/1.1" 404 8602
+INFO 2025-07-06 11:32:45,764 autoreload 82881 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:32:45,765 autoreload 82882 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:32:46,594 autoreload 83830 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:32:46,594 autoreload 83829 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:33:15,744 autoreload 83830 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:33:15,747 autoreload 83829 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:33:16,500 autoreload 83839 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:33:16,500 autoreload 83840 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:33:25,123 autoreload 84161 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:33:55,300 basehttp 83839 6138376192 "GET /betreiber/ HTTP/1.1" 200 36689
+INFO 2025-07-06 11:33:58,879 basehttp 83839 6138376192 "GET /betreiber/?name=&bundesland=&anzahl_min=&anzahl_max=&leistung_min=&leistung_max=&energietraeger= HTTP/1.1" 200 36689
+INFO 2025-07-06 11:35:08,783 autoreload 83840 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:35:08,786 autoreload 83839 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:35:09,672 autoreload 84572 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:35:09,672 autoreload 84571 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:35:17,755 autoreload 84572 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:35:17,760 autoreload 84571 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:35:18,204 autoreload 84591 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:35:18,204 autoreload 84590 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:35:35,946 autoreload 84590 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:35:35,953 autoreload 84591 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:35:36,414 autoreload 84597 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:35:36,414 autoreload 84598 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:35:39,991 autoreload 84748 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:35:58,785 autoreload 84748 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:35:59,188 autoreload 84598 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:35:59,190 autoreload 84597 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:35:59,452 autoreload 84762 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:35:59,743 autoreload 84764 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:35:59,743 autoreload 84763 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:36:11,103 autoreload 84762 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:36:11,387 autoreload 84763 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:36:11,390 autoreload 84764 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:36:11,485 autoreload 84789 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:36:11,805 autoreload 84791 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:36:11,806 autoreload 84790 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:36:21,187 autoreload 85185 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:36:26,580 basehttp 84789 6201962496 "GET /betreiber/ HTTP/1.1" 302 0
+INFO 2025-07-06 11:36:28,268 basehttp 84789 6201962496 "HEAD /betreiber/ HTTP/1.1" 302 0
+INFO 2025-07-06 11:36:30,638 basehttp 84789 6201962496 "HEAD / HTTP/1.1" 200 0
+INFO 2025-07-06 11:36:50,397 basehttp 84790 6163935232 "GET /betreiber/?name=&bundesland=&anzahl_min=&anzahl_max=&leistung_min=&leistung_max=&energietraeger= HTTP/1.1" 200 36689
+INFO 2025-07-06 11:36:51,364 basehttp 84790 6163935232 "GET /betreiber/?name=&bundesland=&anzahl_min=&anzahl_max=&leistung_min=&leistung_max=&energietraeger= HTTP/1.1" 200 36689
+INFO 2025-07-06 11:36:56,997 basehttp 84790 6163935232 "GET /betreiber/ HTTP/1.1" 200 36689
+INFO 2025-07-06 11:36:58,898 basehttp 84790 6163935232 "GET /data/ HTTP/1.1" 200 1881056
+INFO 2025-07-06 11:37:04,749 basehttp 84790 6163935232 "GET /anlagen-listen/ HTTP/1.1" 200 41410
+INFO 2025-07-06 11:37:05,485 basehttp 84790 6163935232 "GET /betreiber/ HTTP/1.1" 200 36689
+INFO 2025-07-06 11:37:06,369 basehttp 84790 6163935232 "GET /anlagen-listen/ HTTP/1.1" 200 41410
+INFO 2025-07-06 11:38:45,081 autoreload 84789 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:38:45,402 autoreload 84790 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:38:45,756 autoreload 86335 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:38:46,029 autoreload 86336 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:38:50,415 autoreload 86624 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:40:01,116 autoreload 86336 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:40:01,647 autoreload 86335 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:40:01,892 autoreload 86736 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:40:02,354 autoreload 86737 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:40:07,052 autoreload 87031 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:40:28,874 autoreload 86736 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:40:29,372 autoreload 86737 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/dashboard/views.py changed, reloading.
+INFO 2025-07-06 11:40:29,640 autoreload 87139 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:40:30,091 autoreload 87140 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 11:40:33,738 basehttp 87140 6156955648 "HEAD /betreiber/ HTTP/1.1" 302 0

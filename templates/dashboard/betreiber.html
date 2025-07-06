@@ -63,22 +63,9 @@
                                 <label for="bundesland" class="form-label">Bundesland</label>
                                 <select class="form-select" id="bundesland" name="bundesland">
                                     <option value="">Alle Bundesländer</option>
-                                    <option value="Baden-Württemberg" {% if request.GET.bundesland == 'Baden-Württemberg' %}selected{% endif %}>Baden-Württemberg</option>
-                                    <option value="Bayern" {% if request.GET.bundesland == 'Bayern' %}selected{% endif %}>Bayern</option>
-                                    <option value="Berlin" {% if request.GET.bundesland == 'Berlin' %}selected{% endif %}>Berlin</option>
-                                    <option value="Brandenburg" {% if request.GET.bundesland == 'Brandenburg' %}selected{% endif %}>Brandenburg</option>
-                                    <option value="Bremen" {% if request.GET.bundesland == 'Bremen' %}selected{% endif %}>Bremen</option>
-                                    <option value="Hamburg" {% if request.GET.bundesland == 'Hamburg' %}selected{% endif %}>Hamburg</option>
-                                    <option value="Hessen" {% if request.GET.bundesland == 'Hessen' %}selected{% endif %}>Hessen</option>
-                                    <option value="Mecklenburg-Vorpommern" {% if request.GET.bundesland == 'Mecklenburg-Vorpommern' %}selected{% endif %}>Mecklenburg-Vorpommern</option>
-                                    <option value="Niedersachsen" {% if request.GET.bundesland == 'Niedersachsen' %}selected{% endif %}>Niedersachsen</option>
-                                    <option value="Nordrhein-Westfalen" {% if request.GET.bundesland == 'Nordrhein-Westfalen' %}selected{% endif %}>Nordrhein-Westfalen</option>
-                                    <option value="Rheinland-Pfalz" {% if request.GET.bundesland == 'Rheinland-Pfalz' %}selected{% endif %}>Rheinland-Pfalz</option>
-                                    <option value="Saarland" {% if request.GET.bundesland == 'Saarland' %}selected{% endif %}>Saarland</option>
-                                    <option value="Sachsen" {% if request.GET.bundesland == 'Sachsen' %}selected{% endif %}>Sachsen</option>
-                                    <option value="Sachsen-Anhalt" {% if request.GET.bundesland == 'Sachsen-Anhalt' %}selected{% endif %}>Sachsen-Anhalt</option>
-                                    <option value="Schleswig-Holstein" {% if request.GET.bundesland == 'Schleswig-Holstein' %}selected{% endif %}>Schleswig-Holstein</option>
-                                    <option value="Thüringen" {% if request.GET.bundesland == 'Thüringen' %}selected{% endif %}>Thüringen</option>
+                                    {% for bundesland in bundesland_list %}
+                                        <option value="{{ bundesland }}" {% if request.GET.bundesland == bundesland %}selected{% endif %}>{{ bundesland }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="col-md-2 mb-3">
@@ -103,11 +90,9 @@
                                 <label for="energietraeger" class="form-label">Hauptenergieträger</label>
                                 <select class="form-select" id="energietraeger" name="energietraeger">
                                     <option value="">Alle Energieträger</option>
-                                    <option value="Solare Strahlungsenergie" {% if request.GET.energietraeger == 'Solare Strahlungsenergie' %}selected{% endif %}>Solar</option>
-                                    <option value="Windenergie" {% if request.GET.energietraeger == 'Windenergie' %}selected{% endif %}>Wind</option>
-                                    <option value="Biomasse" {% if request.GET.energietraeger == 'Biomasse' %}selected{% endif %}>Biomasse</option>
-                                    <option value="Wasserkraft" {% if request.GET.energietraeger == 'Wasserkraft' %}selected{% endif %}>Wasserkraft</option>
-                                    <option value="Geothermie" {% if request.GET.energietraeger == 'Geothermie' %}selected{% endif %}>Geothermie</option>
+                                    {% for energietraeger in energietraeger_list %}
+                                        <option value="{{ energietraeger }}" {% if request.GET.energietraeger == energietraeger %}selected{% endif %}>{{ energietraeger }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3 d-flex align-items-end">
@@ -181,14 +166,14 @@
                         </div>
                         
                         <div class="row">
-                            {% for betreiber in page_obj %}
+                            {% for betreiber in betreiber_liste %}
                                 <div class="col-md-6 col-lg-4 mb-4">
                                     <div class="card betreiber-card h-100" onclick="window.location.href='{% url 'dashboard:betreiber_detail' betreiber.betreibernummer %}'">
                                         <div class="card-body">
                                             <h6 class="card-title text-primary">{{ betreiber.name|truncatechars:50 }}</h6>
                                             <div class="row text-muted small mb-2">
                                                 <div class="col-6">
-                                                    <i class="fas fa-map-marker-alt"></i> {{ betreiber.bundesland|default:"-" }}
+                                                    <i class="fas fa-map-marker-alt"></i> {{ betreiber.bundeslaender|truncatechars:20|default:"-" }}
                                                 </div>
                                                 <div class="col-6">
                                                     <i class="fas fa-solar-panel"></i> {{ betreiber.anzahl_anlagen }} Anlagen
@@ -199,12 +184,12 @@
                                                     <i class="fas fa-bolt"></i> {{ betreiber.gesamtleistung|floatformat:0|default:"0" }} MW
                                                 </div>
                                                 <div class="col-6">
-                                                    <i class="fas fa-leaf"></i> {{ betreiber.hauptenergietraeger|default:"-" }}
+                                                    <i class="fas fa-leaf"></i> {{ betreiber.energietraeger_liste|truncatechars:20|default:"-" }}
                                                 </div>
                                             </div>
-                                            {% if betreiber.ort %}
+                                            {% if betreiber.orte %}
                                                 <div class="text-muted small">
-                                                    <i class="fas fa-building"></i> {{ betreiber.ort }}
+                                                    <i class="fas fa-building"></i> {{ betreiber.orte|truncatechars:30 }}
                                                 </div>
                                             {% endif %}
                                         </div>
@@ -219,8 +204,8 @@
                         </div>
 
                         <!-- Pagination -->
-                        {% if page_obj.has_other_pages %}
-                            {% include 'partials/pagination.html' with page_obj=page_obj %}
+                        {% if betreiber_liste.has_other_pages %}
+                            {% include 'partials/pagination.html' with page_obj=betreiber_liste %}
                         {% endif %}
                     {% else %}
                         <div class="text-center py-5">

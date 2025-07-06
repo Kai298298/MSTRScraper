@@ -4,10 +4,6 @@
 {% block title %}Anlagen-Listen{% endblock %}
 
 {% block extra_head %}
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="{% static 'vendor/leaflet/leaflet.css' %}">
-    <link rel="stylesheet" href="{% static 'vendor/leaflet.markercluster/MarkerCluster.css' %}">
-    <link rel="stylesheet" href="{% static 'vendor/leaflet.markercluster/MarkerCluster.Default.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -26,19 +22,7 @@
         </div>
     </div>
 
-    <!-- Kartenbereich -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-map"></i> Anlagen-Karte</h5>
-                </div>
-                <div class="card-body">
-                    <div id="map-container" style="height: 400px;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <div class="row">
         <div class="col-md-8">
@@ -192,21 +176,4 @@
 {% endblock %}
 
 {% block extra_js %}
-    <!-- Leaflet JS -->
-    <script src="{% static 'vendor/leaflet/leaflet.js' %}"></script>
-    <script src="{% static 'vendor/leaflet.markercluster/leaflet.markercluster.js' %}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var map = L.map('map-container').setView([51.1657, 10.4515], 6); // Deutschland Mitte
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 18,
-                attribution: '© OpenStreetMap-Mitwirkende'
-            }).addTo(map);
-            var markers = L.markerClusterGroup();
-            // Beispielmarker (kann später dynamisch ersetzt werden)
-            var exampleMarker = L.marker([52.52, 13.405]).bindPopup('Beispiel: Berlin');
-            markers.addLayer(exampleMarker);
-            map.addLayer(markers);
-        });
-    </script>
 {% endblock %} 
