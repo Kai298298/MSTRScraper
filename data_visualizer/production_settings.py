@@ -59,14 +59,26 @@ CSRF_COOKIE_SECURE = False  # Coolify übernimmt HTTPS
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Lax'
 
-# E-Mail-Konfiguration (für Produktion anpassen)
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() == 'true'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'noreply@mastr-leads.de')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'your-email-password')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@mastr-leads.de')
+# E-Mail-Konfiguration (flexibel für Produktion)
+# Prüfe ob SMTP-Credentials verfügbar sind
+email_host_user = os.environ.get('EMAIL_HOST_USER')
+email_host_password = os.environ.get('EMAIL_HOST_PASSWORD')
+
+if email_host_user and email_host_password and email_host_password != 'your-email-password':
+    # Echte SMTP-Konfiguration
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+    EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+    EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() == 'true'
+    EMAIL_HOST_USER = email_host_user
+    EMAIL_HOST_PASSWORD = email_host_password
+    DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', email_host_user)
+    logging.info(f"📧 SMTP-E-Mail konfiguriert: {EMAIL_HOST}:{EMAIL_PORT}")
+else:
+    # Console-Backend für Tests
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    logging.warning("⚠️  E-Mail-Backend auf Console gesetzt - E-Mails werden nur in der Konsole angezeigt")
+    logging.info("💡 Für echte E-Mails setzen Sie EMAIL_HOST_USER und EMAIL_HOST_PASSWORD in Coolify")
 
 # Site URL für E-Mail-Verifikation
 SITE_URL = os.environ.get('SITE_URL', 'http://localhost')
