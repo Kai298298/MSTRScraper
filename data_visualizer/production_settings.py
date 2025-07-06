@@ -19,13 +19,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '@*q(-up3f(d&rvc4s4it3%l04rnm@05b_^6n@
 
 # Host-Konfiguration (Coolify-kompatibel)
 # Akzeptiert alle Coolify-Domains automatisch
-DEFAULT_ALLOWED_HOSTS = 'localhost,127.0.0.1'
+DEFAULT_ALLOWED_HOSTS = 'localhost,127.0.0.1,app.kairitter.de'
 allowed_hosts_env = os.environ.get('ALLOWED_HOSTS')
 if allowed_hosts_env:
     ALLOWED_HOSTS = allowed_hosts_env.split(',')
 else:
-    # Fallback für Coolify: Akzeptiere alle Hosts
-    ALLOWED_HOSTS = ['*']
+    # Fallback für Coolify: Akzeptiere localhost, 127.0.0.1 und app.kairitter.de explizit
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'app.kairitter.de']
 
 # CSRF-Schutz
 CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost').split(',')
