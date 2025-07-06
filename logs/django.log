@@ -6442,3 +6442,5 @@ INFO 2025-07-06 14:21:24,325 basehttp 89442 6124597248 "HEAD / HTTP/1.1" 200 0
 INFO 2025-07-06 17:16:00,161 autoreload 89442 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/production_settings.py changed, reloading.
 INFO 2025-07-06 17:16:01,032 autoreload 91535 8209315904 Watching for file changes with StatReloader
 INFO 2025-07-06 17:17:08,605 autoreload 92072 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 17:29:05,001 autoreload 92072 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/production_settings.py changed, reloading.
+INFO 2025-07-06 17:29:05,493 autoreload 92315 8209315904 Watching for file changes with StatReloader
