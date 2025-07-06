@@ -100,3 +100,5 @@ django-dbbackup>=3.3.0
 
 # Maintenance Mode
 django-maintenance-mode>=0.17.0 
+playwright==1.42.0
+pytest-playwright==0.4.0 
