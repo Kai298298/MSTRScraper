@@ -9,6 +9,7 @@ from decouple import config
 from .settings import *
 import logging
 logging.basicConfig(level=logging.INFO)
+logging.info('--- START production_settings.py ---')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
