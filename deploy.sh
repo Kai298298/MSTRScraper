@@ -68,7 +68,12 @@ activate_venv() {
 install_dependencies() {
     log_info "Installiere Dependencies..."
     
-    if [ -f "requirements.txt" ]; then
+    # Prüfe ob requirements_deployment.txt existiert (empfohlen für Deployment)
+    if [ -f "requirements_deployment.txt" ]; then
+        log_info "Verwende requirements_deployment.txt für exakte Versionen..."
+        pip install -r requirements_deployment.txt
+    elif [ -f "requirements.txt" ]; then
+        log_info "Verwende requirements.txt..."
         pip install -r requirements.txt
     else
         log_warn "requirements.txt nicht gefunden, installiere Standard-Dependencies..."

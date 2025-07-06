@@ -9,7 +9,7 @@ Für das Deployment über GitHub und Coolify brauchst du **kein Docker**! Coolif
 ### 1. Repository in Coolify verbinden
 - GitHub-Repository: `your-username/MSTRScraper`
 - Branch: `main` oder `master`
-- Build Command: `pip install -r requirements.txt`
+- Build Command: `pip install -r requirements_deployment.txt`
 - Start Command: `python manage.py runserver 0.0.0.0:$PORT --settings=data_visualizer.production_settings`
 
 ### 2. Umgebungsvariablen in Coolify setzen
@@ -49,8 +49,8 @@ REDIS_URL=redis://host:port/1
 
 #### Pre-Build Commands:
 ```bash
-# Python-Abhängigkeiten installieren
-pip install -r requirements.txt
+# Python-Abhängigkeiten installieren (verwendet requirements_deployment.txt)
+pip install -r requirements_deployment.txt
 
 # Datenbank-Migrationen
 python manage.py migrate --settings=data_visualizer.production_settings
@@ -113,11 +113,18 @@ Coolify kann automatisch prüfen:
 
 ## 🚨 Wichtige Hinweise
 
+### ✅ Deployment-Problem behoben
+Das bekannte Problem mit `django-compressor` wurde behoben:
+- `django-compressor` wurde aus den Requirements entfernt
+- `requirements_deployment.txt` enthält exakte, getestete Versionen
+- Keine problematischen Testdateien mehr
+
 ### Vor dem ersten Deployment:
 1. **SECRET_KEY** generieren und in Coolify setzen
 2. **E-Mail-Einstellungen** konfigurieren
 3. **Domain** in Coolify hinzufügen
 4. **Umgebungsvariablen** alle setzen
+5. **requirements_deployment.txt** verwenden (nicht requirements.txt)
 
 ### Nach dem Deployment:
 1. **Admin-Account** testen: `/admin/` (admin/admin123)

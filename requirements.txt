@@ -86,8 +86,8 @@ django-celery-results>=2.5.1
 # Health Checks
 django-health-check>=3.17.0
 
-# Compression
-django-compressor>=4.4
+# Compression (entfernt wegen Deployment-Problemen)
+# django-compressor>=4.4
 
 # Internationalization
 django-modeltranslation>=0.18.12
