@@ -52,6 +52,25 @@
                             </div>
                         </div>
                         
+                        <div class="form-group">
+                            <div class="form-check">
+                                {{ form.agb_akzeptiert }}
+                                <label class="form-check-label" for="{{ form.agb_akzeptiert.id_for_label }}">
+                                    {{ form.agb_akzeptiert.label|safe }}
+                                </label>
+                                {% if form.agb_akzeptiert.help_text %}
+                                    <small class="form-text text-muted">{{ form.agb_akzeptiert.help_text }}</small>
+                                {% endif %}
+                                {% if form.agb_akzeptiert.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.agb_akzeptiert.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
                         <div class="alert alert-info">
                             <h6><i class="fas fa-shield-alt"></i> Datenschutzerklärung</h6>
                             <p class="mb-2">Mit der Registrierung stimmen Sie zu, dass wir Ihre Daten gemäß unserer Datenschutzerklärung verarbeiten. 

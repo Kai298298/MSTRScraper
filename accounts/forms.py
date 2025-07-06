@@ -15,16 +15,27 @@ class CustomUserCreationForm(UserCreationForm):
         label="Ich akzeptiere die Datenschutzerklärung",
         help_text="Sie müssen der Datenschutzerklärung zustimmen, um sich zu registrieren.",
     )
+    agb_akzeptiert = forms.BooleanField(
+        required=True,
+        label='Ich akzeptiere die <a href="/agb/" target="_blank">Allgemeinen Geschäftsbedingungen (AGB)</a>',
+        help_text='Sie müssen den AGB zustimmen, um sich zu registrieren.',
+    )
 
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2", "datenschutz_akzeptiert")
+        fields = ("username", "email", "password1", "password2", "datenschutz_akzeptiert", "agb_akzeptiert")
 
     def clean_datenschutz_akzeptiert(self):
         datenschutz = self.cleaned_data.get("datenschutz_akzeptiert")
         if not datenschutz:
             raise forms.ValidationError("Sie müssen der Datenschutzerklärung zustimmen.")
         return datenschutz
+
+    def clean_agb_akzeptiert(self):
+        agb = self.cleaned_data.get("agb_akzeptiert")
+        if not agb:
+            raise forms.ValidationError("Sie müssen den AGB zustimmen.")
+        return agb
 
 
 class CustomAuthenticationForm(AuthenticationForm):

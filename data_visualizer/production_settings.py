@@ -35,7 +35,9 @@ else:
 logging.info(f"[DEBUG] ALLOWED_HOSTS verwendet: {ALLOWED_HOSTS}")
 
 # CSRF-Schutz
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost').split(',')
+CSRF_TRUSTED_ORIGINS = [
+    "https://app.kairitter.de",
+]
 
 # SSL/HTTPS-Einstellungen (Coolify-kompatibel)
 # Coolify übernimmt SSL automatisch, Django-Einstellungen sind deaktiviert

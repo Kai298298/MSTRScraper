@@ -6452,3 +6452,13 @@ INFO 2025-07-06 18:10:59,982 autoreload 87139 8209315904 /Users/kairitter/Librar
 INFO 2025-07-06 18:10:59,983 autoreload 92866 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/settings.py changed, reloading.
 INFO 2025-07-06 18:11:00,548 autoreload 93061 8209315904 Watching for file changes with StatReloader
 INFO 2025-07-06 18:11:00,548 autoreload 93060 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 18:38:06,281 autoreload 93060 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/accounts/forms.py changed, reloading.
+INFO 2025-07-06 18:38:06,284 autoreload 93061 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/accounts/forms.py changed, reloading.
+INFO 2025-07-06 18:38:06,829 autoreload 93533 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 18:38:06,830 autoreload 93532 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 19:27:13,262 autoreload 93533 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/production_settings.py changed, reloading.
+INFO 2025-07-06 19:27:13,749 autoreload 94167 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 19:27:18,457 autoreload 93532 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/settings.py changed, reloading.
+INFO 2025-07-06 19:27:18,535 autoreload 94167 8209315904 /Users/kairitter/Library/CloudStorage/OneDrive-Persönlich/2_Arbeit/Scraper_Tool/MSTRScraper/data_visualizer/settings.py changed, reloading.
+INFO 2025-07-06 19:27:19,024 autoreload 94188 8209315904 Watching for file changes with StatReloader
+INFO 2025-07-06 19:27:19,028 autoreload 94187 8209315904 Watching for file changes with StatReloader
