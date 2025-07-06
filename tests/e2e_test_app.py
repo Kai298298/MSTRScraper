@@ -273,17 +273,26 @@ class E2ETestApp:
     async def test_with_premium_user(self, page):
         """Testet Funktionen mit Premium-User"""
         logger.info("👑 Teste mit Premium-User...")
-        self.current_user = self.test_credentials['premium_user']
         
         try:
             # Login mit Premium-User
-            await self.login_user(page, self.current_user)
+            await self.login_user(page, self.test_credentials['premium_user'])
+            
+            # Setze aktuellen User für Tests
+            self.current_user = {
+                'username': self.test_credentials['premium_user']['username'],
+                'plan': 'premium',
+                'is_admin': False
+            }
             
             # Teste Premium-Funktionen
             await self.test_premium_features(page)
             
             # Teste erweiterte Features
             await self.test_advanced_features(page)
+            
+            # Teste Premium-spezifische erweiterte Features
+            await self.test_premium_advanced_features(page)
             
             # Logout
             await self.logout_user(page)
@@ -470,13 +479,28 @@ class E2ETestApp:
         logger.info(f"👑 Teste Premium-Features für {user_plan}-User...")
         
         try:
-            # Alle Basic-Features testen
-            await self.test_basic_features(page)
+            # Premium-spezifische Tests
+            self.test_count += 1
             
-            # Premium-spezifische Features testen
-            await self.test_premium_export(page)
-            await self.test_premium_sharing(page)
-            await self.test_premium_filters(page)
+            if user_plan == 'premium':
+                # Alle Basic-Features testen
+                await self.test_basic_features(page)
+                
+                # Premium-spezifische Features testen
+                await self.test_premium_export(page)
+                await self.test_premium_sharing(page)
+                await self.test_premium_filters(page)
+                await self.test_premium_analytics(page)
+                await self.test_premium_api_access(page)
+                await self.test_premium_advanced_maps(page)
+                
+                self.success_count += 1
+                logger.info("✅ Premium-Features funktionieren")
+            else:
+                # Für Basic-User: Prüfe ob Premium-Features NICHT verfügbar sind
+                await self.test_premium_features_restricted(page)
+                self.success_count += 1
+                logger.info("✅ Premium-Features korrekt für Basic-User eingeschränkt")
             
         except Exception as e:
             self.errors.append(f"❌ Premium-Features-Test fehlgeschlagen: {str(e)}")
@@ -625,6 +649,113 @@ class E2ETestApp:
                 
         except Exception as e:
             self.warnings.append(f"⚠️ Premium-Sharing-Test fehlgeschlagen: {str(e)}")
+            
+    async def test_premium_analytics(self, page):
+        """Testet Premium-Analytics-Funktionen"""
+        try:
+            # Suche nach Analytics-Elementen
+            analytics_selectors = [
+                '.analytics-dashboard',
+                '.premium-charts',
+                '[data-analytics]',
+                '.advanced-stats'
+            ]
+            
+            analytics_found = False
+            for selector in analytics_selectors:
+                analytics_element = await page.query_selector(selector)
+                if analytics_element:
+                    analytics_found = True
+                    break
+                    
+            if analytics_found:
+                self.success_count += 1
+                logger.info("✅ Premium-Analytics-Funktion gefunden")
+            else:
+                self.warnings.append("⚠️ Premium-Analytics-Funktion nicht gefunden")
+                
+        except Exception as e:
+            self.warnings.append(f"⚠️ Premium-Analytics-Test fehlgeschlagen: {str(e)}")
+            
+    async def test_premium_api_access(self, page):
+        """Testet Premium-API-Zugriff"""
+        try:
+            # Suche nach API-Zugriff-Elementen
+            api_selectors = [
+                '.api-docs',
+                '.premium-api',
+                '[data-api-access]',
+                '.developer-tools'
+            ]
+            
+            api_found = False
+            for selector in api_selectors:
+                api_element = await page.query_selector(selector)
+                if api_element:
+                    api_found = True
+                    break
+                    
+            if api_found:
+                self.success_count += 1
+                logger.info("✅ Premium-API-Zugriff gefunden")
+            else:
+                self.warnings.append("⚠️ Premium-API-Zugriff nicht gefunden")
+                
+        except Exception as e:
+            self.warnings.append(f"⚠️ Premium-API-Test fehlgeschlagen: {str(e)}")
+            
+    async def test_premium_advanced_maps(self, page):
+        """Testet Premium-Erweiterte-Karten-Funktionen"""
+        try:
+            # Suche nach erweiterten Karten-Features
+            advanced_map_selectors = [
+                '.advanced-map-controls',
+                '.premium-layers',
+                '[data-advanced-map]',
+                '.heatmap-controls'
+            ]
+            
+            advanced_maps_found = False
+            for selector in advanced_map_selectors:
+                map_element = await page.query_selector(selector)
+                if map_element:
+                    advanced_maps_found = True
+                    break
+                    
+            if advanced_maps_found:
+                self.success_count += 1
+                logger.info("✅ Premium-Erweiterte-Karten-Funktionen gefunden")
+            else:
+                self.warnings.append("⚠️ Premium-Erweiterte-Karten-Funktionen nicht gefunden")
+                
+        except Exception as e:
+            self.warnings.append(f"⚠️ Premium-Erweiterte-Karten-Test fehlgeschlagen: {str(e)}")
+            
+    async def test_premium_features_restricted(self, page):
+        """Testet ob Premium-Features für Basic-User eingeschränkt sind"""
+        try:
+            # Prüfe ob Premium-Features NICHT verfügbar sind
+            premium_selectors = [
+                '.premium-only',
+                '[data-premium]',
+                '.upgrade-prompt',
+                '.premium-locked'
+            ]
+            
+            restrictions_found = 0
+            for selector in premium_selectors:
+                restriction_element = await page.query_selector(selector)
+                if restriction_element:
+                    restrictions_found += 1
+                    
+            if restrictions_found > 0:
+                self.success_count += 1
+                logger.info(f"✅ Premium-Features korrekt eingeschränkt: {restrictions_found} Einschränkungen gefunden")
+            else:
+                self.warnings.append("⚠️ Premium-Features-Einschränkungen nicht gefunden")
+                
+        except Exception as e:
+            self.warnings.append(f"⚠️ Premium-Features-Einschränkungs-Test fehlgeschlagen: {str(e)}")
             
     async def test_basic_map_view(self, page):
         """Testet Basic-Kartenansicht"""
