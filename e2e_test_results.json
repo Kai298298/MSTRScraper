@@ -1,14 +1,14 @@
 {
-  "timestamp": 1751836091.8972301,
+  "timestamp": 1751838355.43456,
   "base_url": "https://app.kairitter.de",
-  "test_count": 21,
+  "test_count": 20,
   "success_count": 29,
   "error_count": 2,
-  "warning_count": 26,
-  "success_rate": 138.0952380952381,
+  "warning_count": 32,
+  "success_rate": 100.0,
   "errors": [
-    "❌ Umfassende Klick-Tests fehlgeschlagen: 'username'",
-    "❌ Analytics-Seite nicht erreichbar"
+    "❌ Admin-Features-Test fehlgeschlagen: Page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"https://app.kairitter.de/analytics/\", waiting until \"networkidle\"\n",
+    "❌ Umfassende Klick-Tests fehlgeschlagen: 'username'"
   ],
   "warnings": [
     "⚠️ Navigation-Link 1 fehlgeschlagen: ElementHandle.get_attribute: Execution context was destroyed, most likely because of a navigation\nCall log:\n  - waiting for locator(\":scope\")\n",
@@ -17,12 +17,16 @@
     "⚠️ Navigation-Link 2 fehlgeschlagen: ElementHandle.get_attribute: Execution context was destroyed, most likely because of a navigation\nCall log:\n  - waiting for locator(\":scope\")\n",
     "⚠️ Registrierung möglicherweise fehlgeschlagen",
     "⚠️ Karten-Container nicht gefunden",
-    "⚠️ Logout-Test fehlgeschlagen: ElementHandle.click: Timeout 30000ms exceeded.\nCall log:\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    57 × waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n",
+    "⚠️ Logout-Test fehlgeschlagen: ElementHandle.click: Timeout 30000ms exceeded.\nCall log:\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    41 × waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n",
     "⚠️ Login mit premium-User möglicherweise fehlgeschlagen",
-    "⚠️ Karten-Container nicht gefunden",
+    "⚠️ Basic-Kartenansicht nicht gefunden",
+    "⚠️ Listen-Seite zeigt unerwartete Inhalte",
     "⚠️ Premium-Export-Funktion nicht gefunden",
     "⚠️ Premium-Sharing-Funktion nicht gefunden",
     "⚠️ Premium-Filter nicht gefunden",
+    "⚠️ Premium-Analytics-Funktion nicht gefunden",
+    "⚠️ Premium-API-Zugriff nicht gefunden",
+    "⚠️ Premium-Erweiterte-Karten-Funktionen nicht gefunden",
     "⚠️ Zoom-In Button nicht gefunden",
     "⚠️ Karten-Container nicht gefunden",
     "⚠️ Karten-Marker zeigen keine Popups",
@@ -32,9 +36,11 @@
     "⚠️ Karten-Marker zeigen keine Popups",
     "⚠️ Layer-Control nicht gefunden",
     "⚠️ Keine Betreiber-Karten gefunden",
-    "⚠️ Logout-Test fehlgeschlagen: ElementHandle.click: Timeout 30000ms exceeded.\nCall log:\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    57 × waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n",
+    "⚠️ Premium-Datenanalyse-Features nicht gefunden",
+    "⚠️ Premium-Export-Optionen nicht gefunden",
+    "⚠️ Premium-Sharing-Optionen nicht gefunden",
+    "⚠️ Logout-Link nicht gefunden für premium-User",
     "⚠️ Login mit admin-User möglicherweise fehlgeschlagen",
-    "⚠️ Analytics-Seite nicht erreichbar (möglicherweise kein Admin-Zugriff)",
     "⚠️ Logout-Link nicht gefunden für admin-User",
     "⚠️ 403-Fehlerseite nicht erkannt"
   ]

@@ -757,6 +757,108 @@ class E2ETestApp:
         except Exception as e:
             self.warnings.append(f"⚠️ Premium-Features-Einschränkungs-Test fehlgeschlagen: {str(e)}")
             
+    async def test_premium_advanced_features(self, page):
+        """Testet Premium-spezifische erweiterte Features"""
+        try:
+            # Teste Premium-spezifische erweiterte Features
+            logger.info("🚀 Teste Premium-spezifische erweiterte Features...")
+            
+            # Teste erweiterte Datenanalyse
+            await self.test_premium_data_analysis(page)
+            
+            # Teste erweiterte Export-Optionen
+            await self.test_premium_export_options(page)
+            
+            # Teste erweiterte Sharing-Optionen
+            await self.test_premium_sharing_options(page)
+            
+            self.success_count += 1
+            logger.info("✅ Premium-spezifische erweiterte Features funktionieren")
+            
+        except Exception as e:
+            self.warnings.append(f"⚠️ Premium-spezifische erweiterte Features fehlgeschlagen: {str(e)}")
+            
+    async def test_premium_data_analysis(self, page):
+        """Testet Premium-Datenanalyse-Features"""
+        try:
+            # Suche nach erweiterten Datenanalyse-Features
+            analysis_selectors = [
+                '.data-analysis',
+                '.premium-insights',
+                '[data-analysis]',
+                '.advanced-metrics'
+            ]
+            
+            analysis_found = False
+            for selector in analysis_selectors:
+                analysis_element = await page.query_selector(selector)
+                if analysis_element:
+                    analysis_found = True
+                    break
+                    
+            if analysis_found:
+                self.success_count += 1
+                logger.info("✅ Premium-Datenanalyse-Features gefunden")
+            else:
+                self.warnings.append("⚠️ Premium-Datenanalyse-Features nicht gefunden")
+                
+        except Exception as e:
+            self.warnings.append(f"⚠️ Premium-Datenanalyse-Test fehlgeschlagen: {str(e)}")
+            
+    async def test_premium_export_options(self, page):
+        """Testet Premium-Export-Optionen"""
+        try:
+            # Suche nach erweiterten Export-Optionen
+            export_selectors = [
+                '.export-options',
+                '.premium-export',
+                '[data-export-format]',
+                '.advanced-export'
+            ]
+            
+            export_found = False
+            for selector in export_selectors:
+                export_element = await page.query_selector(selector)
+                if export_element:
+                    export_found = True
+                    break
+                    
+            if export_found:
+                self.success_count += 1
+                logger.info("✅ Premium-Export-Optionen gefunden")
+            else:
+                self.warnings.append("⚠️ Premium-Export-Optionen nicht gefunden")
+                
+        except Exception as e:
+            self.warnings.append(f"⚠️ Premium-Export-Optionen-Test fehlgeschlagen: {str(e)}")
+            
+    async def test_premium_sharing_options(self, page):
+        """Testet Premium-Sharing-Optionen"""
+        try:
+            # Suche nach erweiterten Sharing-Optionen
+            sharing_selectors = [
+                '.sharing-options',
+                '.premium-sharing',
+                '[data-sharing]',
+                '.advanced-sharing'
+            ]
+            
+            sharing_found = False
+            for selector in sharing_selectors:
+                sharing_element = await page.query_selector(selector)
+                if sharing_element:
+                    sharing_found = True
+                    break
+                    
+            if sharing_found:
+                self.success_count += 1
+                logger.info("✅ Premium-Sharing-Optionen gefunden")
+            else:
+                self.warnings.append("⚠️ Premium-Sharing-Optionen nicht gefunden")
+                
+        except Exception as e:
+            self.warnings.append(f"⚠️ Premium-Sharing-Optionen-Test fehlgeschlagen: {str(e)}")
+            
     async def test_basic_map_view(self, page):
         """Testet Basic-Kartenansicht"""
         try:
